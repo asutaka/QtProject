@@ -1,0 +1,16 @@
+﻿JPN: 　言　語　
+ENG:  Test language
+KRE:   언  어  
+CHN:   语  言  
+GER:   Sprache 
+FRA:  Langage  
+DUT:    Taal   
+SPN:   Idioma  
+POR:   Idioma  
+POL:   Język   
+HGR:   Nyelv   
+GRE: (Greek)
+DAN:    Sprog  
+FIN:    Kieli  
+THA:    ภาษา   
+RUS: (Russian)

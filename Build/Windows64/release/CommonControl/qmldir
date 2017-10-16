@@ -1,0 +1,18 @@
+module CommonControl
+ImageButtonControl 1.0 ImageButtonControl.qml
+KeyButtonControl 1.0 KeyButtonControl.qml
+ButtonControl 1.0 ButtonControl.qml
+LabelControl 1.0 LabelControl.qml
+QuickMenuControl 1.0 QuickMenuControl
+SlideControl 1.0 SlideControl.qml
+SlideControlVer2 1.0 SlideControlVer2.qml
+SlideControlVer3 1.0 SlideControlVer3.qml
+SlideControlVer4 1.0 SlideControlVer4.qml
+SpinnerControlVer1 1.0 SpinnerControlVer1.qml
+SpinnerControlVer2 1.0 SpinnerControlVer2.qml
+SwipeControl 1.0 SwipeControl.qml
+WheelControlVer1 1.0 WheelControlVer1.qml
+WheelControlVer2 1.0 WheelControlVer2.qml
+WheelControlVer3 1.0 WheelControlVer3.qml
+DataGridView 1.0 DataGridView.qml
+plugin CommonControl

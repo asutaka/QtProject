@@ -1,0 +1,16 @@
+﻿JPN: 新しい品種を登録する
+ENG: Register new product
+KRE: 새 품종을 등록한다
+CHN: 新品种登录
+GER: Neues Produkt anlegen
+FRA: Enregistrement nouveau produit
+DUT: (Dutch)
+SPN: Registro de Nuevos Productos
+POR: Registre novo produto
+POL: Rejestracja produktu
+HGR: (Hungarian)
+GRE: (Greek)
+DAN: (Danish)
+FIN: Rekisteröi uusi tuote
+THA: ลงทะเบียนสินค้าใหม่
+RUS: (Russian)

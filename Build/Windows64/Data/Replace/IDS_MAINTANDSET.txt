@@ -1,0 +1,16 @@
+﻿JPN: 保守・設置
+ENG: Maint. and Setting
+KRE: 보수·설치
+CHN: 保养・设置
+GER: Servicemenü
+FRA: Maintenance\net paramètrage
+DUT: (Dutch)
+SPN: Mant y Config
+POR: Manut. e Ambiente
+POL: Konfiguracja
+HGR: (Hungarian)
+GRE: (Greek)
+DAN: (Danish)
+FIN: Huolto ja Asetukset
+THA: การบำรุงรักษาและตั้งค่า
+RUS: (Russian)

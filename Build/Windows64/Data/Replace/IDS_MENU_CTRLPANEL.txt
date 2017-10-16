@@ -1,0 +1,16 @@
+﻿JPN: Test ControlPanel
+ENG: Control Panel
+KRE: Control 판넬
+CHN: 控制面板
+GER: Systemeinstellungen
+FRA: Contrôle Affichage\n
+DUT: Ctrlscherm
+SPN: Pantalla
+POR: Painel de controle
+POL: Panel sterujący
+HGR: Vezérlőpult
+GRE: (Greek)
+DAN: Kontrolpanel
+FIN: Ohjauspaneeli
+THA: ควบคุมหน้าจอ
+RUS: (Russian)

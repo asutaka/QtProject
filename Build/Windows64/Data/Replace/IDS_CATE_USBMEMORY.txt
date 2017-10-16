@@ -1,0 +1,16 @@
+﻿JPN: USBメモリ
+ENG: USB Memory
+KRE: USB 메모리
+CHN: USB存储器
+GER: USB Speicher
+FRA: MEMOIRE USB
+DUT: (Dutch)
+SPN: Memoria USB
+POR: Memória USB
+POL: Pamięć USB
+HGR: (Hungarian)
+GRE: (Greek)
+DAN: USB lager
+FIN: USB muisti
+THA: ความจำ USB
+RUS: (Russian)

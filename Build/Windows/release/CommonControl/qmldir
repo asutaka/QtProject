@@ -1,0 +1,47 @@
+module CommonControl
+ImageButtonControl 1.0 ImageButtonControl.qml
+KeyButtonControl 1.0 KeyButtonControl.qml
+ButtonControl 1.0 ButtonControl.qml
+LabelControl 1.0 LabelControl.qml
+QuickMenuControl 1.0 QuickMenuControl
+SlideControl 1.0 SlideControl.qml
+SlideControlVer2 1.0 SlideControlVer2.qml
+SlideControlVer3 1.0 SlideControlVer3.qml
+SlideControlVer4 1.0 SlideControlVer4.qml
+SpinnerControlVer1 1.0 SpinnerControlVer1.qml
+SpinnerControlVer2 1.0 SpinnerControlVer2.qml
+SwipeControl 1.0 SwipeControl.qml
+WheelControlVer1 1.0 WheelControlVer1.qml
+WheelControlVer2 1.0 WheelControlVer2.qml
+WheelControlVer3 1.0 WheelControlVer3.qml
+DataGridView 1.0 DataGridView.qml
+ProductionInfo_com1 1.0 ProductionInfo_com1.qml
+ProductionInfo_com2 1.0 ProductionInfo_com2.qml
+ProductionInfo_com3 1.0 ProductionInfo_com3.qml
+TK_DataGridView	1.0 TK_DataGridView.qml
+TK_SwitchControl 1.0 TK_SwitchControl.qml
+TK_FlowLayoutPanel 1.0 TK_FlowLayoutPanel.qml
+TK_Navigator 1.0 TK_Navigator.qml
+TK_Label 1.0 TK_Label.qml
+TK_DomainUpDown 1.0 TK_DomainUpDown.qml
+TK_RadioButton 1.0 TK_RadioButton.qml
+TK_GroupBox 1.0 TK_GroupBox.qml
+TK_SwitchLineUC 1.0 TK_SwitchLineUC.qml
+TK_TextBox 1.0 TK_TextBox.qml
+TK_ListBox 1.0 TK_ListBox.qml
+TK_CheckedListBox 1.0 TK_CheckedListBox.qml
+TK_DateTimePicker 1.0 TK_DateTimePicker.qml
+TK_Panel 1.0 TK_Panel.qml
+TK_PictureBox 1.0 TK_PictureBox.qml
+TK_TabControl 1.0 TK_TabControl.qml
+TK_TableLayoutPanel 1.0 TK_TableLayoutPanel.qml
+TK_ComboBox 1.0 TK_ComboBox.qml
+TK_ListView 1.0 TK_ListView.qml
+TK_TreeView 1.0 TK_TreeView.qml
+TK_MonthCalendar 1.0 TK_MonthCalendar.qml
+TK_Button 1.0 TK_Button.qml
+TK_NumericUpDown 1.0 TK_NumericUpDown.qml
+TK_CheckBox 1.0 TK_CheckBox.qml
+TK_ProgressBar 1.0 TK_ProgressBar.qml
+
+plugin CommonControl

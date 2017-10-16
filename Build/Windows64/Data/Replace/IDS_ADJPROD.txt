@@ -1,0 +1,16 @@
+﻿JPN: 登録済みの品種を調整する（テスト）
+ENG: Adjust registered prod(test)
+KRE: 등록한 품종을 조정
+CHN: 登录结束，品种调整
+GER: Produkt bearbeiten
+FRA: Réglage et enregistrement \nproduits
+DUT: (Dutch)
+SPN: Ajustar Productos Registrados
+POR: Ajuste produtos registrados
+POL: Korekta produktu
+HGR: (Hungarian)
+GRE: (Greek)
+DAN: (Danish)
+FIN: Säädä rekisteröityjä tuotteita
+THA: ตั้งค่าสินค้าที่ลงทะเบียน
+RUS: (Russian)

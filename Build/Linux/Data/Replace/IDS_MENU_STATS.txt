@@ -1,0 +1,16 @@
+﻿JPN: 統計管理
+ENG: Stats control
+KRE: 통계관리
+CHN: 统计控制
+GER: Statistiken
+FRA: Contrôle\ndes statistiques
+DUT: (Dutch)
+SPN: Control de estadísticas
+POR: Estatísticas controle
+POL: Statystyki
+HGR: (Hungarian)
+GRE: (Greek)
+DAN: (Danish)
+FIN: Tilastojen hallinta
+THA: สถานะการควบคุม
+RUS: (Russian)

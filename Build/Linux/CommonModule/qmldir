@@ -1,0 +1,7 @@
+module CommonModule
+CaculatorUc 1.0 CaculatorUc.qml
+KeyboardUc 1.0 KeyboardUc.qml
+StartSwitchUc 1.0 StartSwitchUc.qml
+KeyboardComponent 1.0 KeyboardComponent.qml
+SwitchLineUc 1.0 SwitchLineUc.qml
+plugin CommonModule

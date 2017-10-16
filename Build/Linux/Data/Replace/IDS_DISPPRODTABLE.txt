@@ -1,0 +1,16 @@
+﻿JPN: 品種の一覧を表示する
+ENG: Display product list
+KRE: 품종 목록을 표시한다
+CHN: 品种一览显示
+GER: Produktliste
+FRA: Liste des produits
+DUT: (Dutch)
+SPN: Mostrar lista de produtos
+POR: Lista produktów
+POL: Rejestracja produktu
+HGR: (Hungarian)
+GRE: (Greek)
+DAN: (Danish)
+FIN: Näytä tuotelista
+THA: แสดงรายการสินค้า
+RUS: (Russian)

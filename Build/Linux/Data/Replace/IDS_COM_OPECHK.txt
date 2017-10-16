@@ -1,0 +1,16 @@
+﻿JPN: 動作確認
+ENG: Ope.Check
+KRE: 동작확인
+CHN: 动作确认
+GER: Funktions\nprüfung\n
+FRA: Ope. Vérif
+DUT: bedrijf
+SPN: Ope. Check
+POR: Ope. Check
+POL: Kontrole
+HGR: (Hungarian)
+GRE: (Greek)
+DAN: Driftstjek
+FIN: Toim. Tark.
+THA: Ope.Check
+RUS: (Russian)

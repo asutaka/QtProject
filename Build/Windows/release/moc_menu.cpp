@@ -1,0 +1,182 @@
+/****************************************************************************
+** Meta object code from reading C++ file 'menu.h'
+**
+** Created by: The Qt Meta Object Compiler version 67 (Qt 5.7.0)
+**
+** WARNING! All changes made in this file will be lost!
+*****************************************************************************/
+
+#include "../../../MenuScreen/menu.h"
+#include <QtCore/qbytearray.h>
+#include <QtCore/qmetatype.h>
+#if !defined(Q_MOC_OUTPUT_REVISION)
+#error "The header file 'menu.h' doesn't include <QObject>."
+#elif Q_MOC_OUTPUT_REVISION != 67
+#error "This file was generated using the moc from 5.7.0. It"
+#error "cannot be used with the include files from this version of Qt."
+#error "(The moc has changed too much.)"
+#endif
+
+QT_BEGIN_MOC_NAMESPACE
+struct qt_meta_stringdata_Menu_t {
+    QByteArrayData data[14];
+    char stringdata0[200];
+};
+#define QT_MOC_LITERAL(idx, ofs, len) \
+    Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
+    qptrdiff(offsetof(qt_meta_stringdata_Menu_t, stringdata0) + ofs \
+        - idx * sizeof(QByteArrayData)) \
+    )
+static const qt_meta_stringdata_Menu_t qt_meta_stringdata_Menu = {
+    {
+QT_MOC_LITERAL(0, 0, 4), // "Menu"
+QT_MOC_LITERAL(1, 5, 6), // "OnLoad"
+QT_MOC_LITERAL(2, 12, 0), // ""
+QT_MOC_LITERAL(3, 13, 16), // "OnChangeLanguage"
+QT_MOC_LITERAL(4, 30, 26), // "txtAdjustRegisteredProduct"
+QT_MOC_LITERAL(5, 57, 15), // "txtControlPanel"
+QT_MOC_LITERAL(6, 73, 21), // "txtDisplayProductList"
+QT_MOC_LITERAL(7, 95, 10), // "txtHistory"
+QT_MOC_LITERAL(8, 106, 11), // "txtLanguage"
+QT_MOC_LITERAL(9, 118, 18), // "txtMaintAndSetting"
+QT_MOC_LITERAL(10, 137, 11), // "txtOpeCheck"
+QT_MOC_LITERAL(11, 149, 15), // "txtStatsControl"
+QT_MOC_LITERAL(12, 165, 21), // "txtRegisterNewProduct"
+QT_MOC_LITERAL(13, 187, 12) // "txtUsbMemory"
+
+    },
+    "Menu\0OnLoad\0\0OnChangeLanguage\0"
+    "txtAdjustRegisteredProduct\0txtControlPanel\0"
+    "txtDisplayProductList\0txtHistory\0"
+    "txtLanguage\0txtMaintAndSetting\0"
+    "txtOpeCheck\0txtStatsControl\0"
+    "txtRegisterNewProduct\0txtUsbMemory"
+};
+#undef QT_MOC_LITERAL
+
+static const uint qt_meta_data_Menu[] = {
+
+ // content:
+       7,       // revision
+       0,       // classname
+       0,    0, // classinfo
+       2,   14, // methods
+      10,   26, // properties
+       0,    0, // enums/sets
+       0,    0, // constructors
+       0,       // flags
+       0,       // signalCount
+
+ // methods: name, argc, parameters, tag, flags
+       1,    0,   24,    2, 0x02 /* Public */,
+       3,    0,   25,    2, 0x02 /* Public */,
+
+ // methods: parameters
+    QMetaType::Int,
+    QMetaType::Int,
+
+ // properties: name, type, flags
+       4, QMetaType::QString, 0x00095401,
+       5, QMetaType::QString, 0x00095401,
+       6, QMetaType::QString, 0x00095401,
+       7, QMetaType::QString, 0x00095401,
+       8, QMetaType::QString, 0x00095401,
+       9, QMetaType::QString, 0x00095401,
+      10, QMetaType::QString, 0x00095401,
+      11, QMetaType::QString, 0x00095401,
+      12, QMetaType::QString, 0x00095401,
+      13, QMetaType::QString, 0x00095401,
+
+       0        // eod
+};
+
+void Menu::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
+{
+    if (_c == QMetaObject::InvokeMetaMethod) {
+        Menu *_t = static_cast<Menu *>(_o);
+        Q_UNUSED(_t)
+        switch (_id) {
+        case 0: { int _r = _t->OnLoad();
+            if (_a[0]) *reinterpret_cast< int*>(_a[0]) = _r; }  break;
+        case 1: { int _r = _t->OnChangeLanguage();
+            if (_a[0]) *reinterpret_cast< int*>(_a[0]) = _r; }  break;
+        default: ;
+        }
+    }
+#ifndef QT_NO_PROPERTIES
+    else if (_c == QMetaObject::ReadProperty) {
+        Menu *_t = static_cast<Menu *>(_o);
+        Q_UNUSED(_t)
+        void *_v = _a[0];
+        switch (_id) {
+        case 0: *reinterpret_cast< QString*>(_v) = _t->txtAdjustRegisteredProduct(); break;
+        case 1: *reinterpret_cast< QString*>(_v) = _t->txtControlPanel(); break;
+        case 2: *reinterpret_cast< QString*>(_v) = _t->txtDisplayProductList(); break;
+        case 3: *reinterpret_cast< QString*>(_v) = _t->txtHistory(); break;
+        case 4: *reinterpret_cast< QString*>(_v) = _t->txtLanguage(); break;
+        case 5: *reinterpret_cast< QString*>(_v) = _t->txtMaintAndSetting(); break;
+        case 6: *reinterpret_cast< QString*>(_v) = _t->txtOpeCheck(); break;
+        case 7: *reinterpret_cast< QString*>(_v) = _t->txtStatsControl(); break;
+        case 8: *reinterpret_cast< QString*>(_v) = _t->txtRegisterNewProduct(); break;
+        case 9: *reinterpret_cast< QString*>(_v) = _t->txtUsbMemory(); break;
+        default: break;
+        }
+    } else if (_c == QMetaObject::WriteProperty) {
+    } else if (_c == QMetaObject::ResetProperty) {
+    }
+#endif // QT_NO_PROPERTIES
+}
+
+const QMetaObject Menu::staticMetaObject = {
+    { &QObject::staticMetaObject, qt_meta_stringdata_Menu.data,
+      qt_meta_data_Menu,  qt_static_metacall, Q_NULLPTR, Q_NULLPTR}
+};
+
+
+const QMetaObject *Menu::metaObject() const
+{
+    return QObject::d_ptr->metaObject ? QObject::d_ptr->dynamicMetaObject() : &staticMetaObject;
+}
+
+void *Menu::qt_metacast(const char *_clname)
+{
+    if (!_clname) return Q_NULLPTR;
+    if (!strcmp(_clname, qt_meta_stringdata_Menu.stringdata0))
+        return static_cast<void*>(const_cast< Menu*>(this));
+    return QObject::qt_metacast(_clname);
+}
+
+int Menu::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
+{
+    _id = QObject::qt_metacall(_c, _id, _a);
+    if (_id < 0)
+        return _id;
+    if (_c == QMetaObject::InvokeMetaMethod) {
+        if (_id < 2)
+            qt_static_metacall(this, _c, _id, _a);
+        _id -= 2;
+    } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
+        if (_id < 2)
+            *reinterpret_cast<int*>(_a[0]) = -1;
+        _id -= 2;
+    }
+#ifndef QT_NO_PROPERTIES
+   else if (_c == QMetaObject::ReadProperty || _c == QMetaObject::WriteProperty
+            || _c == QMetaObject::ResetProperty || _c == QMetaObject::RegisterPropertyMetaType) {
+        qt_static_metacall(this, _c, _id, _a);
+        _id -= 10;
+    } else if (_c == QMetaObject::QueryPropertyDesignable) {
+        _id -= 10;
+    } else if (_c == QMetaObject::QueryPropertyScriptable) {
+        _id -= 10;
+    } else if (_c == QMetaObject::QueryPropertyStored) {
+        _id -= 10;
+    } else if (_c == QMetaObject::QueryPropertyEditable) {
+        _id -= 10;
+    } else if (_c == QMetaObject::QueryPropertyUser) {
+        _id -= 10;
+    }
+#endif // QT_NO_PROPERTIES
+    return _id;
+}
+QT_END_MOC_NAMESPACE

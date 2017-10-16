@@ -1,0 +1,16 @@
+﻿JPN:   来  歴  
+ENG:   History 
+KRE:   내  력
+CHN:   历  史  
+GER:  Historie 
+FRA: HISTORIQUE
+DUT:   History 
+SPN: Historial 
+POR: Fech
+POL:   History 
+HGR: (Hungarian)
+GRE: (Greek)
+DAN: (Danish)
+FIN:  Historia 
+THA: ประวัติ
+RUS: (Russian)

@@ -182,9 +182,9 @@ void ProductionScreenControl_ver3::setFontText(QFont &value)
 
 void ProductionScreenControl_ver3::paint(QPainter *painter)
 {
-    painter->fillRect(0, 0, 1024, 640, AppThemeManager::GetInstance()->theme()->colorBackGround());
+    painter->fillRect(0, 0, width(), height(), AppThemeManager::GetInstance()->theme()->colorBackGround());
 
-    QPoint pImgDetect(15, 140);
+    QPoint pImgDetect(15, 0);
     QSize sizeImgDetect(474, 474);
     int xImgDetect = qAbs((sizeImgDetect.width() / 2) - (m_ImgDetect.width() / 2));
     int yImgDetect = qAbs((sizeImgDetect.height() / 2) - (m_ImgDetect.height() / 2));
@@ -192,7 +192,7 @@ void ProductionScreenControl_ver3::paint(QPainter *painter)
     painter->fillRect(pImgDetect.x(), pImgDetect.y(), sizeImgDetect.width(), sizeImgDetect.height(), QColor(255, 255, 255));
     painter->drawPixmap(pImgDetect.x(), pImgDetect.y(), m_ImgDetect.copy(rectImgDetect));
 
-    QPoint pResult(504, 160);
+    QPoint pResult(504, 20);
     QSize graphSize(m_WidthMassBar, m_MassBarGraphBgk.height());
     QRect rect((m_MassBarGraphBgk.width() - graphSize.width()) / 2,
                (m_MassBarGraphBgk.height() - graphSize.height()) / 2,
@@ -261,7 +261,7 @@ void ProductionScreenControl_ver3::paint(QPainter *painter)
 
     pen = AppThemeManager::GetInstance()->theme()->linePen();
     painter->setPen(pen);
-    m_FontText.setPixelSize(30);
+    m_FontText.setPixelSize(15);
     painter->setFont(m_FontText);
     pResult.setY(pResult.y() + 30 + sBorder.height());
     sBorder.setHeight(sBorder.height() - 50);

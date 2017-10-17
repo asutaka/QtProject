@@ -9,18 +9,25 @@ uri = com.mycompany.qmlcomponents
 # Input
 SOURCES += \
     commoncontrol_plugin.cpp \
-    myitem.cpp \
     ProductionInfo/productioninfo_com1.cpp \
     ProductionInfo/productioninfo_com2.cpp \
-    ProductionInfo/productioninfo_com3.cpp
+    ProductionInfo/productioninfo_com3.cpp \
+    drawablecontrol.cpp \
+    handlemanager.cpp \
+    tkchartview.cpp \
+    tk_column.cpp \
+    tk_line.cpp
 
 HEADERS += \
     commoncontrol_plugin.h \
-    myitem.h \
-    productioninfo_com1.h \
     ProductionInfo/productioninfo_com1.h \
     ProductionInfo/productioninfo_com2.h \
-    ProductionInfo/productioninfo_com3.h
+    ProductionInfo/productioninfo_com3.h \
+    drawablecontrol.h \
+    handlemanager.h \
+    tkchartview.h \
+    tk_column.h \
+    tk_line.h
 
 DISTFILES = qmldir \
     imports/Control/SlideControl.qml \
@@ -37,7 +44,6 @@ DISTFILES = qmldir \
     imports/Control/SpinnerControlVer1.qml \
     imports/Control/SpinnerControlVer2.qml \
     imports/Control/VirtualKey.js \
-    imports/Control/QuickMenuControl.qml \
     imports/Control/ButtonControl.qml \
     imports/Control/DataGridView.qml \
     imports/Control/ProductionInfo_com1.qml \
@@ -46,7 +52,6 @@ DISTFILES = qmldir \
     imports/Control/ProductionInfo/ProductionInfo_com3.qml \
     imports/Control/TK_DataGridView.qml \
     imports/Control/TK_SwitchControl.qml \
-    imports/Control/Layout/TK_FlowLayoutPanel.qml \
     imports/Control/TK_Navigator.qml \
     imports/Control/TK_Label.qml \
     imports/Control/TK_DomainUpDown.qml \
@@ -63,15 +68,23 @@ DISTFILES = qmldir \
     imports/Control/TK_TableLayoutPanel.qml \
     imports/Control/TK_ComboBox.qml \
     imports/Control/TK_ListView.qml \
-    imports/Control/TK_TreeView.qml \
     imports/Control/TK_MonthCalendar.qml \
     imports/Control/TK_Button.qml \
     imports/Control/TK_NumericUpDown.qml  \
-    imports/Control/checkBox_bar.png \
-    imports/Control/checkBox_off.png \
-    imports/Control/checkBox_on.png \
     imports/Control/TK_CheckBox.qml \
-    imports/Control/TK_ProgressBar.qml
+    imports/Control/TK_ProgressBar.qml \
+    imports/Control/TK_TrackBar.qml \
+    imports/Control/TK_XBarRSChart.qml \
+    imports/Control/TK_ProgressCircle.qml \
+    imports/Control/CalendarBaseUtils.js \
+    imports/Control/CalendarBase.qml \
+    imports/Control/CalendarBaseStyle.qml \
+    imports/Control/TK_CalendarControl.qml \
+    imports/Control/TK_ScrollView.qml \
+    imports/Control/CalendarControl.qml \
+    imports/Control/TK_TreeView.qml \
+    imports/Control/TK_FlowLayoutPanel.qml \
+    imports/Control/TK_QuickMenuButton.qml
 
 !equals(_PRO_FILE_PWD_, $$OUT_PWD) {
     copy_qmldir.target = $$OUT_PWD/qmldir

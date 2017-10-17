@@ -51,7 +51,6 @@ SOURCES += main.cpp \
     Control/drawControlBase/drawcontrolbase_ver7.cpp \
     Integration/integartion_ver4.cpp \
     Control/bufferedGraphicsPanel/bufferedgraphicspanel.cpp \
-    XRay/xray_qimage.cpp \
     imgprovider.cpp\
     AppTheme/appthememanager.cpp \
     AppTheme/themescreen.cpp \
@@ -74,7 +73,31 @@ SOURCES += main.cpp \
     ParameterSetting/bottombarparamsettingvm.cpp \
     ParameterSetting/menubarsubcontrolvm.cpp \
     AdjustTiming/adjusttimingver4_vm.cpp \
-    IOMonitor/iomonitor.cpp
+    IOMonitor/iomonitor.cpp \
+    directconnection.cpp \
+    directconnectionfactory.cpp \
+    Integration/integartionvm.cpp \
+    FillingAmount/fillingamountvm.cpp \
+    ZoomLine/zoomlinevm.cpp \
+    XBarRS/xbar_newchartvm.cpp \
+    XRay/xrayvm.cpp \
+    Oee/oeevm.cpp \
+    EvalRJ/evalrjvm.cpp \
+    StatusMonitor/internalstatusmonitorvm.cpp \
+    InvalidLine/invalidlinevm.cpp \
+    AppTheme/appthemevm.cpp \
+    SetReplacePathScreen/setreplacepathscreenvm.cpp \
+    ErrorAlarm/erroralarmvm.cpp \
+    Control/dateTime/datetimevm.cpp \
+    Test/testvm.cpp \
+    MenuScreen/menulistvm.cpp \
+    fontfactory.cpp \
+    BottomBar/bottombariomonitorvm.cpp \
+    StatusBar/iomonitorstatusbarvm.cpp \
+    Control/model/treeviewmodel.cpp \
+    guiresinfomng.cpp \
+    Screen/screeninfo.cpp \
+    Screen/iscreeninfo_listmodel.cpp
 
 RESOURCES += qml.qrc
 
@@ -84,6 +107,7 @@ QML_IMPORT_PATH =
 # Default rules for deployment.
 include(deployment.pri)
 deployment.files += Data/NewMasterSql.sqlite
+deployment.files += Data/byteArray2.data
 deployment.path =/assets
 INSTALLS += deployment
 
@@ -134,7 +158,6 @@ HEADERS += \
     Control/drawControlBase/drawcontrolbase_ver7.h \
     Integration/integartion_ver4.h \
     Control/bufferedGraphicsPanel/bufferedgraphicspanel.h \
-    XRay/xray_qimage.h \
     IOMonitor/iomonitor.h \
     imgprovider.h\
     AppTheme/apptheme.h \
@@ -168,7 +191,31 @@ HEADERS += \
     Control/enumcontrol.h \
     ParameterSetting/bottombarparamsettingvm.h \
     ParameterSetting/menubarsubcontrolvm.h \
-    AdjustTiming/adjusttimingver4_vm.h
+    AdjustTiming/adjusttimingver4_vm.h \
+    directconnection.h \
+    directconnectionfactory.h \
+    Integration/integartionvm.h \
+    FillingAmount/fillingamountvm.h \
+    ZoomLine/zoomlinevm.h \
+    XBarRS/xbar_newchartvm.h \
+    XRay/xrayvm.h \
+    Oee/oeevm.h \
+    EvalRJ/evalrjvm.h \
+    StatusMonitor/internalstatusmonitorvm.h \
+    InvalidLine/invalidlinevm.h \
+    AppTheme/appthemevm.h \
+    SetReplacePathScreen/setreplacepathscreenvm.h \
+    ErrorAlarm/erroralarmvm.h \
+    Control/dateTime/datetimevm.h \
+    Test/testvm.h \
+    MenuScreen/menulistvm.h \
+    fontfactory.h \
+    BottomBar/bottombariomonitorvm.h \
+    StatusBar/iomonitorstatusbarvm.h \
+    Control/model/treeviewmodel.h \
+    guiresinfomng.h \
+    Screen/screeninfo.h \
+    Screen/iscreeninfo_listmodel.h
 
 SUBDIRS += \
     SimulatorServer/MultiServer.pro \
@@ -183,16 +230,15 @@ DISTFILES += \
     RunAppOnLinux/run_PrototypeApp.sh \
     CW/CW.qml \
     AppTheme/TestTheme.qml \
-    ParameterSetting/ParameterSetting.qml
+    ParameterSetting/ParameterSetting.qml \
+    StatusMonitor/InternalStatusMonitor.qml \
+    BottomBar/BottomBarInternalStatusMonitor.qml
 
 CONFIG += resources_big
 
 contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
     ANDROID_EXTRA_LIBS = \
-        $$PWD/Build/Android/BuildLang/android-build/libs/armeabi-v7a/libLang.so \
-        $$PWD/Build/Android/BuildScreenLayout/android-build/libs/armeabi-v7a/libScreenLayout.so
-
-    unix:!macx: LIBS += -L$$PWD/Build/Android/BuildScreenLayout/android-build/libs/armeabi-v7a/ -lScreenLayout
+        $$PWD/Build/Android/BuildLang/android-build/libs/armeabi-v7a/libLang.so
 
     unix:!macx: LIBS += -L$$PWD/Build/Android/BuildLang/android-build/libs/armeabi-v7a/ -lLang
 }
@@ -208,14 +254,10 @@ win32 {
         message("x86 build")
         win32:CONFIG(release, debug|release): LIBS += -L$$PWD/Build/Windows/release/ -lLang
         else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/Build/Windows/debug/ -lLang
-        win32:CONFIG(release, debug|release): LIBS += -L$$PWD/Build/Windows/release/ -lScreenLayout
-        else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/Build/Windows/debug/ -lScreenLayout
     } else {
         message("x86_64 build")
         win32:CONFIG(release, debug|release): LIBS += -L$$PWD/Build/Windows64/release/ -lLang
         else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/Build/Windows64/debug/ -lLang
-        win32:CONFIG(release, debug|release): LIBS += -L$$PWD/Build/Windows64/release/ -lScreenLayout
-        else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/Build/Windows64/debug/ -lScreenLayout
     }
 }
 
@@ -225,16 +267,7 @@ win32 {
 #else:win64:CONFIG(debug, debug|release): LIBS += -L$$PWD/Build/Windows64/debug/ -lLang
 unix:!macx: LIBS += -L$$PWD/Build/Linux/ -lLang
 
-#win32:CONFIG(release, debug|release): LIBS += -L$$PWD/Build/Windows/release/ -lScreenLayout
-#else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/Build/Windows/debug/ -lScreenLayout
-#else:win64:CONFIG(release, debug|release): LIBS += -L$$PWD/Build/Windows64/release/ -lScreenLayout
-#else:win64:CONFIG(debug, debug|release): LIBS += -L$$PWD/Build/Windows64/debug/ -lScreenLayout
-unix:!macx: LIBS += -L$$PWD/Build/Linux/ -lScreenLayout
-
 INCLUDEPATH += $$PWD/Lang
 DEPENDPATH += $$PWD/Lang
-
-INCLUDEPATH += $$PWD/Framework/ScreenLayout
-DEPENDPATH += $$PWD/Framework/ScreenLayout
 
 DEFINES += STUP_DISPLAY_DATA

@@ -50,26 +50,6 @@ void IOMonitorScreenVM::setTxtStop(QString &value)
     m_TxtStop = value;
 }
 
-QString IOMonitorScreenVM::txtSMPCYCTitle()
-{
-    return m_TxtSMPCYCTitle;
-}
-
-void IOMonitorScreenVM::setTxtSMPCYCTitle(QString &value)
-{
-    m_TxtSMPCYCTitle = value;
-}
-
-QString IOMonitorScreenVM::txtDisplayTitle()
-{
-    return m_TxtDisplayTitle;
-}
-
-void IOMonitorScreenVM::setTxtDisplayTitle(QString &value)
-{
-    m_TxtDisplayTitle = value;
-}
-
 QString IOMonitorScreenVM::txtTrigerConditionTitle()
 {
     return m_TxtTrigerConditionTitle;
@@ -90,6 +70,28 @@ void IOMonitorScreenVM::setTxtTrigerNoTitle(QString &value)
     m_TxtTrigerNoTitle = value;
 }
 
+QString IOMonitorScreenVM::txtDisplayTitle()
+{
+    return m_TxtDisplayTitle;
+}
+
+void IOMonitorScreenVM::setTxtDisplayTitle(QString &value)
+{
+    m_TxtDisplayTitle = value;
+}
+
+QString IOMonitorScreenVM::txtSMPCYCTitle()
+{
+    return m_TxtSMPCYCTitle;
+}
+
+void IOMonitorScreenVM::setTxtSMPCYCTitle(QString &value)
+{
+    m_TxtSMPCYCTitle = value;
+}
+
+
+
 QString IOMonitorScreenVM::txtSignalTypeTitle()
 {
     return m_TxtSignalTypeTitle;
@@ -98,86 +100,6 @@ QString IOMonitorScreenVM::txtSignalTypeTitle()
 void IOMonitorScreenVM::setTxtSignalTypeTitle(QString &value)
 {
     m_TxtSignalTypeTitle = value;
-}
-
-QString IOMonitorScreenVM::txtScreenName2()
-{
-    return m_TxtScreenName2;
-}
-
-void IOMonitorScreenVM::setTxtScreenName2(QString &value)
-{
-    m_TxtScreenName2 = value;
-}
-
-QString IOMonitorScreenVM::txtScreenName()
-{
-    return m_TxtScreenName;
-}
-
-void IOMonitorScreenVM::setTxtScreenName(QString &value)
-{
-    m_TxtScreenName = value;
-}
-
-QString IOMonitorScreenVM::txtClear()
-{
-    return m_TxtClear;
-}
-
-void IOMonitorScreenVM::setTxtClear(QString &value)
-{
-    m_TxtClear = value;
-}
-
-QString IOMonitorScreenVM::txtStartImport()
-{
-    return m_TxtStartImport;
-}
-
-void IOMonitorScreenVM::setTxtStartImport(QString &value)
-{
-    m_TxtStartImport = value;
-}
-
-QString IOMonitorScreenVM::txtStopImport()
-{
-    return m_TxtStopImport;
-}
-
-void IOMonitorScreenVM::setTxtStopImport(QString &value)
-{
-    m_TxtStopImport = value;
-}
-
-QString IOMonitorScreenVM::txtSignalSelection()
-{
-    return m_TxtSignalSelection;
-}
-
-void IOMonitorScreenVM::setTxtSignalSelection(QString &value)
-{
-    m_TxtSignalSelection = value;
-}
-
-QString IOMonitorScreenVM::txtSignalCondition()
-{
-    return m_TxtSignalCondition;
-}
-
-void IOMonitorScreenVM::setTxtSignalCondition(QString &value)
-{
-    m_TxtSignalCondition = value;
-}
-
-QString IOMonitorScreenVM::txtBack()
-{
-    return m_TxtBack;
-}
-
-void IOMonitorScreenVM::setTxtBack(QString &value)
-{
-    m_TxtBack = value;
 }
 
 QString IOMonitorScreenVM::txtSignalSelectTitle()
@@ -250,36 +172,6 @@ void IOMonitorScreenVM::setTxtBtnCancelName(QString &value)
     m_TxtBtnCancelName = value;
 }
 
-QStringList IOMonitorScreenVM::listLibraryInput()
-{
-    return m_ListLibraryInput;
-}
-
-void IOMonitorScreenVM::setListLibraryInput(QStringList &value)
-{
-    m_ListLibraryInput = value;
-}
-
-QStringList IOMonitorScreenVM::lisLibraryOutput()
-{
-    return m_ListLibraryOutput;
-}
-
-void IOMonitorScreenVM::setLisLibraryOutput(QStringList &value)
-{
-    m_ListLibraryOutput = value;
-}
-
-QStringList IOMonitorScreenVM::listLibraryInternal()
-{
-    return m_ListLibraryInternal;
-}
-
-void IOMonitorScreenVM::setListLibraryInternal(QStringList &value)
-{
-    m_ListLibraryInternal = value;
-}
-
 QStringList IOMonitorScreenVM::listSMPCYC()
 {
     return m_ListSMPCYC;
@@ -330,18 +222,9 @@ void IOMonitorScreenVM::setListSignalType(QStringList &value)
     m_ListSignalType = value;
 }
 
-QColor IOMonitorScreenVM::colorItemControlBkg()
-{
-    return m_colorItemControlBkg;
-}
-
-void IOMonitorScreenVM::setColorItemControlBkg(QColor &value)
-{
-    m_colorItemControlBkg = value;
-}
-
 void IOMonitorScreenVM::onLoad()
 {
+    onChangeLanguage();
     ScreenMng* screenMng = ScreenMng::GetInstance();
     screenMng->ChangeStatusBar(ScreenMng::StatusBarId::IOMonitorStatusBar);
     screenMng->ChangeBottomBar(ScreenMng::BottomBarId::BottomBarIOMonitor);
@@ -354,16 +237,7 @@ int IOMonitorScreenVM::onChangeLanguage()
     QString strStart = Lang::GetInstance()->GetLanguage(Lang::GetLangIdMng()->IDS_MODE_OPERATE, langCode);
     QString strStop = Lang::GetInstance()->GetLanguage(Lang::GetLangIdMng()->IDS_MODE_STOP, langCode);
     QString strSMPCYCTitle = Lang::GetInstance()->GetLanguage(Lang::GetLangIdMng()->IDS_PN_SMPCYC, langCode);
-    QString strDisplayTitle = Lang::GetInstance()->GetLanguage(Lang::GetLangIdMng()->IDS_PN_TRIGGERDISP, langCode);
-    QString strTrigerConditionTitle = Lang::GetInstance()->GetLanguage(Lang::GetLangIdMng()->IDS_PN_TRIGGERCOND, langCode);
-    QString strTrigerNoTitle = Lang::GetInstance()->GetLanguage(Lang::GetLangIdMng()->IDS_PN_TRIGGERNO, langCode);
     QString strSignalTypeTitle = Lang::GetInstance()->GetLanguage(Lang::GetLangIdMng()->IDS_COM_SIGNALKIND, langCode);
-    QString strScreenName = Lang::GetInstance()->GetLanguage(Lang::GetLangIdMng()->IDS_VIEW_CCP_EXINPULSE, langCode);
-    QString strClear = Lang::GetInstance()->GetLanguage(Lang::GetLangIdMng()->IDS_BSC_CLR, langCode);
-    QString strStartImport = Lang::GetInstance()->GetLanguage(Lang::GetLangIdMng()->IDS_INPUT_START,langCode);
-    QString strStopImport = Lang::GetInstance()->GetLanguage(Lang::GetLangIdMng()->IDS_INPUT_STOP, langCode);
-    QString strSignalSelection = Lang::GetInstance()->GetLanguage(Lang::GetLangIdMng()->IDS_PN_IOMONSELECTSIG, langCode);
-    QString strBack = Lang::GetInstance()->GetLanguage(Lang::GetLangIdMng()->IDS_BACK, langCode);
     QString strSignalSelectTitle = Lang::GetInstance()->GetLanguage(Lang::GetLangIdMng()->IDS_PN_IOMONSELECTSIG, langCode);
     QString strInputName = Lang::GetInstance()->GetLanguage(Lang::GetLangIdMng()->IDS_CATE_INPUTSIG,langCode);
     QString strOutputName = Lang::GetInstance()->GetLanguage(Lang::GetLangIdMng()->IDS_CATE_OUTPUTSIG, langCode);
@@ -374,7 +248,7 @@ int IOMonitorScreenVM::onChangeLanguage()
 
 #ifdef STUP_DISPLAY_DATA
     QString strSampCycleUnit = Lang::GetInstance()->GetLanguage(Lang::GetLangIdMng()->IDS_UNIT_MS, langCode);
-    QString strScreenName2 = "(信号取込中)";
+
     QString strSignalCondition = "信号調整";
 
     QString strValue = "";
@@ -446,19 +320,8 @@ int IOMonitorScreenVM::onChangeLanguage()
     setTxtStart(strStart);
     setTxtStop(strStop);
     setTxtSMPCYCTitle(strSMPCYCTitle);
-    setTxtDisplayTitle(strDisplayTitle);
-    setTxtTrigerConditionTitle(strTrigerConditionTitle);
-    setTxtTrigerNoTitle(strTrigerNoTitle);
     setTxtSignalTypeTitle(strSignalTypeTitle);
-    setTxtScreenName(strScreenName);
-    setTxtScreenName2(strScreenName2);
     setListSMPCYC(strListSMPCYC);
-    setTxtClear(strClear);
-    setTxtStartImport(strStartImport);
-    setTxtStopImport(strStopImport);
-    setTxtSignalSelection(strSignalSelection);
-    setTxtSignalCondition(strSignalCondition);
-    setTxtBack(strBack);
     setListDisplay(strListDisplay);
     setListTrigerCondition(strListTrigerCondition);
     setListTrigerNo(strListTrigerNo);
@@ -470,8 +333,5 @@ int IOMonitorScreenVM::onChangeLanguage()
     setTxtNoneName(strNoneName);
     setTxtBtnOKName(strBtnOKName);
     setTxtBtnCancelName(strBtnCancelName);
-    QColor color = AppThemeManager::GetInstance()->theme()->colorBackGround();
-    setColorItemControlBkg(color);
-
     return 0;
 }

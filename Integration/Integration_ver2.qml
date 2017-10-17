@@ -5,6 +5,13 @@ Item {
     id: integration_ver2
     width: 1024
     height: 640
+    property alias objIntegration: integrationVM
+    Integartion_VM{
+        id:integrationVM
+    }
+    Component.onCompleted: {
+        objIntegration.onLoad();
+    }
     Rectangle{
         anchors.fill: parent
         color: "#414E60"

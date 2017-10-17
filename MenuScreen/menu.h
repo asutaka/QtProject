@@ -9,7 +9,7 @@
 #include <QList>
 #include <../Lang/lang.h>
 
-class Menu : public QObject
+class MenuV1 : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString txtAdjustRegisteredProduct READ txtAdjustRegisteredProduct CONSTANT)
@@ -34,7 +34,7 @@ private:
     QString m_txtRegisterNewProduct;
     QString m_txtUsbMemory;
 public:
-     explicit Menu(QObject*parent = 0);
+     explicit MenuV1(QObject*parent = 0);
      QString txtAdjustRegisteredProduct();
      void setTxtAdjustRegisteredProduct(QString &value);
      QString txtControlPanel();

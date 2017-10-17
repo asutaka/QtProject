@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_GetPathReplace_t {
-    QByteArrayData data[3];
-    char stringdata0[24];
+    QByteArrayData data[6];
+    char stringdata0[49];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -31,10 +31,14 @@ static const qt_meta_stringdata_GetPathReplace_t qt_meta_stringdata_GetPathRepla
     {
 QT_MOC_LITERAL(0, 0, 14), // "GetPathReplace"
 QT_MOC_LITERAL(1, 15, 7), // "setPath"
-QT_MOC_LITERAL(2, 23, 0) // ""
+QT_MOC_LITERAL(2, 23, 0), // ""
+QT_MOC_LITERAL(3, 24, 10), // "settingApp"
+QT_MOC_LITERAL(4, 35, 3), // "dir"
+QT_MOC_LITERAL(5, 39, 9) // "isAndroid"
 
     },
-    "GetPathReplace\0setPath\0"
+    "GetPathReplace\0setPath\0\0settingApp\0"
+    "dir\0isAndroid"
 };
 #undef QT_MOC_LITERAL
 
@@ -44,7 +48,7 @@ static const uint qt_meta_data_GetPathReplace[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       1,   14, // methods
+       3,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -52,10 +56,14 @@ static const uint qt_meta_data_GetPathReplace[] = {
        0,       // signalCount
 
  // methods: name, argc, parameters, tag, flags
-       1,    0,   19,    2, 0x02 /* Public */,
+       1,    0,   29,    2, 0x02 /* Public */,
+       3,    1,   30,    2, 0x02 /* Public */,
+       5,    0,   33,    2, 0x02 /* Public */,
 
  // methods: parameters
     QMetaType::Void,
+    QMetaType::Void, QMetaType::QString,    4,
+    QMetaType::Bool,
 
        0        // eod
 };
@@ -67,10 +75,12 @@ void GetPathReplace::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _
         Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->setPath(); break;
+        case 1: _t->settingApp((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 2: { bool _r = _t->isAndroid();
+            if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = _r; }  break;
         default: ;
         }
     }
-    Q_UNUSED(_a);
 }
 
 const QMetaObject GetPathReplace::staticMetaObject = {
@@ -98,13 +108,13 @@ int GetPathReplace::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 1)
+        if (_id < 3)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 1;
+        _id -= 3;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 1)
+        if (_id < 3)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 1;
+        _id -= 3;
     }
     return _id;
 }

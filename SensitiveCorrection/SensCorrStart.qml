@@ -47,7 +47,7 @@ Item {
                 source: "../Images/btn_180_40.png"
                 Text {
                     text: "Caution"
-                    font.pointSize: 16
+                    font.pixelSize: 16
                     color: "#ffffff"
                     anchors.centerIn: parent            
                 }

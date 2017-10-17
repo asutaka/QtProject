@@ -9,20 +9,28 @@ import QtQuick.Controls.Styles 1.2
 import "qrc:/Control/VirtualKey.js" as Ops
 import "qrc:/Control/switchControl"
 import "qrc:/Control/switchLineUC"
+import ControlApp 1.0
 
 Item{
     property int indexSelect:1;
+    property int startPage: 1;
+    property int endPage: 10;
     property int linePage:10;
     property int temp;
     property  bool isForLine
     property  int  _currentLineNo: 1
+    property alias objMenuListV3VM: menuListV3VM
 
+    MenuListVM {
+        id:menuListV3VM
+    }
     Label{
         id:lblValNumber
         visible: false
         text:"0"
         onTextChanged: libraryModel.set(indexSelect-1, {"author": lblValNumber.text})
     }
+
     Rectangle{
         width: 1024
         height: 640
@@ -59,13 +67,13 @@ Item{
 
                     }
                     onClicked: {
-                        loaderContent.source ="qrc:/MenuList/Menu.qml"
+                        mainModel.InnerChangeScreen(ScreenMng.MenuV1)
                     }
                 }
                 Text {
                     id: _txtbtnAddress1
                     text: qsTr("Menu")
-                    font.family: "MS Gothic"
+                    font.family: "Noto Sans CJK JP DemiLight"
                     font.pixelSize: 20
                     color: "white"
                     anchors.centerIn: parent
@@ -88,7 +96,7 @@ Item{
                 Text {
                     id: _txtbtnAddress2
                     text: qsTr("History")
-                    font.family: "MS Gothic"
+                    font.family: "Noto Sans CJK JP DemiLight"
                     font.pixelSize: 20
                     color: "white"
                     anchors.centerIn: parent
@@ -123,7 +131,7 @@ Item{
                 Text {
                     id: _txtbtnAddress3
                     text: qsTr("Address3")
-                    font.family: "MS Gothic"
+                    font.family: "Noto Sans CJK JP DemiLight"
                     font.pixelSize: 20
                     color:"white"
                     anchors.centerIn: parent
@@ -147,7 +155,7 @@ Item{
                 Text {
                     id: _txtbtnAddress4
                     text: qsTr("Address4")
-                    font.family: "MS Gothic"
+                    font.family: "Noto Sans CJK JP DemiLight"
                     font.pixelSize: 20
                     color:"white"
                     anchors.centerIn: parent
@@ -362,6 +370,14 @@ Item{
                 verticalScrollBarPolicy :Qt.ScrollBarAlwaysOn
                 horizontalScrollBarPolicy: Qt.ScrollBarAlwaysOff
                 z: 0
+
+
+                //this Mousearea to prevent tableView scroll
+                MouseArea {
+                    anchors.fill: parent
+                    acceptedButtons: Qt.MidButton
+                    onWheel: { }
+                }
                 TableViewColumn {
                     id:col1
                     movable : false
@@ -408,10 +424,16 @@ Item{
                     visible: false
                 }
 
+
+
                 style: TableViewStyle {
+                    scrollBarBackground: Rectangle{
+                        implicitHeight: 16
+                        implicitWidth: 14
+                    }
                     headerDelegate: Rectangle {
                         id: headerDelegateView
-                        height: textItem.implicitHeight *2
+                        height: textItem.implicitHeight * 1.3
                         width: textItem.implicitWidth
                         color: "#80858b"
                         border.color: "#4A708B"
@@ -423,7 +445,7 @@ Item{
                         Text {
                             id: textItem
                             text: styleData.value
-                            font.family: "MS Gothic"
+                            font.family: "Noto Sans CJK JP DemiLight"
                             font.pixelSize: 27
                             horizontalAlignment: Text.AlignVCenter
                             verticalAlignment: Text.AlignBottom
@@ -445,7 +467,7 @@ Item{
                         id: iContent
                         color: styleData.pressed ? "black" : "black"
                         text: styleData.value
-                        font.family: "MS Gothic"
+                        font.family: "Noto Sans CJK JP DemiLight"
                         font.pixelSize: 27
                         verticalAlignment: Text.AlignVCenter
                     }
@@ -464,6 +486,8 @@ Item{
                             color: "#38414a"
                         }
                     }
+                    transientScrollBars: true
+
                     handle: Rectangle {
                         implicitWidth: 14
                         implicitHeight: 0
@@ -495,22 +519,39 @@ Item{
                         Ops.showCalculator(lblValNumber,"0","1000");
                     }
                 }
-            }
-            Keys.onPressed:
-            {
-                if(event.key==Qt.Key_Down)
+
+                Keys.onPressed:
                 {
-                    if(indexSelect<list.rowCount){
-                        txtSelectIndex.text=(++indexSelect).toString();
+                    if(event.key===Qt.Key_Down)
+                    {
+                        if(indexSelect == endPage) {
+                            if(indexSelect < list.rowCount) {
+                                startPage++;
+                                endPage++;
+                            }
+                        }
+
+                        if(indexSelect<list.rowCount){
+                            txtSelectIndex.text=(++indexSelect).toString();
+                        }
                     }
-                }
-                else if(event.key==Qt.Key_Up)
-                {
-                    if(indexSelect>1){
-                        txtSelectIndex.text=(--indexSelect).toString();
+                    else if(event.key===Qt.Key_Up)
+                    {
+                        if(indexSelect == startPage) {
+                            if(indexSelect > 1) {
+                                startPage--;
+                                endPage--;
+                            }
+                        }
+
+                        if(indexSelect>1){
+                            txtSelectIndex.text=(--indexSelect).toString();
+                        }
                     }
+                    event.accepted = true;
                 }
             }
+
             Component.onCompleted: {
                 txtSelectIndex.text=1;
                 txtListViewCount.text = list.rowCount.toString()
@@ -586,7 +627,7 @@ Item{
                         anchors.verticalCenterOffset: 24
                         anchors.horizontalCenterOffset: 0
                         anchors.bottomMargin: -24
-                        font.family: "MS Gothic"
+                        font.family: "Noto Sans CJK JP DemiLight"
                         font.pixelSize: 27
                         color: "#000000"
                         anchors.bottom: parent.bottom
@@ -604,7 +645,7 @@ Item{
                         anchors.verticalCenterOffset: -21
                         anchors.horizontalCenterOffset: 0
                         anchors.bottomMargin: 21
-                        font.family: "MS Gothic"
+                        font.family: "Noto Sans CJK JP DemiLight"
                         font.pixelSize: 27
                         color: "#000000"
                         anchors.bottom: parent.bottom
@@ -612,12 +653,26 @@ Item{
                         onTextChanged:
                         {
                             indexSelect=parseInt(txtSelectIndex.text)
-                            if(indexSelect<list.rowCount)
-                            {
+                            if(indexSelect == startPage) {
+                                txtSelectIndex.text=indexSelect
+                                list.selection.clear();
+                                list.selection.select(indexSelect-1);
+                                list.positionViewAtRow(indexSelect-1,ListView.Beginning);
+                            }
+
+                            else if(indexSelect == endPage) {
                                 txtSelectIndex.text=indexSelect
                                 list.selection.clear();
                                 list.selection.select(indexSelect-1);
                                 list.positionViewAtRow(indexSelect-1,ListView.End);
+                            }
+
+                            else if(indexSelect<=list.rowCount)
+                            {
+                                txtSelectIndex.text=indexSelect
+                                list.selection.clear();
+                                list.selection.select(indexSelect-1);
+                                list.positionViewAtRow(indexSelect-1,ListView.Contain);
                             }
                         }
                     }
@@ -658,14 +713,21 @@ Item{
                         {
                             if(indexSelect<1)
                             {
-                                indexSelect=1;
+                                indexSelect = 1;
+                                startPage = 1;
+                                endPage = 10;
                             }
                             else if(indexSelect<=list.rowCount && indexSelect>1)
                             {
+                                if(indexSelect == startPage) {
+                                    startPage--;
+                                    endPage--;
+                                }
+
                                 txtSelectIndex.text=(--indexSelect).toString();
                                 list.selection.clear();
                                 list.selection.select(indexSelect-1);
-                               // list.positionViewAtRow(indexSelect-1,ListView.Beginning);
+                                list.positionViewAtRow(indexSelect-1,ListView.Contain);
                             }
                         }
                         imgLineUp.source= "qrc:/Images/next_step_on.png"
@@ -680,7 +742,7 @@ Item{
                             txtSelectIndex.text=(--indexSelect).toString();
                             list.selection.clear();
                             list.selection.select(indexSelect-1);
-                            //list.positionViewAtRow(indexSelect-1,ListView.Beginning);
+                            list.positionViewAtRow(indexSelect-1,ListView.Beginning);
                         }
                     }
                     onReleased:{
@@ -713,13 +775,14 @@ Item{
                         {
                             if(indexSelect<list.rowCount)
                             {
+                                if(endPage == indexSelect) {
+                                    startPage++;
+                                    endPage++
+                                }
                                 txtSelectIndex.text=(++indexSelect).toString();
                                 list.selection.clear();
                                 list.selection.select(indexSelect-1);
-                                if(indexSelect==list.rowCount)
-                                {
-                                    list.positionViewAtRow(indexSelect-1,ListView.End);
-                                }
+                                list.positionViewAtRow(indexSelect-1,ListView.Contain);
                             }
                         }
                         imgLineDown.source= "qrc:/Images/down_step_on.png"
@@ -735,7 +798,7 @@ Item{
                             txtSelectIndex.text=(++indexSelect).toString();
                             list.selection.clear();
                             list.selection.select(indexSelect-1);
-                            //list.positionViewAtRow(indexSelect-1,ListView.End);
+                            list.positionViewAtRow(indexSelect-1,ListView.End);
                         }
                     }
                     onReleased:{
@@ -767,13 +830,20 @@ Item{
                     onPressed: {
                         btnGoBottomPage.border.color ="#31f7bc";
                         txtGoBottomPage.color="#31f7bc";
-                        temp =((Math.floor(indexSelect/linePage))+1)*linePage ;
-                        if(temp <list.rowCount){
-                            indexSelect = temp;
+                        if(indexSelect < endPage) {
+                            indexSelect = endPage;
+                        }else if(indexSelect == endPage) {
+                            if(endPage + 10 > list.rowCount) {
+                                endPage = list.rowCount;
+                                startPage = endPage - linePage + 1;
+                            }
+                            else {
+                                endPage += 10;
+                                startPage += 10;
+                            }
+                            indexSelect = endPage;
                         }
-                        else{
-                            indexSelect= list.rowCount;
-                        }
+
                         txtSelectIndex.text=indexSelect;
                         list.selection.clear();
                         list.selection.select(indexSelect-1);
@@ -809,11 +879,20 @@ Item{
                     onPressed: {
                         btnGoTopPage.border.color ="#31f7bc";
                         txtGoTopPage.color="#31f7bc";
-                        temp =((Math.floor(indexSelect/linePage))-1)*linePage ;
-                        if(temp < 1){
-                            indexSelect = 1;
+
+                        if(indexSelect > startPage) {
+                            indexSelect = startPage;
+                        }else if(indexSelect == startPage) {
+                            if(startPage -  10 < 1) {
+                                startPage = 1;
+                                endPage = startPage + linePage - 1;
+                            }
+                            else {
+                                endPage -= 10;
+                                startPage -= 10;
+                            }
+                            indexSelect = startPage;
                         }
-                        else{ indexSelect = temp;}
                         txtSelectIndex.text=indexSelect;
                         list.selection.clear();
                         list.selection.select(indexSelect-1);
@@ -826,6 +905,9 @@ Item{
                 }
             }
         }
+    }
+    Component.onCompleted: {
+        menuListV3VM.onLoad();
     }
 }
 

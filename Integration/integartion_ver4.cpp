@@ -1,5 +1,5 @@
 #include "integartion_ver4.h"
-
+#include "screenmng.h"
 Integartion_ver4::Integartion_ver4()
 {
     LoadImages();
@@ -225,3 +225,4 @@ void Integartion_ver4::LoadImages()
     imgBarGraph.load(":/Images/bargraph_w32.png");
     imgAve.load(":/Images/Icon_Ave_w5h7.png");
 }
+

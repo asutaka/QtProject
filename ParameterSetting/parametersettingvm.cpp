@@ -228,7 +228,13 @@ void ParameterSettingVM::UpdateLangParam() {
     m_txtR4ValueTitle = "100";
     m_txtR5ValueTitle = "30";
     m_txtR6ValueTitle = "10";
-    m_txtR1InfoTitle = QString("説明: \n 製品の名称を設定します。 \n 『製品情報入力』画面の表示タイプ1 と同じです。 \n 品名と品名2(ローマ字など)を両方登録しておくこと, \n 必要な際に切り替えて表示できます。 \n\n 設定値： \n(日本語入力時は最大14 文字) \n(ローマ字入力時は最大28 文字)\n");
+
+
+    QFile file(":/Data/byteArray2.data");
+    file.open(QIODevice::ReadOnly);
+    QByteArray temp = file.readAll();
+    m_txtR1InfoTitle = QString(temp);
+
     m_txtR2InfoTitle = QString("『製品情報入力』画面の表示タイプ1 と同じです。");
     m_txtR3InfoTitle = QString("『製品情報入力』画面の表示タイプ1 と同じです。");
     m_txtR4InfoTitle = QString("『製品情報入力』画面の表示タイプ1 と同じです。");
@@ -244,6 +250,7 @@ void ParameterSettingVM::UpdateLangParam() {
 
 void ParameterSettingVM::OnLoad() {
     ScreenMng* screenMng = ScreenMng::GetInstance();
-    qDebug() << "menu load BottomBarId: " << ScreenMng::BottomBarId::BottomBarMenu;
+    qDebug() << "menu load BottomBarId: " << ScreenMng::BottomBarId::BottomBarParamSetting;
     screenMng->ChangeBottomBar(ScreenMng::BottomBarId::BottomBarParamSetting);
+    screenMng->ChangeStatusBar(ScreenMng::StatusBarId::NormalStatusBar);
 }

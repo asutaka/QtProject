@@ -2,6 +2,7 @@ import QtQuick 2.0
 import QtQuick.Window 2.2
 import QtQuick.Layouts 1.2
 import ControlApp 1.0
+import CommonControl 1.0
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
 import QtCharts 2.1
@@ -524,15 +525,19 @@ Item{
                 }
             }
         }
-        StartSwitchControl{
+
+        TK_SwitchControl{
             id: switchControl
             x:20
             y: 593
-            onSwitchControl:{
+            strLeft: "All"
+            strRight: "Forline"
+            onSwitchButton: {
                 var isLeft =  switchControl.isLeft;
                 switchLine.visible = !isLeft;
             }
         }
+
         SwitchLineUc{
 
             id: switchLine

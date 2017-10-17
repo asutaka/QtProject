@@ -5,6 +5,7 @@ import QtQuick.Controls.Private 1.0
 import QtQuick.Controls.Styles 1.1
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Controls 2.0
+import CommonControl 1.0
 import "../Control/switchControl"
 import "../Control/switchLineUC"
 import "../Control"
@@ -251,6 +252,7 @@ Item {
                         max: 5
                         gridVisible: false
                         labelsColor: "white"
+                        labelsFont.pixelSize:  18
                         tickCount: 6
                     }
 
@@ -262,6 +264,7 @@ Item {
                         gridLineColor:"#DF7401"
                         minorTickCount:5
                         labelsColor: "white"
+                        labelsFont.pixelSize:  18
                         minorGridVisible: true
                     }
                     SplineSeries {
@@ -308,6 +311,7 @@ Item {
                         max: 15
                         gridVisible: false
                         labelsColor: "white"
+                        labelsFont.pixelSize:  20
                         minorTickCount:4
                         minorGridVisible: false
                         tickCount: 4
@@ -319,6 +323,7 @@ Item {
                         max: 2.2
                         gridLineColor:"#DF7401"
                         labelsColor: "white"
+                        labelsFont.pixelSize:  20
                         gridVisible: false
                         tickCount: 2
                     }
@@ -408,6 +413,7 @@ Item {
             width: 300
             height : 610
             color:"transparent"
+            visible: false
             Rectangle{
                 anchors.fill: parent
                 color: "#282828"
@@ -415,12 +421,15 @@ Item {
                 radius: 10
 
             }
-            StartSwitchControl{
+
+            TK_SwitchControl{
                 id: switchLineMode
                 x: 25
                 y: 20
-
+                strLeft: "All"
+                strRight: "Forline"
             }
+
             SwitchLineUc_ver3{
                 x: 50
                 y: 70
@@ -487,8 +496,8 @@ Item {
         states: [
             State {
                 name: "active"
-                PropertyChanges { target: rectSetting; x: 20 }
-                PropertyChanges { target: rectWeightChart;width:670 }
+                PropertyChanges { target: rectSetting; x: 20; visible: true }
+                PropertyChanges { target: rectWeightChart; width:670 }
                 PropertyChanges { target: rectSignalChart; width:670  }
                 PropertyChanges { target: rectShowChar; x: 335;width:670  }
                 PropertyChanges { target: rectProductName; visible: false}
@@ -496,9 +505,9 @@ Item {
             },
             State {
                 name: "inactive"
-                PropertyChanges { target: rectSetting; x: -300; }
+                PropertyChanges { target: rectSetting; x: -300; visible: false}
                 PropertyChanges { target: rectWeightChart; width:970 }
-                PropertyChanges { target: rectWeightChart;width: 970 }
+                PropertyChanges { target: rectSignalChart; width: 970 }
                 PropertyChanges { target: rectShowChar; x: 0;width:1024  }
                 PropertyChanges { target: rectProductName; visible: true}
                 PropertyChanges { target: rectTemp; visible: false}

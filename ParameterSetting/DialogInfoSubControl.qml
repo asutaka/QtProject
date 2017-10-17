@@ -15,7 +15,7 @@ Rectangle {
     property real   mHeight:            177
     property color  mBgColor:           "#fff"
     property string mTxtContent:        "String"
-    property string mFontFamily:        "MS Gothic"
+    property string mFontFamily:        "Noto Sans CJK JP DemiLight"
     property int    mFontSize:          23
     property bool   enableMouseArea:    false
     property bool   mVisible:           false

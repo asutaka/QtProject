@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.4
 import "qrc:/Control/VirtualKey.js" as Ops
+import ControlApp 1.0
 
 Item {
     id: displayMenu
@@ -622,13 +623,14 @@ Item {
                         lblDisplay.text=strDisplay;
                     }
                     onClicked: {
-                        loaderContent.source ="qrc:/Integration/Integration_ver4.qml"
+                        mainModel.InnerChangeScreen(ScreenMng.IntegrationV4)
                         if(btnSwitch.state == "on"){
-                            loaderStatusBar.source = "qrc:/StatusBar/testStatusBar.qml"
-                            loaderBottomBar.source = "qrc:/BottomBar/testBottomBar.qml";
-                        } else {
+                            mainModel.InnerChangeStatusBar(ScreenMng.testStatusBar);
+                            mainModel.InnerChangeBottomBar(ScreenMng.testBottomBar)
+
+                        }/* else {
                             setNormalBar()
-                        }
+                        }*/
                         hideAllmenuVer()
                         Ops.hideDisplayMenu();
                     }
@@ -662,13 +664,14 @@ Item {
                         lblDisplay.text=strDisplay;
                     }
                     onClicked: {
-                        loaderContent.source ="qrc:/Integration/Integration_ver3.qml"
+                        console.log(mainModel)
+                        mainModel.InnerChangeScreen(ScreenMng.IntegrationV3)
                         if(btnSwitch.state == "on"){
-                            loaderStatusBar.source = "qrc:/StatusBar/testStatusBar.qml"
-                            loaderBottomBar.source = "qrc:/BottomBar/testBottomBar.qml";
-                        } else {
+                            mainModel.InnerChangeStatusBar(ScreenMng.testStatusBar);
+                            mainModel.InnerChangeBottomBar(ScreenMng.testBottomBar)
+                        }/* else {
                             setNormalBar()
-                        }
+                        }*/
                         hideAllmenuVer()
                         Ops.hideDisplayMenu();
                     }
@@ -703,13 +706,13 @@ Item {
                         lblDisplay.text=strDisplay;
                     }
                     onClicked: {
-                        loaderContent.source ="qrc:/Integration/Integration_ver2.qml"
+                        mainModel.InnerChangeScreen(ScreenMng.IntegrationV2)
                         if(btnSwitch.state == "on"){
-                            loaderStatusBar.source = "qrc:/StatusBar/testStatusBar.qml"
-                            loaderBottomBar.source = "qrc:/BottomBar/testBottomBar.qml";
-                        } else {
+                            mainModel.InnerChangeStatusBar(ScreenMng.testStatusBar);
+                            mainModel.InnerChangeBottomBar(ScreenMng.testBottomBar)
+                        }/* else {
                             setNormalBar()
-                        }
+                        }*/
                         hideAllmenuVer()
                         Ops.hideDisplayMenu();
                     }
@@ -745,13 +748,13 @@ Item {
                         lblDisplay.text=strDisplay;
                     }
                     onClicked: {
-                        loaderContent.source ="qrc:/Integration/Integration.qml"
+                        mainModel.InnerChangeScreen(ScreenMng.Integration)
                         if(btnSwitch.state == "on"){
-                            loaderStatusBar.source = "qrc:/StatusBar/testStatusBar.qml"
-                            loaderBottomBar.source = "qrc:/BottomBar/testBottomBar.qml";
-                        } else {
+                            mainModel.InnerChangeStatusBar(ScreenMng.testStatusBar);
+                            mainModel.InnerChangeBottomBar(ScreenMng.testBottomBar)
+                        } /*else {
                             setNormalBar()
-                        }
+                        }*/
                         hideAllmenuVer()
                         Ops.hideDisplayMenu();
                     }
@@ -825,8 +828,8 @@ Item {
                         lblDisplay.text=strDisplay;
                     }
                     onClicked: {
-                        loaderContent.source ="qrc:/ZoomLine/ZoomLine4V.qml"
-                        setNormalBar()
+                        mainModel.InnerChangeScreen(ScreenMng.ZoomLine4V)
+                        //setNormalBar()
                         hideAllmenuVer()
                         Ops.hideDisplayMenu();
                     }
@@ -862,8 +865,8 @@ Item {
                         lblDisplay.text=strDisplay;
                     }
                     onClicked: {
-                        loaderContent.source ="qrc:/ZoomLine/ZoomLine3V.qml"
-                        setNormalBar()
+                        mainModel.InnerChangeScreen(ScreenMng.ZoomLine3V)
+                        //setNormalBar()
                         hideAllmenuVer()
                         Ops.hideDisplayMenu();
                     }
@@ -899,13 +902,13 @@ Item {
                         lblDisplay.text=strDisplay;
                     }
                     onClicked: {
-                        loaderContent.source ="qrc:/ZoomLine/ZoomLine2V.qml"
+                        mainModel.InnerChangeScreen(ScreenMng.ZoomLine2V)
                         if(btnSwitch.state == "on"){
-                            loaderStatusBar.source = "qrc:/StatusBar/testStatusBar.qml"
-                            loaderBottomBar.source = "qrc:/BottomBar/testBottomBar.qml";
-                        } else {
+                            mainModel.InnerChangeStatusBar(ScreenMng.testStatusBar);
+                            mainModel.InnerChangeBottomBar(ScreenMng.testBottomBar)
+                        }/* else {
                             setNormalBar()
-                        }
+                        }*/
                         hideAllmenuVer()
                         Ops.hideDisplayMenu();
                     }
@@ -941,13 +944,13 @@ Item {
                         lblDisplay.text=strDisplay;
                     }
                     onClicked: {
-                        loaderContent.source ="qrc:/ZoomLine/ZoomLine.qml"
+                        mainModel.InnerChangeScreen(ScreenMng.ZoomLine)
                         if(btnSwitch.state == "on"){
-                            loaderStatusBar.source = "qrc:/StatusBar/testStatusBar.qml"
-                            loaderBottomBar.source = "qrc:/BottomBar/testBottomBar.qml";
-                        } else {
+                            mainModel.InnerChangeStatusBar(ScreenMng.testStatusBar);
+                            mainModel.InnerChangeBottomBar(ScreenMng.testBottomBar)
+                        } /*else {
                             setNormalBar()
-                        }
+                        }*/
                         hideAllmenuVer()
                         Ops.hideDisplayMenu();
                     }
@@ -1021,13 +1024,13 @@ Item {
                         lblDisplay.text=strDisplay;
                     }
                     onClicked: {
-                        loaderContent.source ="qrc:/Production/Production.qml"
+                        mainModel.InnerChangeScreen(ScreenMng.Production)
                         if(btnSwitch.state == "on"){
-                            loaderStatusBar.source = "qrc:/StatusBar/testStatusBar.qml"
-                            loaderBottomBar.source = "qrc:/BottomBar/testBottomBar.qml";
-                        } else {
+                            mainModel.InnerChangeStatusBar(ScreenMng.testStatusBar);
+                            mainModel.InnerChangeBottomBar(ScreenMng.testBottomBar)
+                        } /*else {
                             setNormalBar()
-                        }
+                        }*/
                         hideAllmenuVer()
                         Ops.hideDisplayMenu();
                     }
@@ -1101,13 +1104,13 @@ Item {
                         lblDisplay.text=strDisplay;
                     }
                     onClicked: {
-                        loaderContent.source ="qrc:/XBarRS/XbarRS_NewChart.qml"
+                        mainModel.InnerChangeScreen(ScreenMng.XbarRS_NewChart)
                         if(btnSwitch.state == "on"){
-                            loaderStatusBar.source = "StatusBar/testStatusBar.qml"
-                            loaderBottomBar.source = "BottomBar/testBottomBar.qml";
-                        } else {
+                            mainModel.InnerChangeStatusBar(ScreenMng.testStatusBar);
+                            mainModel.InnerChangeBottomBar(ScreenMng.testBottomBar)
+                        }/* else {
                             setNormalBar()
-                        }
+                        }*/
                         hideAllmenuVer()
                         Ops.hideDisplayMenu();
                     }
@@ -1142,13 +1145,13 @@ Item {
                         lblDisplay.text=strDisplay;
                     }
                     onClicked: {
-                        loaderContent.source ="qrc:/XBarRS/XBarRS_ver4.qml"
+                        mainModel.InnerChangeScreen(ScreenMng.XbarRSV4)
                         if(btnSwitch.state == "on"){
-                            loaderStatusBar.source = "StatusBar/testStatusBar.qml"
-                            loaderBottomBar.source = "BottomBar/testBottomBar.qml";
-                        } else {
+                            mainModel.InnerChangeStatusBar(ScreenMng.testStatusBar);
+                            mainModel.InnerChangeBottomBar(ScreenMng.testBottomBar)
+                        }/* else {
                             setNormalBar()
-                        }
+                        }*/
                         hideAllmenuVer()
                         Ops.hideDisplayMenu();
                     }
@@ -1184,13 +1187,13 @@ Item {
                         lblDisplay.text=strDisplay;
                     }
                     onClicked: {
-                        loaderContent.source ="qrc:/XBarRS/XBarRS_ver3.qml"
+                        mainModel.InnerChangeScreen(ScreenMng.XbarRSV3)
                         if(btnSwitch.state == "on"){
-                            loaderStatusBar.source = "StatusBar/testStatusBar.qml"
-                            loaderBottomBar.source = "BottomBar/testBottomBar.qml";
-                        } else {
+                            mainModel.InnerChangeStatusBar(ScreenMng.testStatusBar);
+                            mainModel.InnerChangeBottomBar(ScreenMng.testBottomBar)
+                        }/* else {
                             setNormalBar()
-                        }
+                        }*/
                         hideAllmenuVer()
                         Ops.hideDisplayMenu();
                     }
@@ -1226,13 +1229,13 @@ Item {
                         lblDisplay.text=strDisplay;
                     }
                     onClicked: {
-                        loaderContent.source ="qrc:/XBarRS/XBarRS_ver2.qml"
+                        mainModel.InnerChangeScreen(ScreenMng.XbarRSV2)
                         if(btnSwitch.state == "on"){
-                            loaderStatusBar.source = "qrc:/StatusBar/testStatusBar.qml"
-                            loaderBottomBar.source = "qrc:/BottomBar/testBottomBar.qml";
-                        } else {
+                            mainModel.InnerChangeStatusBar(ScreenMng.testStatusBar);
+                            mainModel.InnerChangeBottomBar(ScreenMng.testBottomBar)
+                        }/* else {
                             setNormalBar()
-                        }
+                        }*/
                         hideAllmenuVer()
                         Ops.hideDisplayMenu();
                     }
@@ -1268,13 +1271,13 @@ Item {
                         lblDisplay.text=strDisplay;
                     }
                     onClicked: {
-                        loaderContent.source ="qrc:/XBarRS/XBarRS.qml"
+                        mainModel.InnerChangeScreen(ScreenMng.XbarRS)
                         if(btnSwitch.state == "on"){
-                            loaderStatusBar.source = "qrc:/StatusBar/testStatusBar.qml"
-                            loaderBottomBar.source = "qrc:/BottomBar/testBottomBar.qml";
-                        } else {
+                            mainModel.InnerChangeStatusBar(ScreenMng.testStatusBar);
+                            mainModel.InnerChangeBottomBar(ScreenMng.testBottomBar)
+                        }/* else {
                             setNormalBar()
-                        }
+                        }*/
                         hideAllmenuVer()
                         Ops.hideDisplayMenu();
                     }
@@ -1348,13 +1351,13 @@ Item {
                         lblDisplay.text = strDisplay;
                     }
                     onClicked: {
-                        loaderContent.source ="qrc:/MenuScreen/MenuList3V.qml"
+                        mainModel.InnerChangeScreen(ScreenMng.MenuList3V)
                         if(btnSwitch.state == "on"){
-                            loaderStatusBar.source = "qrc:/StatusBar/testStatusBar.qml"
-                            loaderBottomBar.source = "qrc:/BottomBar/testBottomBar.qml";
-                        } else {
+                            mainModel.InnerChangeStatusBar(ScreenMng.testStatusBar);
+                            mainModel.InnerChangeBottomBar(ScreenMng.testBottomBar)
+                        } /*else {
                             setNormalBar()
-                        }
+                        }*/
                         hideAllmenuVer()
                         Ops.hideDisplayMenu();
                     }
@@ -1390,13 +1393,13 @@ Item {
                         lblDisplay.text = strDisplay;
                     }
                     onClicked: {
-                        loaderContent.source ="qrc:/MenuScreen/MenuListNew.qml"
+                        mainModel.InnerChangeScreen(ScreenMng.MenuListNew)
                         if(btnSwitch.state == "on"){
-                            loaderStatusBar.source = "qrc:/StatusBar/testStatusBar.qml"
-                            loaderBottomBar.source = "qrc:/BottomBar/testBottomBar.qml";
-                        } else {
+                            mainModel.InnerChangeStatusBar(ScreenMng.testStatusBar);
+                            mainModel.InnerChangeBottomBar(ScreenMng.testBottomBar)
+                        } /*else {
                             setNormalBar()
-                        }
+                        }*/
                         hideAllmenuVer()
                         Ops.hideDisplayMenu();
                     }
@@ -1432,13 +1435,13 @@ Item {
                         lblDisplay.text=strDisplay;
                     }
                     onClicked: {
-                        loaderContent.source ="qrc:/MenuScreen/MenuList.qml"
+                        mainModel.InnerChangeScreen(ScreenMng.MenuList)
                         if(btnSwitch.state == "on"){
-                            loaderStatusBar.source = "qrc:/StatusBar/testStatusBar.qml"
-                            loaderBottomBar.source = "qrc:/BottomBar/testBottomBar.qml";
-                        } else {
+                            mainModel.InnerChangeStatusBar(ScreenMng.testStatusBar);
+                            mainModel.InnerChangeBottomBar(ScreenMng.testBottomBar)
+                        }/* else {
                             setNormalBar()
-                        }
+                        }*/
                         hideAllmenuVer()
                         Ops.hideDisplayMenu();
                     }
@@ -1512,13 +1515,13 @@ Item {
                         lblDisplay.text = strDisplay;
                     }
                     onClicked: {
-                        loaderContent.source ="qrc:/XRay/XRayQImage.qml"
+                        mainModel.InnerChangeScreen(ScreenMng.XRayQImage)
                         if(btnSwitch.state == "on"){
-                            loaderStatusBar.source = "qrc:/StatusBar/testStatusBar.qml"
-                            loaderBottomBar.source = "qrc:/BottomBar/testBottomBar.qml";
-                        } else {
+                            mainModel.InnerChangeStatusBar(ScreenMng.testStatusBar);
+                            mainModel.InnerChangeBottomBar(ScreenMng.testBottomBar)
+                        }/* else {
                             setNormalBar()
-                        }
+                        }*/
                         hideAllmenuVer()
                         Ops.hideDisplayMenu();
                     }
@@ -1554,13 +1557,13 @@ Item {
                         lblDisplay.text = strDisplay;
                     }
                     onClicked: {
-                        loaderContent.source ="qrc:/XRay/XRay.qml"
+                        mainModel.InnerChangeScreen(ScreenMng.XRay)
                         if(btnSwitch.state == "on"){
-                            loaderStatusBar.source = "qrc:/StatusBar/testStatusBar.qml"
-                            loaderBottomBar.source = "qrc:/BottomBar/testBottomBar.qml";
-                        } else {
+                            mainModel.InnerChangeStatusBar(ScreenMng.testStatusBar);
+                            mainModel.InnerChangeBottomBar(ScreenMng.testBottomBar)
+                        } /*else {
                             setNormalBar()
-                        }
+                        }*/
                         hideAllmenuVer()
                         Ops.hideDisplayMenu();
                     }
@@ -1634,13 +1637,13 @@ Item {
                         lblDisplay.text=strDisplay;
                     }
                     onClicked: {
-                        loaderContent.source ="qrc:/Test/AccordionList2.qml"
+                        mainModel.InnerChangeScreen(ScreenMng.AccordionList2)
                         if(btnSwitch.state == "on"){
-                            loaderStatusBar.source = "qrc:/StatusBar/testStatusBar.qml"
-                            loaderBottomBar.source = "qrc:/BottomBar/testBottomBar.qml";
-                        } else {
+                            mainModel.InnerChangeStatusBar(ScreenMng.testStatusBar);
+                            mainModel.InnerChangeBottomBar(ScreenMng.testBottomBar)
+                        }/* else {
                             setNormalBar()
-                        }
+                        }*/
                         hideAllmenuVer()
                         Ops.hideDisplayMenu();
                     }
@@ -1676,13 +1679,13 @@ Item {
                         lblDisplay.text = strDisplay;
                     }
                     onClicked: {
-                        loaderContent.source ="qrc:/Test/TestSliderControl.qml"
+                        mainModel.InnerChangeScreen(ScreenMng.TestSliderControl)
                         if(btnSwitch.state == "on"){
-                            loaderStatusBar.source = "qrc:/StatusBar/testStatusBar.qml"
-                            loaderBottomBar.source = "qrc:/BottomBar/testBottomBar.qml";
-                        } else {
+                            mainModel.InnerChangeStatusBar(ScreenMng.testStatusBar);
+                            mainModel.InnerChangeBottomBar(ScreenMng.testBottomBar)
+                        }/* else {
                             setNormalBar()
-                        }
+                        }*/
                         hideAllmenuVer()
                         Ops.hideDisplayMenu();
                     }
@@ -1718,13 +1721,13 @@ Item {
                         lblDisplay.text = strDisplay;
                     }
                     onClicked: {
-                        loaderContent.source ="qrc:/Test/TestWheelControl.qml"
+                        mainModel.InnerChangeScreen(ScreenMng.TestWheelControl)
                         if(btnSwitch.state == "on"){
-                            loaderStatusBar.source = "qrc:/StatusBar/testStatusBar.qml"
-                            loaderBottomBar.source = "qrc:/BottomBar/testBottomBar.qml";
-                        } else {
+                            mainModel.InnerChangeStatusBar(ScreenMng.testStatusBar);
+                            mainModel.InnerChangeBottomBar(ScreenMng.testBottomBar)
+                        }/* else {
                             setNormalBar()
-                        }
+                        }*/
                         hideAllmenuVer()
                         Ops.hideDisplayMenu();
                     }
@@ -1760,13 +1763,13 @@ Item {
                         lblDisplay.text=strDisplay;
                     }
                     onClicked: {
-                        loaderContent.source ="qrc:/Test/TestAccordionList.qml"
+                        mainModel.InnerChangeScreen(ScreenMng.TestAccordionList)
                         if(btnSwitch.state == "on"){
-                            loaderStatusBar.source = "qrc:/StatusBar/testStatusBar.qml"
-                            loaderBottomBar.source = "qrc:/BottomBar/testBottomBar.qml";
-                        } else {
+                            mainModel.InnerChangeStatusBar(ScreenMng.testStatusBar);
+                            mainModel.InnerChangeBottomBar(ScreenMng.testBottomBar)
+                        }/* else {
                             setNormalBar()
-                        }
+                        }*/
                         hideAllmenuVer()
                         Ops.hideDisplayMenu();
                     }
@@ -1802,13 +1805,13 @@ Item {
                         lblDisplay.text = strDisplay;
                     }
                     onClicked: {
-                        loaderContent.source ="qrc:/CW/CW.qml"
+                        mainModel.InnerChangeScreen(ScreenMng.CW)
                         if(btnSwitch.state == "on"){
-                            loaderStatusBar.source = "qrc:/StatusBar/testStatusBar.qml"
-                            loaderBottomBar.source = "qrc:/BottomBar/testBottomBar.qml";
-                        } else {
+                            mainModel.InnerChangeStatusBar(ScreenMng.testStatusBar);
+                            mainModel.InnerChangeBottomBar(ScreenMng.testBottomBar)
+                        }/* else {
                             setNormalBar()
-                        }
+                        }*/
                         hideAllmenuVer()
                         Ops.hideDisplayMenu();
                     }
@@ -1844,7 +1847,7 @@ Item {
                         lblDisplay.text = strDisplay;
                     }
                     onClicked: {
-                        loaderStatusBar.source ="qrc:/StatusBar/StatusBar_ver2.qml"
+                        mainModel.InnerChangeStatusBar(ScreenMng.StatusBarV2);
                         hideAllmenuVer()
                         Ops.hideDisplayMenu();
                     }
@@ -1880,13 +1883,13 @@ Item {
                         lblDisplay.text = strDisplay;
                     }
                     onClicked: {
-                        loaderContent.source ="qrc:/TestFramework/TestFramework.qml"
+                        mainModel.InnerChangeScreen(ScreenMng.TestFramework)
                         if(btnSwitch.state == "on"){
-                            loaderStatusBar.source = "qrc:/StatusBar/testStatusBar.qml"
-                            loaderBottomBar.source = "qrc:/BottomBar/testBottomBar.qml";
-                        } else {
+                            mainModel.InnerChangeStatusBar(ScreenMng.testStatusBar);
+                            mainModel.InnerChangeBottomBar(ScreenMng.testBottomBar)
+                        } /*else {
                             setNormalBar()
-                        }
+                        }*/
                         hideAllmenuVer()
                         Ops.hideDisplayMenu();
                     }
@@ -1960,9 +1963,9 @@ Item {
                         lblDisplay.text = strDisplay;
                     }
                     onClicked: {
-                        loaderContent.source = "qrc:/ParameterSetting/ParameterSetting.qml"
-                        loaderStatusBar.source = "qrc:/StatusBar/StatusBar.qml"
-                        loaderBottomBar.source = "qrc:/BottomBar/BottomBarParameterSetting.qml";
+                        mainModel.InnerChangeScreen(ScreenMng.ParameterSetting)
+//                        mainModel.InnerChangeStatusBar(ScreenMng.NormalStatusBar);
+//                        mainModel.InnerChangeBottomBar(ScreenMng.BottomBarParamSetting)
                         hideAllmenuVer()
                         Ops.hideDisplayMenu();
                     }
@@ -1998,9 +2001,9 @@ Item {
                         lblDisplay.text = strDisplay;
                     }
                     onClicked: {
-                        loaderContent.source ="qrc:/ParameterSetting/ParameterSettingv2.qml"
-                        loaderStatusBar.source = "qrc:/StatusBar/StatusBar.qml"
-                        loaderBottomBar.source = "qrc:/BottomBar/BottomBarParameterSettingv2.qml";
+                        mainModel.InnerChangeScreen(ScreenMng.ParameterSettingV2)
+//                        mainModel.InnerChangeStatusBar(ScreenMng.NormalStatusBar);
+//                        mainModel.InnerChangeBottomBar(ScreenMng.BottomBarParamSetting)
                         hideAllmenuVer()
                         Ops.hideDisplayMenu();
                     }
@@ -2059,8 +2062,8 @@ Item {
         }
     }
 
-    function setNormalBar() {
-        loaderStatusBar.source = "qrc:/StatusBar/StatusBar.qml"
-        loaderBottomBar.source ="qrc:/BottomBar/BottomBarMainPage.qml"
-    }
+//    function setNormalBar() {
+//        mainModel.InnerChangeStatusBar(ScreenMng.NormalStatusBar);
+//        mainModel.InnerChangeBottomBar(ScreenMng.BottomBarMainPage)
+//    }
 }

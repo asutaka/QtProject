@@ -7,6 +7,7 @@ Item {
     property int distance: 10
     property int currentIndex: 1
     property string textSelection: "Photo(W1)"
+    property string textColor: "#F4A460"
 
     signal textDisplayChanged()
 
@@ -69,8 +70,7 @@ Item {
                 id: txtSelection
                 font.pixelSize: 15
                 text: textSelection
-                color: "#F4A460"
-
+                color: textColor
             }
 
         }

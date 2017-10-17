@@ -1,6 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.3
-import ZoomLine3V 1.0
+import ControlApp 1.0
 import "../Control/switchLineUC";
 import "../Control/switchControl";
 
@@ -14,7 +14,13 @@ Item {
     width: 1024
     height: 640
 
-
+    property alias objZoomLineVM: zoomlineVM
+    ZoomLine_VM{
+        id:zoomlineVM
+    }
+    Component.onCompleted: {
+        objZoomLineVM.onLoad();
+    }
     Rectangle{
         id: listBall
         x: 257
@@ -101,6 +107,7 @@ Item {
             }
         }
     }
+
     Rectangle {
         id: point_center
         x: 668
@@ -119,6 +126,7 @@ Item {
             color: "transparent"
             Text {
                 text: qsTr("SetZero")
+                font.pixelSize: 14
                 color: "yellow"
 
             }
@@ -168,6 +176,7 @@ Item {
             color: "transparent"
             Text {
                 text: qsTr("SetZero")
+                font.pixelSize: 14
                 color: "yellow"
 
             }

@@ -9,11 +9,13 @@ uri = com.mycompany.qmlcomponents
 # Input
 SOURCES += \
     commonmodule_plugin.cpp \
-    myitem.cpp
+    myitem.cpp \
+    datacolumnchart.cpp
 
 HEADERS += \
     commonmodule_plugin.h \
-    myitem.h
+    myitem.h \
+    datacolumnchart.h
 
 DISTFILES = qmldir \
     Import/Module/CaculatorUc.qml \
@@ -22,7 +24,10 @@ DISTFILES = qmldir \
     Import/Module/StartSwitchUc.qml \
     Import/Module/SwitchLineUc.qml \
     Import/Module/StartSwitchLineModule.qml \
-    Import/Module/GridViewNavigatorModule.qml
+    Import/Module/GridViewNavigatorModule.qml \
+    Import/Module/TK_ColumnChart.qml \
+    Import/Module/TK_QuickMenu.qml \
+    Import/Module/TK_LineChart.qml
 
 !equals(_PRO_FILE_PWD_, $$OUT_PWD) {
     copy_qmldir.target = $$OUT_PWD/qmldir

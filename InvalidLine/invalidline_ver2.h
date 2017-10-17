@@ -20,6 +20,7 @@ public:
     Q_INVOKABLE void clickEnable();
     Q_INVOKABLE void clickDisable();
     Q_INVOKABLE void onClickInvalidLinePanel(float x, float y);
+    Q_INVOKABLE void onLongPressInvalidLinePanel(float x, float y);
     Q_INVOKABLE void selectAll();
     Q_INVOKABLE void clearSelection();
     Q_INVOKABLE void changeSelection();

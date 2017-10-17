@@ -1,12 +1,13 @@
 import QtQuick 2.0
 import ControlApp 1.0
-import "../Control/switchControl"
+import CommonControl 1.0
 import QtQuick.Controls 1.4
 import "../Control/VirtualKey.js" as Ops
 import QtQuick.Controls.Styles 1.4
-
+//import "../FillingAmount"
 
 Item {
+    property alias objFillAmount: fillingAmount
     property real  txtUpperValue: 100
     property real  txtValue2:100
     property real  txtLowerValue: 1
@@ -14,28 +15,32 @@ Item {
     height: 640
     x: 0
     y: 0
+    FillAmountVM {
+        id: fillingAmount
+    }
+
     FillingAmount{
         id: fillingAmountMain
         width: 1024
         height: 640
-        StartSwitchControl{
+        TK_SwitchControl{
             id: switch1
-            textLeft: "各個"
-            textRight: "平均"
             x: 480
             y: 595
-            onSwitchControl: {
-                fillingAmountMain.setInDiv(isLeft);
+            strLeft: "各個"
+            strRight: "平均"
+            onSwitchButton: {
+                fillingAmountMain.setInDiv(switch1.isLeft);
             }
         }
-        StartSwitchControl{
+        TK_SwitchControl{
             id: switch2
-            textLeft: "相対値"
-            textRight: "絶対値"
             x: 750
             y: 595
-            onSwitchControl: {
-                fillingAmountMain.setRelVal(isLeft);
+            strLeft: "相対値"
+            strRight: "絶対値"
+            onSwitchButton: {
+                fillingAmountMain.setRelVal(switch2.isLeft);
             }
         }
         ToolButton{
@@ -182,5 +187,11 @@ Item {
                 }
             }
         }
+
     }
+
+    Component.onCompleted:{
+        objFillAmount.onLoad();
+    }
+
 }

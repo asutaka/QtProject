@@ -5,11 +5,12 @@ import QtQuick.Dialogs 1.2
 import QtQuick.Controls 1.3
 import QtQuick.Extras 1.4
 import QtQuick.Controls.Styles 1.3
-import ZoomLine 1.0
+import ControlApp 1.0
 import "../Control/switchLineUC";
 import "../Control";
 
 Item {
+    property alias objZoomLineVM: zoomlineVM
     property real countSelected: 0;
     property int lineno: 12
     property real unitLine:0
@@ -17,7 +18,12 @@ Item {
     width: 1024
     height: 640
     y: -64
-
+    ZoomLine_VM{
+        id:zoomlineVM
+    }
+    Component.onCompleted: {
+        objZoomLineVM.onLoad();
+    }
     Rectangle
     {
         color: "red"
@@ -76,6 +82,8 @@ Item {
             height: 640
             x:0
             y:64
+
+
         }
 
     ToolButton {
@@ -242,4 +250,5 @@ Item {
         lineno: zoom.lineno
         onActivated:drawContent.setNumSelect(zoom.lineno,countSelected.toFixed(0))
     }
- }
+
+}

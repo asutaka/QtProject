@@ -355,14 +355,20 @@ function autohideBar()
     if(yfitCenter == 0)
     {
         yfitCenter = 1
-        loaderStatusBar.source = "/StatusBar/testStatusBar.qml"
-        loaderBottomBar.source = "/BottomBar/testBottomBar.qml";
+//        loaderStatusBar.source = "/StatusBar/testStatusBar.qml"
+//        loaderBottomBar.source = "/BottomBar/testBottomBar.qml";
+
+        mainModel.InnerChangeStatusBar(ScreenMng.testStatusBar);
+        mainModel.InnerChangeBottomBar(ScreenMng.testBottomBar)
     }
     else
     {
         yfitCenter = 0
-        loaderStatusBar.source = "/StatusBar/StatusBar.qml"
-        loaderBottomBar.source = "/BottomBar/BottomBarMainPage.qml";
+//        loaderStatusBar.source = "/StatusBar/StatusBar.qml"
+//        loaderBottomBar.source = "/BottomBar/BottomBarMainPage.qml";
+        mainModel.InnerChangeStatusBar(ScreenMng.StatusBar);
+        mainModel.InnerChangeBottomBar(ScreenMng.BottomBarMainPage)
+
     }
 }
 function loadSwipe()

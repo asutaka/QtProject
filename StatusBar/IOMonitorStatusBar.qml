@@ -3,24 +3,20 @@ import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.3
 import QtQuick.Controls.Styles 1.4
 import ControlApp 1.0
-import "qrc:/Control/menu"
-import "qrc:/Dialog"
-import "qrc:/IOMonitor"
 
 Item {
     id: statusBarIOMonitor
 
-    property Item objIOMonitorStatusBar: rowStatusBarIOMonitor
-    property IOMonitorScreenVM objIOMonitorVM: ioMonitorVM
+    property alias statusBarIOMonitorObj: statusBarIOMonitor
+    property alias iOMonitorStatusBarVM: iOMonitorStatusBarVMObject
     property real _ratioDistance: 0.1
-    property real _ratioFont: 0.32
     property real _ratioMaxHeight: 0.96875
 
-    Image {
-        IOMonitorScreenVM {
-            id: ioMonitorVM
-        }
+    IOMonitorStatusBarVM {
+        id : iOMonitorStatusBarVMObject
+    }
 
+    Image {
         id: bkgStatusBarIOMonitor
         width: 1024
         height: 64
@@ -59,9 +55,9 @@ Item {
                         anchors.topMargin: parent.height * _ratioDistance
                         anchors.left: parent.left
                         anchors.leftMargin: parent.height * _ratioDistance
-                        font.family: "MS Gothic"
-                        font.bold: true
-                        font.pixelSize: parent.height * _ratioFont
+                        font.family: fontFactory.getFontFamily(FontFactory.FNT_M4)
+                        font.pixelSize: fontFactory.getFontSize(FontFactory.FNT_M4)
+//                        font.bold: true
                         color: "black"
                     }
 
@@ -79,9 +75,9 @@ Item {
                         anchors.bottomMargin: parent.height * _ratioDistance
                         anchors.right: parent.right
                         anchors.rightMargin: parent.width * _ratioDistance
-                        font.family: "MS Gothic"
-                        font.bold: true
-                        font.pixelSize: parent.height * _ratioFont
+                        font.family: fontFactory.getFontFamily(FontFactory.FNT_M4)
+                        font.pixelSize: fontFactory.getFontSize(FontFactory.FNT_M4)
+//                        font.bold: true
                         color: "black"
                     }
                 }
@@ -96,7 +92,13 @@ Item {
                 contentItem: Image {
                     id: imgSignalType
                     anchors.fill: parent
-                    source: btnSignalType.pressed ? "image://MyProvider/statbtn_on_120_62.png" : "image://MyProvider/statbtn_off_120_62.png"
+                    source: {
+                        if (btnSignalType.pressed) {
+                            return "image://MyProvider/statbtn_on_120_62.png"
+                        } else {
+                            return "image://MyProvider/statbtn_off_120_62.png"
+                        }
+                    }
 
                     Text {
                         id: txtSignalTypeTitle
@@ -105,9 +107,9 @@ Item {
                         anchors.top: parent.top
                         anchors.topMargin: parent.height * _ratioDistance
                         horizontalAlignment: Text.AlignHCenter
-                        font.family: "MS Gothic"
-                        font.bold: true
-                        font.pixelSize: parent.height * _ratioFont
+                        font.family: fontFactory.getFontFamily(FontFactory.FNT_M4)
+                        font.pixelSize: fontFactory.getFontSize(FontFactory.FNT_M4)
+//                        font.bold: true
                         color: "black"
                     }
 
@@ -118,9 +120,9 @@ Item {
                         anchors.bottom: parent.bottom
                         anchors.bottomMargin: parent.height * _ratioDistance
                         horizontalAlignment: Text.AlignHCenter
-                        font.family: "MS Gothic"
-                        font.bold: true
-                        font.pixelSize: (parent.height - 8) * _ratioFont
+                        font.family: fontFactory.getFontFamily(FontFactory.FNT_M4)
+                        font.pixelSize: fontFactory.getFontSize(FontFactory.FNT_M4)
+//                        font.bold: true
                         color: "black"
                     }
                 }
@@ -139,7 +141,13 @@ Item {
                 contentItem: Image {
                     id: imgTrigerNo
                     anchors.fill: parent
-                    source: btnTrigerNo.pressed ? "image://MyProvider/statbtn_on_120_62.png" : "image://MyProvider/statbtn_off_120_62.png"
+                    source: {
+                        if (btnTrigerNo.pressed) {
+                            return "image://MyProvider/statbtn_on_120_62.png"
+                        } else {
+                            return "image://MyProvider/statbtn_off_120_62.png"
+                        }
+                    }
 
                     Text {
                         id: txtTrigerNoTitle
@@ -148,9 +156,9 @@ Item {
                         anchors.top: parent.top
                         anchors.topMargin: parent.height * _ratioDistance
                         horizontalAlignment: Text.AlignHCenter
-                        font.family: "MS Gothic"
-                        font.bold: true
-                        font.pixelSize: parent.height * _ratioFont
+                        font.family: fontFactory.getFontFamily(FontFactory.FNT_M4)
+                        font.pixelSize: fontFactory.getFontSize(FontFactory.FNT_M4)
+//                        font.bold: true
                         color: "black"
                     }
 
@@ -161,9 +169,9 @@ Item {
                         anchors.bottom: parent.bottom
                         anchors.bottomMargin: parent.height * _ratioDistance
                         horizontalAlignment: Text.AlignHCenter
-                        font.family: "MS Gothic"
-                        font.bold: true
-                        font.pixelSize: (parent.height - 8) * _ratioFont
+                        font.family: fontFactory.getFontFamily(FontFactory.FNT_M4)
+                        font.pixelSize: fontFactory.getFontSize(FontFactory.FNT_M4)
+//                        font.bold: true
                         color: "black"
                     }
                 }
@@ -182,7 +190,13 @@ Item {
                 contentItem: Image {
                     id: imgTrigerCondition
                     anchors.fill: parent
-                    source: btnTrigerCondition.pressed ? "image://MyProvider/statbtn_on_120_62.png" : "image://MyProvider/statbtn_off_120_62.png"
+                    source: {
+                        if (btnTrigerCondition.pressed) {
+                            return "image://MyProvider/statbtn_on_120_62.png"
+                        } else {
+                            return "image://MyProvider/statbtn_off_120_62.png"
+                        }
+                    }
 
                     Text {
                         id: txtTriggerConditionTitle
@@ -191,9 +205,9 @@ Item {
                         anchors.top: parent.top
                         anchors.topMargin: parent.height * _ratioDistance
                         horizontalAlignment: Text.AlignHCenter
-                        font.family: "MS Gothic"
-                        font.bold: true
-                        font.pixelSize: parent.height * _ratioFont
+                        font.family: fontFactory.getFontFamily(FontFactory.FNT_M4)
+                        font.pixelSize: fontFactory.getFontSize(FontFactory.FNT_M4)
+//                        font.bold: true
                         color: "black"
                     }
 
@@ -211,9 +225,9 @@ Item {
                         anchors.bottom: parent.bottom
                         anchors.bottomMargin: parent.height * _ratioDistance
                         anchors.left: iconTriggerCondition.right
-                        font.family: "MS Gothic"
-                        font.bold: true
-                        font.pixelSize: (parent.height - 8) * _ratioFont
+                        font.family: fontFactory.getFontFamily(FontFactory.FNT_M4)
+                        font.pixelSize: fontFactory.getFontSize(FontFactory.FNT_M4)
+//                        font.bold: true
                         color: "black"
                     }
                 }
@@ -232,16 +246,22 @@ Item {
                 contentItem: Image {
                     id: imgTrigerDisplay
                     anchors.fill: parent
-                    source: btnDisplay.pressed ? "image://MyProvider/statbtn_on_120_62.png" : "image://MyProvider/statbtn_off_120_62.png"
+                    source: {
+                        if (btnDisplay.pressed){
+                            return "image://MyProvider/statbtn_on_120_62.png"
+                        }else {
+                            return "image://MyProvider/statbtn_off_120_62.png"
+                        }
+                    }
 
                     Text {
                         id: txtDisplayTitle
                         anchors.top: parent.top
                         anchors.topMargin: parent.height * _ratioDistance
                         anchors.horizontalCenter: parent.horizontalCenter
-                        font.family: "MS Gothic"
-                        font.bold: true
-                        font.pixelSize: parent.height * _ratioFont
+                        font.family: fontFactory.getFontFamily(FontFactory.FNT_M4)
+                        font.pixelSize: fontFactory.getFontSize(FontFactory.FNT_M4)
+//                        font.bold: true
                         color: "black"
                     }
 
@@ -252,9 +272,9 @@ Item {
                         anchors.bottom: parent.bottom
                         anchors.bottomMargin: parent.height * _ratioDistance
                         horizontalAlignment: Text.AlignHCenter
-                        font.family: "MS Gothic"
-                        font.bold: true
-                        font.pixelSize: (parent.height - 8) * _ratioFont
+                        font.family: fontFactory.getFontFamily(FontFactory.FNT_M4)
+                        font.pixelSize: fontFactory.getFontSize(FontFactory.FNT_M4)
+//                        font.bold: true
                         color: "black"
                     }
                 }
@@ -271,144 +291,87 @@ Item {
                 contentItem: Image {
                     id: imgTrigerHelp
                     anchors.fill: parent
-                    source: btnHelp.pressed ? "image://MyProvider/popup_question_gray_on.png" : "image://MyProvider/popup_question_gray_off.png"
+                    source: {
+                        if (btnHelp.pressed) {
+                            return "image://MyProvider/popup_question_gray_on.png"
+                        } else {
+                            return "image://MyProvider/popup_question_gray_off.png"
+                        }
+                    }
                 }
 
                 onClicked: {
-                    var component = Qt.createComponent("../Dialog/SwitchLanguage.qml");
+                    var component = Qt.createComponent("qrc:/Dialog/SwitchLanguage.qml");
                     appWindow.showDialog(component,300,400);
-//                    menuQuestion.__popup(Qt.rect(790,62,0,0),0,0);
-//                    menuQuestion.open()
-                }
-
-//                MyMenu {
-//                    id: menuQuestion
-//                    widthItem: 200
-//                    heightItem: 200
-
-//                    MenuItem {
-//                        id: itemLanguage
-//                        anchors.fill: parent
-//                        text: "Language"
-//                        onTriggered: {
-//                            console.log("ABC")
-//                            var component = Qt.createComponent("../Dialog/SwitchLanguage.qml");
-//                            appWindow.showDialog(component,300,400);
-//                        }
-//                    }
-//                }
-            }
-
-            function settingValueDisplay(str) {
-                txtValueDisplay.text = str
-            }
-
-            function settingValueTriggerCondition(str, source) {
-                txtValueTriggerCondition.text = str
-                iconTriggerCondition.source = source
-            }
-
-            function settingValueTriggerNo(str) {
-                txtValueTrigerNo.text = str
-            }
-
-            function settingValueSignalType(str) {
-                txtValueSignalType.text = str
-            }
-
-            function settingValueTitle(isStart) {
-                if (isStart) {
-                    txtStateMachine.text = objIOMonitorVM.txtStart
-                }
-                else {
-                    txtStateMachine.text = objIOMonitorVM.txtStop
                 }
             }
 
-            function settingScreenName(isStartImport) {
-                if (isStartImport) {
-                    txtNameScreen.text = objIOMonitorVM.txtScreenName2
-                }
-                else {
-                    txtNameScreen.text = objIOMonitorVM.txtScreenName
-                }
-            }
+
         }
-
-
-
-//        Menu {
-//            id: menuQuestion
-////            x: btnHelp.x
-////            y: btnHelp.height
-////            transformOrigin: Menu.TopRight
-
-////            background: Rectangle {
-////                implicitWidth: btnHelp.width * 2 + btnDisplay.width
-////                color: "#1A4670"
-////                border.color: "#8CA6BD"
-////                border.width: 2
-////            }
-
-//            MenuItem {
-//                contentItem: Text {
-//                    text: "Language"
-//                    font.family: "MS Gothic"
-//                    font.pixelSize: btnHelp.height * _ratioFont
-//                    color: "white"
-//                }
-//                onTriggered: {
-//                    var component = Qt.createComponent("qrc:/Dialog/SwitchLanguage.qml");
-//                    appWindow.showDialog(component,300,400);
-//                }
-//            }
-
-//            MenuItem {
-//                contentItem: Text {
-//                    text: "Version"
-//                    font.family: "MS Gothic"
-//                    font.pixelSize: btnHelp.height * _ratioFont
-//                    color: "white"
-//                }
-//            }
-
-//            MenuItem {
-//                contentItem: Text {
-//                    text: "Access Level Change"
-//                    font.family: "MS Gothic"
-//                    font.pixelSize: btnHelp.height * _ratioFont
-//                    color: "white"
-//                }
-//                onTriggered: {
-//                    var component = Qt.createComponent("qrc:/Dialog/AccessLevelDialog.qml");
-//                    var winAccessLevelChange =component.createObject(loaderContent, {"x":  (Screen.width - 730) / 2, "y": (Screen.height - 410) / 2});
-//                    winAccessLevelChange.show();
-//                }
-//            }
-//        }
     }
 
     Component.onCompleted: {
-//        objIOMonitorVM.onLoad()
-//        mainModel.onChangeScreen.connect(updateStatusBar)
+        iOMonitorStatusBarVM.onLoad()
         updateText()
-        mainModel.onChangeLanguage.connect(updateText)
+        mainModel.onChangeLanguage.connect(onChangeLanguage)
+    }
+
+    Component.onDestruction: {
+        mainModel.onChangeLanguage.disconnect(onChangeLanguage)
+    }
+
+    function settingValueDisplay(str) {
+        txtValueDisplay.text = str
+    }
+
+    function settingValueTriggerCondition(str, source) {
+        txtValueTriggerCondition.text = str
+        iconTriggerCondition.source = source
+    }
+
+    function settingValueTriggerNo(str) {
+        txtValueTrigerNo.text = str
+    }
+
+    function settingValueSignalType(str) {
+        txtValueSignalType.text = str
+    }
+
+    function settingValueTitle(isStart) {
+        if (isStart) {
+            txtStateMachine.text = iOMonitorStatusBarVM.txtStart
+        }
+        else {
+            txtStateMachine.text = iOMonitorStatusBarVM.txtStop
+        }
+    }
+
+    function settingScreenName(isStartImport) {
+        if (isStartImport) {
+            txtNameScreen.text = iOMonitorStatusBarVM.txtScreenName2
+        }
+        else {
+            txtNameScreen.text = iOMonitorStatusBarVM.txtScreenName
+        }
+    }
+
+    function onChangeLanguage() {
+        iOMonitorStatusBarVM.onChangeLanguage()
+        updateText()
     }
 
     function updateText() {
-        objIOMonitorVM.onChangeLanguage()
+        txtDisplayTitle.text = iOMonitorStatusBarVM.txtDisplayTitle
+        txtSignalTypeTitle.text = iOMonitorStatusBarVM.txtSignalTypeTitle
+        txtTrigerNoTitle.text = iOMonitorStatusBarVM.txtTrigerNoTitle
+        txtTriggerConditionTitle.text = iOMonitorStatusBarVM.txtTrigerConditionTitle
+        txtStateMachine.text = iOMonitorStatusBarVM.txtStop
+        txtNameScreen.text = iOMonitorStatusBarVM.txtScreenName
 
-        txtDisplayTitle.text = objIOMonitorVM.txtDisplayTitle
-        txtSignalTypeTitle.text = objIOMonitorVM.txtSignalTypeTitle
-        txtTrigerNoTitle.text = objIOMonitorVM.txtTrigerNoTitle
-        txtTriggerConditionTitle.text = objIOMonitorVM.txtTrigerConditionTitle
-        txtStateMachine.text = objIOMonitorVM.txtStop
-        txtNameScreen.text = objIOMonitorVM.txtScreenName
-
-        rowStatusBarIOMonitor.settingValueDisplay(objIOMonitorVM.listDisplay[0])
+        settingValueDisplay(iOMonitorStatusBarVM.valueDisplay)
         var src = "image://MyProvider/statbar_event_down.png"
-        rowStatusBarIOMonitor.settingValueTriggerCondition(objIOMonitorVM.listTrigerCondition[0], src)
-        rowStatusBarIOMonitor.settingValueTriggerNo(objIOMonitorVM.listTrigerNo[0])
-        rowStatusBarIOMonitor.settingValueSignalType(objIOMonitorVM.listSignalType[0])
+        settingValueTriggerCondition(iOMonitorStatusBarVM.valueTrigerCondition, src)
+        settingValueTriggerNo(iOMonitorStatusBarVM.valueTrigerNo)
+        settingValueSignalType(iOMonitorStatusBarVM.valueSignalType)
     }
 }

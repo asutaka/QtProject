@@ -16,6 +16,8 @@ public:
     FillingAmount(QQuickItem* parent = 0);
     ~FillingAmount();
 
+
+
 private:
     QString m_name;
     QColor m_color;

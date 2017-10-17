@@ -93,7 +93,7 @@ static const uint qt_meta_data_MainProductionVer2VM[] = {
     QMetaType::Int,
 
  // properties: name, type, flags
-      10, QMetaType::QString, 0x00095103,
+      10, 0x80000000 | 5, 0x0009510b,
       11, QMetaType::QString, 0x00095103,
       12, QMetaType::QColor, 0x00095103,
       13, QMetaType::Bool, 0x00095103,
@@ -130,6 +130,8 @@ void MainProductionVer2VM::qt_static_metacall(QObject *_o, QMetaObject::Call _c,
         case 5:
         case 4:
             *reinterpret_cast<int*>(_a[0]) = qRegisterMetaType< QList<QPixmap> >(); break;
+        case 0:
+            *reinterpret_cast<int*>(_a[0]) = qRegisterMetaType< QList<QString> >(); break;
         }
     }
 
@@ -139,7 +141,7 @@ void MainProductionVer2VM::qt_static_metacall(QObject *_o, QMetaObject::Call _c,
         Q_UNUSED(_t)
         void *_v = _a[0];
         switch (_id) {
-        case 0: *reinterpret_cast< QString*>(_v) = _t->getMeasureValue(); break;
+        case 0: *reinterpret_cast< QList<QString>*>(_v) = _t->getMeasureValue(); break;
         case 1: *reinterpret_cast< QString*>(_v) = _t->getMeasureUnit(); break;
         case 2: *reinterpret_cast< QColor*>(_v) = _t->getBackgroundColor(); break;
         case 3: *reinterpret_cast< bool*>(_v) = _t->isXBar(); break;
@@ -155,7 +157,7 @@ void MainProductionVer2VM::qt_static_metacall(QObject *_o, QMetaObject::Call _c,
         Q_UNUSED(_t)
         void *_v = _a[0];
         switch (_id) {
-        case 0: _t->setMeasureValue(*reinterpret_cast< QString*>(_v)); break;
+        case 0: _t->setMeasureValue(*reinterpret_cast< QList<QString>*>(_v)); break;
         case 1: _t->setMeasureUnit(*reinterpret_cast< QString*>(_v)); break;
         case 2: _t->setBackgroundColor(*reinterpret_cast< QColor*>(_v)); break;
         case 3: _t->setIsXBar(*reinterpret_cast< bool*>(_v)); break;

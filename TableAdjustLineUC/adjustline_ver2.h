@@ -18,7 +18,7 @@ public:
     int CellWidth = 108;
     int CellHeight = 36;
     int LineNo;
-    int Corner = 5;
+    int Corner = 2;
     bool IsLineNoCenter = false;
     bool IsValid = true;
     bool IsSelect = false;

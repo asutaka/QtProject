@@ -14,6 +14,7 @@ MainWindow* MainWindow::GetInstance(){
 
 MainWindow::MainWindow()
 {
+    errorAlarmMode = false;
     langCode = (EnumControl::LangCode)globals::settingsApp->value(LANGUAGE_ID_TAG,(int)EnumControl::LangCode::JPN).toInt();
     statusMachine = EnumControl::StatusMachine::STATUS_STOP;
     connect(this, SIGNAL(guiEvent(int)), this, SLOT(OnGuiEvent(int)));
@@ -37,10 +38,36 @@ void MainWindow::setStatusMachine(EnumControl::StatusMachine value) {
     statusMachine = value;
 }
 
+void MainWindow::setErrorAlarmMode(bool mode) {
+    errorAlarmMode = mode;
+}
+
+bool MainWindow::getErrorAlarmMode() {
+    return errorAlarmMode;
+}
+
 void MainWindow::InnerChangeScreen(int id) {
     qDebug() << "InnerChangeScreen id: " << id;
     ScreenMng* screenMng = ScreenMng::GetInstance();
     screenMng->ChangeScreen((ScreenMng::ScreenId)id);
+}
+
+void MainWindow::InnerChangeBottomBar(int id) {
+    qDebug() << "InnerChangeBottom id: " << id;
+    ScreenMng* screenMng = ScreenMng::GetInstance();
+    screenMng->ChangeBottomBar((ScreenMng::BottomBarId)id);
+}
+
+void MainWindow::InnerChangeStatusBar(int id) {
+    qDebug() << "InnerChangeStatusBar id: " << id;
+    ScreenMng* screenMng = ScreenMng::GetInstance();
+    screenMng->ChangeStatusBar((ScreenMng::StatusBarId)id);
+}
+
+void MainWindow::InnerRefreshScreen() {
+    qDebug() << "Refresh screen";
+    ScreenMng* screenMng = ScreenMng::GetInstance();
+    screenMng->RefreshScreen();
 }
 
 void MainWindow::GoBackScreen() {

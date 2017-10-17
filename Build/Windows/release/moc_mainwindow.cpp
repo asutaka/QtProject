@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_MainWindow_t {
-    QByteArrayData data[18];
-    char stringdata0[213];
+    QByteArrayData data[22];
+    char stringdata0[284];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -44,9 +44,13 @@ QT_MOC_LITERAL(11, 129, 7), // "eventId"
 QT_MOC_LITERAL(12, 137, 10), // "OnGuiEvent"
 QT_MOC_LITERAL(13, 148, 17), // "InnerChangeScreen"
 QT_MOC_LITERAL(14, 166, 2), // "id"
-QT_MOC_LITERAL(15, 169, 12), // "GoBackScreen"
-QT_MOC_LITERAL(16, 182, 8), // "language"
-QT_MOC_LITERAL(17, 191, 21) // "EnumControl::LangCode"
+QT_MOC_LITERAL(15, 169, 20), // "InnerChangeBottomBar"
+QT_MOC_LITERAL(16, 190, 20), // "InnerChangeStatusBar"
+QT_MOC_LITERAL(17, 211, 18), // "InnerRefreshScreen"
+QT_MOC_LITERAL(18, 230, 12), // "GoBackScreen"
+QT_MOC_LITERAL(19, 243, 8), // "language"
+QT_MOC_LITERAL(20, 252, 21), // "EnumControl::LangCode"
+QT_MOC_LITERAL(21, 274, 9) // "errorMode"
 
     },
     "MainWindow\0onChangeScreen\0\0source\0"
@@ -54,7 +58,9 @@ QT_MOC_LITERAL(17, 191, 21) // "EnumControl::LangCode"
     "onBackScreen\0count\0onChangeLanguage\0"
     "onChangeTheme\0guiEvent\0eventId\0"
     "OnGuiEvent\0InnerChangeScreen\0id\0"
-    "GoBackScreen\0language\0EnumControl::LangCode"
+    "InnerChangeBottomBar\0InnerChangeStatusBar\0"
+    "InnerRefreshScreen\0GoBackScreen\0"
+    "language\0EnumControl::LangCode\0errorMode"
 };
 #undef QT_MOC_LITERAL
 
@@ -64,28 +70,31 @@ static const uint qt_meta_data_MainWindow[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      10,   14, // methods
-       1,   88, // properties
+      13,   14, // methods
+       2,  110, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
        7,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    1,   64,    2, 0x06 /* Public */,
-       4,    1,   67,    2, 0x06 /* Public */,
-       5,    1,   70,    2, 0x06 /* Public */,
-       6,    1,   73,    2, 0x06 /* Public */,
-       8,    0,   76,    2, 0x06 /* Public */,
-       9,    0,   77,    2, 0x06 /* Public */,
-      10,    1,   78,    2, 0x06 /* Public */,
+       1,    1,   79,    2, 0x06 /* Public */,
+       4,    1,   82,    2, 0x06 /* Public */,
+       5,    1,   85,    2, 0x06 /* Public */,
+       6,    1,   88,    2, 0x06 /* Public */,
+       8,    0,   91,    2, 0x06 /* Public */,
+       9,    0,   92,    2, 0x06 /* Public */,
+      10,    1,   93,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-      12,    1,   81,    2, 0x0a /* Public */,
+      12,    1,   96,    2, 0x0a /* Public */,
 
  // methods: name, argc, parameters, tag, flags
-      13,    1,   84,    2, 0x02 /* Public */,
-      15,    0,   87,    2, 0x02 /* Public */,
+      13,    1,   99,    2, 0x02 /* Public */,
+      15,    1,  102,    2, 0x02 /* Public */,
+      16,    1,  105,    2, 0x02 /* Public */,
+      17,    0,  108,    2, 0x02 /* Public */,
+      18,    0,  109,    2, 0x02 /* Public */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::QString,    3,
@@ -101,10 +110,14 @@ static const uint qt_meta_data_MainWindow[] = {
 
  // methods: parameters
     QMetaType::Void, QMetaType::Int,   14,
+    QMetaType::Void, QMetaType::Int,   14,
+    QMetaType::Void, QMetaType::Int,   14,
+    QMetaType::Void,
     QMetaType::Void,
 
  // properties: name, type, flags
-      16, 0x80000000 | 17, 0x0009510b,
+      19, 0x80000000 | 20, 0x0009510b,
+      21, QMetaType::Bool, 0x00095003,
 
        0        // eod
 };
@@ -124,7 +137,10 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 6: _t->guiEvent((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 7: _t->OnGuiEvent((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 8: _t->InnerChangeScreen((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 9: _t->GoBackScreen(); break;
+        case 9: _t->InnerChangeBottomBar((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 10: _t->InnerChangeStatusBar((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 11: _t->InnerRefreshScreen(); break;
+        case 12: _t->GoBackScreen(); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -187,6 +203,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         void *_v = _a[0];
         switch (_id) {
         case 0: *reinterpret_cast< EnumControl::LangCode*>(_v) = _t->language(); break;
+        case 1: *reinterpret_cast< bool*>(_v) = _t->getErrorAlarmMode(); break;
         default: break;
         }
     } else if (_c == QMetaObject::WriteProperty) {
@@ -195,6 +212,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         void *_v = _a[0];
         switch (_id) {
         case 0: _t->setLanguage(*reinterpret_cast< EnumControl::LangCode*>(_v)); break;
+        case 1: _t->setErrorAlarmMode(*reinterpret_cast< bool*>(_v)); break;
         default: break;
         }
     } else if (_c == QMetaObject::ResetProperty) {
@@ -232,29 +250,29 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 10)
+        if (_id < 13)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 10;
+        _id -= 13;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 10)
+        if (_id < 13)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 10;
+        _id -= 13;
     }
 #ifndef QT_NO_PROPERTIES
    else if (_c == QMetaObject::ReadProperty || _c == QMetaObject::WriteProperty
             || _c == QMetaObject::ResetProperty || _c == QMetaObject::RegisterPropertyMetaType) {
         qt_static_metacall(this, _c, _id, _a);
-        _id -= 1;
+        _id -= 2;
     } else if (_c == QMetaObject::QueryPropertyDesignable) {
-        _id -= 1;
+        _id -= 2;
     } else if (_c == QMetaObject::QueryPropertyScriptable) {
-        _id -= 1;
+        _id -= 2;
     } else if (_c == QMetaObject::QueryPropertyStored) {
-        _id -= 1;
+        _id -= 2;
     } else if (_c == QMetaObject::QueryPropertyEditable) {
-        _id -= 1;
+        _id -= 2;
     } else if (_c == QMetaObject::QueryPropertyUser) {
-        _id -= 1;
+        _id -= 2;
     }
 #endif // QT_NO_PROPERTIES
     return _id;

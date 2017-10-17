@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.4
+import ControlApp 1.0
 import QtQuick.Controls.Styles 1.4
 
 
@@ -43,8 +44,8 @@ Item {
                 anchors.fill: parent
                 onPressed: {
                     imgCancel.source= "../Images/Key_h60_w180_Quit_push.png"
-                    loaderContent.source ="../Production/Production.qml"
-                    loaderBottomBar.source ="../BottomBar/BottomBarMainPage.qml"
+                    mainModel.InnerChangeScreen(ScreenMng.Production)
+                    mainModel.InnerChangeBottomBar(ScreenMng.BottomBarMainPage)
                 }
                 onReleased:{
                     imgCancel.source= "../Images/Key_h60_w180_Quit.png"
@@ -101,7 +102,7 @@ Item {
                     if(currentScr === "qrc:/SensitiveCorrection/SensCorrInputWeight.qml")
                     {
                         imgBack.source= "../Images/Key_h60_w180_Back.png"
-                        loaderContent.source = "../SensitiveCorrection/SensCorrStart.qml"
+                        mainModel.InnerChangeScreen(ScreenMng.SensCorrStart)
                         _btnBackDead.visible=true;
                         _btnBack.visible =false;
                     }
@@ -109,7 +110,7 @@ Item {
                     {
                         if(ischecked === false){
                             imgBack.source= "../Images/Key_h60_w180_Back.png"
-                            loaderContent.source = "../SensitiveCorrection/SensCorrInputWeight.qml"
+                            mainModel.InnerChangeScreen(ScreenMng.SensCorrInputWeight)
                             _btnNextDead.visible=false;
                             _btnStart.visible=false;
                             _btnNext_60_180.visible=false;
@@ -119,7 +120,7 @@ Item {
                         else if( _btnFN.visible ===true)
                         {
                             imgBack.source= "../Images/Key_h60_w180_Back.png"
-                            loaderContent.source = "../SensitiveCorrection/SensCorrInputWeight.qml"
+                            mainModel.InnerChangeScreen(ScreenMng.SensCorrInputWeight)
                             _btnNextDead.visible=false;
                             _btnStart.visible=false;
                             _btnNext_60_180.visible=false;
@@ -174,7 +175,7 @@ Item {
                     if(currentScr ==="qrc:/SensitiveCorrection/SensCorrStart.qml")
                     {
                         imgNext60_400.source= "../Images/Key_h60_w400_Next.png"
-                        loaderContent.source = "../SensitiveCorrection/SensCorrInputWeight.qml"
+                        mainModel.InnerChangeScreen(ScreenMng.SensCorrInputWeight)
                         _btnBack.visible=true;
                         _btnBackDead.visible = false;
                     }
@@ -185,7 +186,7 @@ Item {
                         if(ischecked === false)
                         {
                             imgNext60_400.source= "../Images/Key_h60_w400_Next.png"
-                            loaderContent.source = "../SensitiveCorrection/SensCorrStep.qml"
+                            mainModel.InnerChangeScreen(ScreenMng.SensCorrStep)
                             _btnStart.visible=true;
                             _btnNextDead.visible=true;
                             _btnNext_60_400.visible=false;
@@ -194,7 +195,7 @@ Item {
                         else
                         {
                             imgNext60_400.source= "../Images/Key_h60_w400_Next.png"
-                            loaderContent.source = "../SensitiveCorrection/SensCorrStep.qml"
+                            mainModel.InnerChangeScreen(ScreenMng.SensCorrStep)
                             contentItem.sensCorrStep.setImgActive(ischecked);
                             _btnStart.visible=false;
                             _btnNext_60_180.visible=true;

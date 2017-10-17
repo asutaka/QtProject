@@ -5,6 +5,8 @@ import QtQuick.Controls 1.3
 import QtQuick.Extras 1.4
 import QtQuick.Controls.Styles 1.3
 import "../Control/menu"
+import ControlApp 1.0
+
 
 Item {
     id: bottomBarInvalid
@@ -55,8 +57,9 @@ Item {
                 }
                 onPressed: {
                     imgBack.source= "../Images/contbar_btn_touched_104.png";
-                    loaderContent.source="../MenuScreen/Menu.qml";
-                    loaderBottomBar.source= "BottomBarMenu.qml";
+                    mainModel.GoBackScreen();
+                    //mainModel.InnerChangeScreen(ScreenMng.MenuV1)
+                    //mainModel.InnerChangeBottomBar(ScreenMng.BottomBarMenu)
                 }
                 onReleased:{
                     imgBack.source= "../Images/contbar_btn_104.png";

@@ -1,7 +1,6 @@
 import QtQuick 2.7
 import QtQuick.Layouts 1.3
-import QtQuick.Controls 1.4
-import QtQuick.Controls.Styles 1.4
+import QtQuick.Controls 2.0
 
 Rectangle {
     id:rectMain
@@ -29,17 +28,16 @@ Rectangle {
     //    property  bool    mAllowDrop              Not used        <=> CONTROL LIST: AllowDrop
     //    property  int     mDock                   Not used        <=> CONTROL LIST: Dock
     //    property  alias   mImeMode                Not used        <=> CONTROL LIST: ImeMode
+    //    property  int     mRows                   Not used        <=> CONTROL LIST: Row Replace by mModel
 
-
-    property    bool        mAutoScroll:                false                //  <=> CONTROL LIST: AutoScroll
     property    alias       mRowCount:                  grid.rows            //  <=> CONTROL LIST: RowCount
     property    alias       mColumnsCount:              grid.columns         //  <=> CONTROL LIST: ColumnCount
     property    size        mSize:                      Qt.size(10, 10)      //  <=> CONTROL LIST: Size
     property    size        mMaximumSize:               Qt.size(800, 800)    //  <=> CONTROL LIST: MaximumSize
-    property    var         mMinimumSize:               Qt.size(0, 0)        //  <=> CONTROL LIST: MinimumSize
+    property    size        mMinimumSize:               Qt.size(0, 0)        //  <=> CONTROL LIST: MinimumSize
     property    color       mBackColor:                 "#ffffff"            //  <=> CONTROL LIST: BackColor
-    property    url         mBackgroundImage:           ""                   //  <=> CONTROL LIST: BackgroundImage
-    property    int         mBackgroundImageLayout:     imageLayout.mNone    //  <=> CONTROL LIST: BackgroundImageLayout
+    property    alias       mBackgroundImage:           backImage.source     //  <=> CONTROL LIST: BackgroundImage
+    property    int         mBackgroundImageLayout:     backImage.fillMode   //  <=> CONTROL LIST: BackgroundImageLayout
     property    bool        mRightToLeft:               Qt.LeftToRight       //  <=> CONTROL LIST: RightToLeft
     property    real        mTopPadding:                0                    //  <=> CONTROL LIST: TopPadding
     property    real        mRightPadding:              0                    //  <=> CONTROL LIST: RightPadding
@@ -49,15 +47,16 @@ Rectangle {
     property    bool        mUseWaitCursor:             false                //<=> CONTROL LIST: UseWaitCursor
     property    int         mCursor:                    Qt.ArrowCursor       // <=> CONTROL LIST: Cursor
     property    size        mAutoScrollMargin:          Qt.size(0,0)         //<=> CONTROL LIST: AutoScrollMargin
-    property    var         mAutoScrollMinSize:         Qt.size(0,0)         // <=> CONTROL LIST: AutoScrollMinSize
+    property    size        mAutoScrollMinSize:         Qt.size(0,0)         // <=> CONTROL LIST: AutoScrollMinSize
     property    bool        mAutoSize:                  false                // <=> CONTROL LIST: AutoSize
-    property    bool        mAutoSizeMode:          	false                       // <=> CONTROL LIST: AutoSizeMode
+    property    bool        mAutoSizeMode:          	objAutoSizeMode.mGrowOnly // <=> CONTROL LIST: AutoSizeMode
     property    int         mColumns                                         //<=> CONTROL LIST: Columns
     property    int         mGrowStyle:                 growStyle.mAddRows   //<=> CONTROL LIST: GrowStyle
-    property    int         mRows                                            //<=> CONTROL LIST: Rows
     property    int         mCellBorderStyle                                 // <=> CONTROL LIST: CellBorderStyle
     property    font        mFont:                  	lbl.font                    // <=> CONTROL LIST: Font
     property    color       mForeColor:             	lbl.color                   // <=> CONTROL LIST: ForeColor
+    property    int         mScrollBarVPolicy:          Qt.ScrollBarAsNeeded        //  <=> CONTROL LIST: AutoScroll
+    property    int         mScrollBarHPolicy:          Qt.ScrollBarAsNeeded        //  <=> CONTROL LIST: AutoScroll
 
     property    alias       mModel:                     repeater.model       //  <=> Create newly
     property    int         mRowsNumber:                2                    //  <=> Create newly
@@ -66,30 +65,12 @@ Rectangle {
     property    real        mHeight:                    200                  //  <=> Create newly
     property    var         mSpacing:                   [3, 2]               //  <=> Create newly(distance between two cells(row and column))
 
-    property    int         mScrollBarVPolicy:          Qt.ScrollBarAsNeeded    //  <=> Create newly
-    property    int         mScrollBarHPolicy:          Qt.ScrollBarAsNeeded    //  <=> Create newly
-    property    color       mScrollbarColor:            "#F69642"               //  <=> Create newly
-    property    real        mScrollBarLeftMargin:       5                       //  <=> Create newly
-    property    real        mScrollBarRightMargin:      0                       //  <=> Create newly
-    property    real        mScrollBarTopMargin:        2                       //  <=> Create newly
-    property    real        mScrollBarBottomMargin:     2                       //  <=> Create newly
-
-
 
     property alias mDelegate : repeater.delegate
     color: mBackColor
 
     signal validating();
 
-
-    QtObject {
-        id: imageLayout
-        property int mNone: 0
-        property int mTile: 1
-        property int mCenter: 2
-        property int mStretch: 3
-        property int mZoom: 4
-    }
     QtObject {
         id: cellBorder
         property int mNone: 0
@@ -100,6 +81,7 @@ Rectangle {
         property int mOutsetDouble:5
         property int mOutsetPartial:6
     }
+
     QtObject {
         id: growStyle
         property int mFixedSize: 0
@@ -107,72 +89,26 @@ Rectangle {
         property int mAddColumns: 2
     }
 
+    QtObject{
+        id: objAutoSizeMode
+        property bool mGrowOnly: true
+        property bool mGrowAndShrink: false
+    }
 
     Image {
-        source: mBackgroundImage
-        fillMode: {
-            switch (mBackgroundImageLayout) {
-                case imageLayout.mTile:
-                    Image.Tile;
-                    break;
-                case imageLayout.mStretch:
-                    Image.Stretch;
-                    break;
-                case imageLayout.mZoom:
-                    Image.PreserveAspectFit
-                    break;
-                default:
-                    Image.Stretch;
-                    break;
-            }
-        }
-
-        Component.onCompleted: {
-            switch (mBackgroundImageLayout) {
-                case imageLayout.mTile:
-                case imageLayout.mStretch:
-                case imageLayout.mZoom:
-                    anchors.fill = parent
-                case imageLayout.mCenter:
-                    anchors.centerIn = parent
-                    break
-                default:
-                    Image.Tile;
-                    break;
-            }
-        }
+        id: backImage
+        anchors.fill: parent
     }
 
-    ScrollView {
+    TK_ScrollView {
         id: scroll
-        contentItem: mAutoScroll ? grid : itemNull
+        anchors.fill: parent
+        clip: true
         verticalScrollBarPolicy: mScrollBarVPolicy
         horizontalScrollBarPolicy: mScrollBarHPolicy
-        visible: mAutoScroll
-        anchors.fill: parent
-        style: ScrollViewStyle {
-            handle: Item {
-                implicitWidth: mSize.width
-                implicitHeight: mSize.height
-                Rectangle {
-                    color: mScrollbarColor
-                    anchors.fill: parent
-                    anchors.leftMargin: mScrollBarLeftMargin
-                    anchors.topMargin: mScrollBarTopMargin
-                    anchors.bottomMargin: mScrollBarBottomMargin
-                    anchors.rightMargin: mScrollBarRightMargin
-                }
-            }
-        }
+        contentItem: grid
     }
 
-    Item {
-        id: itemNull
-    }
-    Label
-    {
-        id:lbl
-    }
     Grid {
         id: grid
         columns:
@@ -207,25 +143,66 @@ Rectangle {
         leftPadding: mLeftPadding
         rightPadding: mRightPadding
         bottomPadding: mBottomPadding
-        layoutDirection: mRightToLeft ? Qt.RightToLeft : Qt.LeftToRight
+        layoutDirection: {
+            if(mRightToLeft) {
+                return Qt.RightToLeft
+            } else {
+                return Qt.LeftToRight
+            }
+        }
 
         Repeater {
             id: repeater
             anchors.fill: parent
         }
         Component.onCompleted:{
-            console.log("grid:"+grid.rows+";"+grid.columns)
+
+            //mAutoScrollMargin
+            if(mAutoScrollMargin.width > 0){
+                grid.width += mAutoScrollMargin.width
+            }
+            if(mAutoScrollMargin.height > 0){
+                grid.height += mAutoScrollMargin.height
+            }
+
+            //mAutoScrollMinSize
+            if (mAutoScrollMinSize.width > 0) {
+                mScrollBarVPolicy = Qt.ScrollBarAlwaysOn;
+                if(mAutoScrollMinSize.width > grid.width){
+                    grid.width = mAutoScrollMinSize.width
+                } else return grid.width
+            }
+            if (mAutoScrollMinSize.height > 0) {
+                mScrollBarHPolicy = Qt.ScrollBarAlwaysOn;
+                if(mAutoScrollMinSize.height > grid.height){
+                    grid.height = mAutoScrollMinSize.height
+                } else return grid.height
+            }
         }
     }
+    Item {
+        id: itemNull
+    }
+
+    Label {
+        id:lbl
+    }
+
     MouseArea {
         anchors.fill: parent
-        cursorShape: mUseWaitCursor ? Qt.WaitCursor : mCursor
+        cursorShape:{
+            if(mUseWaitCursor){
+                return Qt.WaitCursor
+            } else{
+                return mCursor
+            }
+        }
         acceptedButtons: Qt.NoButton
     }
 
     Component.onCompleted: {
-        scroll.width = getWidth()
-        scroll.height = getHeight()
+        rectMain.width = getWidth()
+        rectMain.height = getHeight()
 
         //Validation
         if(mCausesValidation)
@@ -271,10 +248,16 @@ Rectangle {
             var i;
             for (i = 0; i < repeater.model.count; i++) {
                 totalWidth += repeater.itemAt(i).width
-                if(totalWidth>rectMain.width) {
+                if(mAutoSizeMode === objAutoSizeMode.mGrowOnly){
+                    if(totalWidth>rectMain.width) {
+                        rectMain.width=totalWidth
+                        return
+                    }
+                } else {
                     rectMain.width=totalWidth
                     return
                 }
+
             }
         }
     }
@@ -290,10 +273,15 @@ Rectangle {
         if (mHeight < mMinimumSize.height) return mMinimumSize.height
         return mHeight
     }
+
     function qmltypeof(obj) {
-      var str = obj.toString();
-      var str2= str.substring(0,str.indexOf('('));
-      var index=str2.indexOf("_QMLTYPE");
-      return index===-1?str2:str2.substring(0,str2.indexOf("_QMLTYPE"))
+        var str = obj.toString();
+        var str2 = str.substring(0,str.indexOf('('));
+        var index = str2.indexOf("_QMLTYPE");
+        if(index === -1){
+            return str2
+        } else {
+            return str2.substring(0,str2.indexOf("_QMLTYPE"))
+        }
     }
 }

@@ -27,7 +27,7 @@ Rectangle{
             text: "Language"
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
-            font.pointSize: 22
+            font.pixelSize: 25
         }
     }
     Rectangle {
@@ -92,7 +92,7 @@ Rectangle{
                     id: iContent
                     color: "black"
                     text: styleData.value
-                    font.pointSize: 16
+                    font.pixelSize: 18
                     verticalAlignment: Text.AlignVCenter
                 }
             }

@@ -11,7 +11,7 @@ Item{
     property Item settingDialog: gridview
     property ListModel source: null
     property ListModel sourceDetail: null
-    property int indexSelect:1;
+    property int indexSelect:10;
     property string value:"";
     property int linePage:6;
     property string title: "Title"
@@ -341,18 +341,31 @@ Item{
                 }
             }
         }
-        function pressBtnOK(){
+
+    function pressBtnOK(){
             if(list.model.get(list.currentRow)!== -1){
                 value = list.model.get(list.currentRow).title
                 gridview.send()
             }
         }
-        function getCurrentIndex()
-        {
+
+    function getCurrentIndex(){
             return list.currentRow+1
         }
 
-        Rectangle{
+    function getCount(){
+        return list.selection.count;
+    }
+
+    function setCurrentIndex(input){
+            list.selection.select(input)
+        }
+
+    function refreshList(){
+            list.selection.clear();
+        }
+
+    Rectangle{
             x: 2
             y: 398
             width: 313
@@ -431,12 +444,17 @@ Item{
                 }
             }
         }
-        function getIndexByValue(resource,value){
+
+    function getIndexByValue(resource,value){
             for (var i = 0; i< resource.count();i++){
                 if(resource.get(i).title === value){
                     return i;
                 }
             }
+        }
+
+    function setListViewCount(value){
+            txtListViewCount.text = value;
         }
     }
 

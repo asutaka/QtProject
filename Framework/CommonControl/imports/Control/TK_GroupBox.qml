@@ -25,23 +25,37 @@ GroupBox {
     property    alias       mWidth:                 groupbox.width              // <=> CONTROL LIST: Size.width
     property    alias       mHeight:                groupbox.height             // <=> CONTROL LIST: Size.height
     property    string      mBackColor:             "#f0f0f0"                   // <=> CONTROL LIST: BackColor
-    property    string      mBackgroundImage                                    // <=> CONTROL LIST: BackgroundImage
-    property    int         mBackgroundImageLayout: 1                           // <=> CONTROL LIST: BackgroundImageLayout     //none:EnumControl.BACKGROUND_IMAGE_LAYOUT_NONE, Tile:EnumControl.BACKGROUND_IMAGE_LAYOUT_TILE,  Center: EnumControl.BACKGROUND_IMAGE_LAYOUT_CENTER,Stretch: EnumControl.BACKGROUND_IMAGE_LAYOUT_STRETCH,Zoom: EnumControl.BACKGROUND_IMAGE_LAYOUT_ZOOM
+    property    alias       mBackgroundImage:       backGroundImage.source      // <=> CONTROL LIST: BackgroundImage
+    property    alias       mBackgroundImageLayout: backGroundImage.fillMode    // <=> CONTROL LIST: BackgroundImageLayout
     property    string      mFont:                  lbl.font                    // <=> CONTROL LIST: Font
     property    color       mForeColor:             lbl.color                   // <=> CONTROL LIST: ForeColor
     property    bool        mRightToLeft:           false                       // <=> CONTROL LIST: RightToLeft
     property    string      mText:                  "GroupBox"                  // <=> CONTROL LIST: Text
     property    int         mCursor:                Qt.ArrowCursor              // <=> CONTROL LIST: Cursor
-    property	bool        mUseWaitCursor:         false                       // <=> CONTROL LIST: UseWaitCursor
-    property	int         mFlatStyle:             flatStyle.mPopup            // <=> CONTROL LIST: FlatStyle
+    property    bool        mUseWaitCursor:         false                       // <=> CONTROL LIST: UseWaitCursor
+    property    int         mFlatStyle:             flatStyle.mPopup            // <=> CONTROL LIST: FlatStyle
     property    bool        mCausesValidation:      true                        // <=> CONTROL LIST: CausesValidation
-    property    int         mPadding:               groupbox.padding            // <=> CONTROL LIST: Padding
-    property	int         mRadius:                5                           // Create new
-    property	int         mBorderWidth:           2                           // Create new
+    property    int         mPadding:               0                           // <=> CONTROL LIST: Padding
+    property    int         mLeftPadding:           0                           // <=> CONTROL LIST: Padding(Left)
+    property    int         mRightPadding:          0                           // <=> CONTROL LIST: Padding(Right)
+    property    int         mTopPadding:            20                          // <=> CONTROL LIST: Padding(Top)
+    property    int         mBottomPadding:         0                           // <=> CONTROL LIST: Padding(Bottom)
+
+    property    int         mRadius:                5                           // Create new
+    property    int         mBorderWidth:           2                           // Create new
     property    int         mPaddingTitle:          5                           // Create new
-    width:      300
-    height:     200
+
     signal validating()
+
+    clip:true
+    title: groupbox.mText
+    font: groupbox.mFont
+
+    padding: mPadding
+    leftPadding: mLeftPadding
+    rightPadding: mRightPadding
+    topPadding: mTopPadding
+    bottomPadding: mBottomPadding
 
     QtObject {
         id: flatStyle
@@ -50,6 +64,7 @@ GroupBox {
         property int mStandard: 2
         property int mSystem: 3
     }
+
     background: Rectangle{
         id: rectBack
         anchors.fill: parent
@@ -57,33 +72,12 @@ GroupBox {
         height: parent.height
         color: groupbox.mBackColor
         border.width: mBorderWidth
+
         Image {
+            id: backGroundImage
             anchors.fill: parent
-            fillMode: {
-                switch(groupbox.mBackgroundImageLayout)
-                {
-                case 0:
-                    Image.Tile;
-                    break;
-                case 1:
-                    Image.Tile;
-                    break;
-                case 2:
-                    Image.PreserveAspectFit
-                    break;
-                case 3:
-                    Image.Stretch;
-                    break;
-                case 4:
-                    Image.Pad
-                    break;
-                default:
-                    Image.Tile;
-                    break;
-                }
-            }
-            source: groupbox.mBackgroundImage
         }
+
         Component.onCompleted: {
             if(mFlatStyle == flatStyle.mFlat){
                 rectBack.border.color = "Black"
@@ -104,98 +98,92 @@ GroupBox {
         }
 
     }
-    clip:true
-    title: groupbox.mText
-    font: groupbox.mFont
+
     label: Text {
         padding: mPaddingTitle
         color: groupbox.mForeColor
         text: groupbox.title
         font: groupbox.mFont
-        anchors.right:{
-            if(groupbox.mRightToLeft)parent.right
-        }
 
+        anchors.right:{
+            if (groupbox.mRightToLeft) parent.right
+        }
     }
-    Label
-    {
+
+    Label {
         id:lbl
     }
 
     property int mX_Autosize: 0
     property int mY_Autosize: 0
-    function addControl(obj)
-    {
-        //Forecolor
-        if(groupbox.mForeColor !== lbl.color)
-        {
-            if(Qt.colorEqual(obj.color,lbl.color))
-            {
-                obj.mForeColor = groupbox.mForeColor;
+    function addControl(obj) {
+        // Forecolor
+        if (groupbox.mForeColor !== lbl.color) {
+            if (Qt.colorEqual(obj.color,lbl.color)) {
+                obj.mForeColor = groupbox.mForeColor
             }
         }
 
-        //Init
-        if(groupbox.mX_Autosize < obj.x + obj.width)
-        {
-            groupbox.mX_Autosize = obj.x + obj.width;
+        // Init
+        if (groupbox.mX_Autosize < obj.x + obj.width) {
+            groupbox.mX_Autosize = obj.x + obj.width
         }
-        if(groupbox.mY_Autosize < obj.y + obj.height)
-        {
-            groupbox.mY_Autosize = obj.y + obj.height;
+        if (groupbox.mY_Autosize < obj.y + obj.height) {
+            groupbox.mY_Autosize = obj.y + obj.height
         }
 
         // AutoSize
-        if(groupbox.mAutoSize)
-        {
-            if(groupbox.mX_Autosize > groupbox.mWidth)
-            {
-                groupbox.mWidth = groupbox.mX_Autosize + 10;
+        if (groupbox.mAutoSize) {
+            if (groupbox.mX_Autosize > groupbox.mWidth) {
+                groupbox.mWidth = groupbox.mX_Autosize + 10
             }
-            if(groupbox.mY_Autosize > groupbox.mHeight)
-            {
-                groupbox.mHeight = groupbox.mY_Autosize + 10;
+            if (groupbox.mY_Autosize > groupbox.mHeight) {
+                groupbox.mHeight = groupbox.mY_Autosize + 10
             }
         }
 
-        //Maximumsize
-        if(groupbox.mMaximumSize.width !== 0)
-        {
-            if(groupbox.mWidth > groupbox.mMaximumSize.width)
+        // Maximumsize
+        if (groupbox.mMaximumSize.width !== 0) {
+            if (groupbox.mWidth > groupbox.mMaximumSize.width)
                 groupbox.mWidth = groupbox.mMaximumSize.width;
         }
-        if(groupbox.mMaximumSize.height !== 0)
-        {
-            if(groupbox.mHeight > groupbox.mMaximumSize.height)
+        if (groupbox.mMaximumSize.height !== 0) {
+            if (groupbox.mHeight > groupbox.mMaximumSize.height)
                 groupbox.mHeight = groupbox.mMaximumSize.height;
         }
 
-        //Minimumsize
-        if(groupbox.mMinimumSize.width !== 0)
-        {
+        // Minimumsize
+        if (groupbox.mMinimumSize.width !== 0) {
             if(groupbox.mWidth < groupbox.mMinimumSize.width)
                 groupbox.mWidth = groupbox.mMinimumSize.width;
         }
-        if(groupbox.mMinimumSize.height !== 0)
-        {
+        if (groupbox.mMinimumSize.height !== 0) {
             if(groupbox.mHeight < groupbox.mMinimumSize.height)
                 groupbox.mHeight = groupbox.mMinimumSize.height;
         }
 
-        if(mCausesValidation){
+        if (mCausesValidation){
             validating()
         }
     }
-    //type of component
+
+    // Type of component
     function qmltypeof(obj) {
         var str = obj.toString();
         var str2 = str.substring(0,str.indexOf('('));
         var index = str2.indexOf("_QMLTYPE");
-        return index === -1 ? str2 : str2.substring(0,str2.indexOf("_QMLTYPE"))
+        if(index == -1)
+            return str2
+        return str2.substring(0,str2.indexOf("_QMLTYPE"))
     }
+
     MouseArea{
         anchors.fill: parent
-        cursorShape: mUseWaitCursor ? Qt.WaitCursor : mCursor
+        cursorShape:{
+            if(mUseWaitCursor)
+                return Qt.WaitCursor
+            return mCursor
+        }
         acceptedButtons: Qt.NoButton
     }
 }

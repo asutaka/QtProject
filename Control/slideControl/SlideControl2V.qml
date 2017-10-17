@@ -12,14 +12,14 @@ Item {
     property Slider sliderObj
     property int slideValue: 100
     property int fromValue: 100
-    property int startValue: 100
-    property int toValue: 400
+    property int toValue: 500
+    property int startValue:0
     property int stepSizeValue: 100
     property string text1: "100"
-    property string text2: "100"
-    property string text3: "100"
-    property string text4: "100"
-    property string text5: "100"
+    property string text2: "200"
+    property string text3: "300"
+    property string text4: "400"
+    property string text5: "500"
     signal getValueChanged (int _value)
     Rectangle{
         id: controlArea
@@ -30,11 +30,13 @@ Item {
         color: "transparent"
         border.width: 1
         border.color: "#bdbebf"
+
         Canvas{
             anchors.fill: parent
             onPaint: {
+                // canvas
                 var ctx =getContext("2d")
-                ctx.strokeStyle  ="#bdbebf"
+                ctx.strokeStyle ="#bdbebf"
                 ctx.lineWidth=2
                 ctx.moveTo(rectBrg.x+5,rectBrg.y+rectBrg.height+10)
                 ctx.lineTo(rectBrg.x+5,rectBrg.y+rectBrg.height +20)
@@ -56,6 +58,8 @@ Item {
                 ctx.stroke()
             }
         }
+
+        // text 1st = 100
         Text {
             id: txt1
             x: rectBrg.x+5 -font.pixelSize/2
@@ -101,16 +105,18 @@ Item {
             text: text5
             rotation: 90
         }
+
         Slider {
 
             anchors.bottomMargin: 0
             id: slider_control
             orientation: Qt.Horizontal
-            from: fromValue
-            value: startValue
-            to: toValue
+            from: 0
+            to: toValue-fromValue
+            value:slider_control.from
             stepSize: stepSizeValue
             snapMode: Slider.SnapOnRelease
+
             background: Rectangle {
                 id:rectBrg
                 x: slider_control.leftPadding
@@ -128,8 +134,8 @@ Item {
                     color: "#33b5e5"
                     radius: 2
                 }
-
             }
+
             handle: Rectangle {
                 id:rectHandle
                 x: slider_control.leftPadding + slider_control.visualPosition * (slider_control.availableWidth - width)
@@ -140,9 +146,10 @@ Item {
                 border.color: "#bdbebf"
                 color: slider_control.pressed ? "#33b5e5" : "#f6f6f6"
                 onXChanged: {
-                    txtValueSlider.text = parseInt(slider_control.position*stepSizeValue*4+stepSizeValue)
+                    txtValueSlider.text = parseInt(slider_control.position*(name.toValue - name.fromValue)+ name.fromValue)
                 }
             }
+
             onValueChanged: {
                 slideValue = slider_control.value
                 name.getValueChanged(slideValue)

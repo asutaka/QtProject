@@ -7,6 +7,9 @@ Rectangle{
     property int heightBgr: 30
     property int widthHandle: 26
     property int heightHandle: 26
+    property int fromValue: 100
+    property int toValue: 500
+    property int stepSizeValue: 100
     property color colorBackgroundParent: "#000000"
     property int valueInput: 100
 
@@ -51,10 +54,10 @@ Rectangle{
         signal getValueChanged (int _value)
         id: slider_control
         orientation: Qt.Horizontal
-        from: 100
-        value: 100
-        to: 400
-        stepSize: 100
+        from: 0
+        to: toValue-fromValue
+        value:slider_control.from
+        stepSize: stepSizeValue
         snapMode: Slider.SnapOnRelease
 
         background: Rectangle {
@@ -104,7 +107,8 @@ Rectangle{
             color: slider_control.pressed ? "#828282" : "#f0f0f0"
             border.color: "#21be2b"
             onXChanged: {
-                valueInput = parseInt(slider_control.position*100*4+100)
+                console.log(slider_control.position)
+                valueInput = Math.round(slider_control.position*(toValue - fromValue)+ fromValue)
                 txtValueSlider.text = valueInput
             }
         }
@@ -116,15 +120,23 @@ Rectangle{
             height: rectBrg.height
             color: "#bdbebf"
             radius: 3
+
             Text {
                 anchors.centerIn: parent
-                id: txtValueSlider
+                id: txtValueSlider;
+                font.pixelSize: 10
                 onTextChanged:{
-                    valueInput=parseInt(txtValueSlider.text);
+                    valueInput = Math.round(txtValueSlider.text);
+                    txtValueSlider.text = valueInput;
                 }
             }
+
+
             MouseArea{
+                id: mouseArea
                 anchors.fill: parent
+                hoverEnabled: true
+
                 onPressed:  {
                     Ops.showCalculator(txtValueSlider,"100","500");
                 }
@@ -132,10 +144,12 @@ Rectangle{
                 }
             }
         }
+
         onValueChanged: {
             slider_control.getValueChanged(value)
         }
     }
+
     Rectangle{
         id:rectPoint
         x: 6+rectBrg.x+rectFill.x+rectFill.width

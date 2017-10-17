@@ -4,6 +4,7 @@ import QtQuick.Layouts 1.2
 import QtQuick.Controls 1.3
 import QtQuick.Extras 1.4
 import QtQuick.Controls.Styles 1.3
+import ControlApp 1.0
 
 Item {
     id: bottomBarMenuList
@@ -16,7 +17,7 @@ Item {
             id: imgBgr
             x: 0
             y: 0
-            source: "../Images/ControlBar_bg.png"
+            source: "image://MyProvider/ControlBar_bg.png"
         }
 
         ToolButton {
@@ -28,7 +29,7 @@ Item {
             Image{
                 id: imgBack
                 anchors.fill: parent
-                source: "../Images/contbar_btn_104.png"
+                source: "image://MyProvider/contbar_btn_104.png"
                 Text {
                     text: "Back"
                     anchors.verticalCenterOffset: 16
@@ -43,18 +44,17 @@ Item {
                 Image {
                     x: 37
                     y: 4
-                    source: "../Images/contbar_icon_back.png"
+                    source: "image://MyProvider/contbar_icon_back.png"
                 }
             }
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    loaderContent.source ="../MenuScreen/Menu.qml"
-                    loaderBottomBar.source ="BottomBarMenu.qml"
+                    mainModel.GoBackScreen()
                 }
-                onPressed: imgBack.source= "../Images/contbar_btn_touched_104.png"
-                onReleased: imgBack.source= "../Images/contbar_btn_104.png"
-                onCanceled: imgBack.source= "../Images/contbar_btn_104.png"
+                onPressed: imgBack.source= "image://MyProvider/contbar_btn_touched_104.png"
+                onReleased: imgBack.source= "image://MyProvider/contbar_btn_104.png"
+                onCanceled: imgBack.source= "image://MyProvider/contbar_btn_104.png"
             }
         }
         ToolButton {
@@ -65,7 +65,7 @@ Item {
             height: 64
             Image {
                 id: imgDisplay
-                source: "../Images/contbar_btn_112.png"
+                source: "image://MyProvider/contbar_btn_112.png"
                 Text {
                     x: 4
                     y: 31
@@ -79,22 +79,22 @@ Item {
                     y: 5
                     height: 16
                     width:16
-                    source: "../Images/dispswitchbtnno1.png"
+                    source: "image://MyProvider/dispswitchbtnno1.png"
                 }
                 Image {
                     x: 61
                     y: 5
                     width: 16
                     height: 16
-                    source: "../Images/Icon_Screen_2_on.png"
+                    source: "image://MyProvider/Icon_Screen_2_on.png"
                 }
             }
             MouseArea {
                 width: 112
                 anchors.fill: parent
-                onPressed: imgBack.source= "../Images/contbar_btn_touched_112.png"
-                onReleased: imgBack.source= "../Images/contbar_btn_112.png"
-                onCanceled: imgBack.source= "../Images/contbar_btn_112.png"
+                onPressed:  imgDisplay.source= "image://MyProvider/contbar_btn_touched_112.png"
+                onReleased: imgDisplay.source= "image://MyProvider/contbar_btn_112.png"
+                onCanceled: imgDisplay.source= "image://MyProvider/contbar_btn_112.png"
             }
         }
         ToolButton {
@@ -105,7 +105,7 @@ Item {
             height: 64
             Image {
                 id: imgInput
-                source: "../Images/contbar_btn_168.png"
+                source: "image://MyProvider/contbar_btn_168.png"
                 Text {
                     x: 62
                     y: 18
@@ -117,20 +117,20 @@ Item {
                 Image {
                     x: 13
                     y: 18
-                    source: "../Images/contbar_icon_input.png"
+                    source: "image://MyProvider/contbar_icon_input.png"
                 }
             }
             MouseArea {
                 width: 112
                 anchors.fill: parent
                 onPressed: {
-                    imgInput.source= "../Images/contbar_btn_touched_168.png"
+                    imgInput.source= "image://MyProvider/contbar_btn_touched_168.png"
                 }
                 onReleased:{
-                    imgInput.source= "../Images/contbar_btn_168.png"
+                    imgInput.source= "image://MyProvider/contbar_btn_168.png"
                 }
                 onCanceled: {
-                    imgInput.source= "../Images/contbar_btn_168.png"
+                    imgInput.source= "image://MyProvider/contbar_btn_168.png"
                 }
             }
         }

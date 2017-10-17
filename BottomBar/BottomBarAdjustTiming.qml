@@ -4,6 +4,8 @@ import QtQuick.Layouts 1.2
 import QtQuick.Controls 1.3
 import QtQuick.Extras 1.4
 import QtQuick.Controls.Styles 1.3
+import ControlApp 1.0
+
 import "../Control/menu"
 import "../Production"
 
@@ -54,8 +56,8 @@ Item {
                 }
                 onReleased:{
                     imgBack.source= "../Images/contbar_btn_104.png"
-                    loaderContent.source ="../Production/Production.qml"
-                    loaderBottomBar.source ="BottomBarMainPage.qml"
+                    mainModel.InnerChangeScreen(ScreenMng.Production)
+                    mainModel.InnerChangeBottomBar(ScreenMng.BottomBarMainPage)
                     statusBarItem.normalStatusBar.getStatusBarAdjustTiming(false);
                 }
                 onCanceled: {
@@ -112,6 +114,7 @@ Item {
                     onReleased:{
                         imgMeasTime.source= "../Images/contbar_btn_168.png"
                         contentItem.timAdjObj.showDialogMeasTiming();
+                        contentItem.timAdjObj.disableScreen();
                         //contentItem.timAdjObj.clearScale()
                     }
                     onCanceled: {
@@ -201,8 +204,17 @@ Item {
                 }
             }
         }
+
         function settingValueMeasTime(strMeas){
             txtValueMeas.text=strMeas;
+        }
+
+        function disableBottomBar(){
+            bottomBarMenu.enabled = false;
+        }
+
+        function enableBottomBar(){
+            bottomBarMenu.enabled = true;
         }
     }
 }

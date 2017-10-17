@@ -7,42 +7,71 @@
 class AdjustTimingVer4_VM :public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString txtWeight READ txtWeight WRITE setTxtWeight)
+    Q_PROPERTY(QString txtWeight READ txtWeight WRITE setTxtWeight NOTIFY txtWeightChanged)
     Q_PROPERTY(QString txtRefValue READ txtRefValue WRITE setTxtRefValue NOTIFY txtRefValueChanged)
-    Q_PROPERTY(QString txtProdLen READ txtProdLen WRITE setTxtProdLen)
-    Q_PROPERTY(QString txtT1 READ txtT1 WRITE setTxtT1)
-    Q_PROPERTY(QString txtT2 READ txtT2 WRITE setTxtT2)
-    Q_PROPERTY(QString txtT3 READ txtT3 WRITE setTxtT3)
-    Q_PROPERTY(QString txtT4 READ txtT4 WRITE setTxtT4)
-    Q_PROPERTY(QString txtT7 READ txtT7 WRITE setTxtT7)
-    Q_PROPERTY(QString txtT9 READ txtT9 WRITE setTxtT9)
-    Q_PROPERTY(QString txtFilterTime READ txtFilterTime WRITE setTxtFilterTime)
-    Q_PROPERTY(QString txtUnitY READ txtUnitY WRITE setTxtUnitY)
-    Q_PROPERTY(QString txtUnitT READ txtUnitT WRITE setTxtUnitT)
-    Q_PROPERTY(QString txtUnitG READ txtUnitG WRITE setTxtUnitG)
-    Q_PROPERTY(QString txtUnitMS READ txtUnitMS WRITE setTxtUnitMS)
-    Q_PROPERTY(QString txtUnitMM READ txtUnitMM WRITE setTxtUnitMM)
-    Q_PROPERTY(QString txtUnitDIV READ txtUnitDIV WRITE setTxtUnitDIV)
+    Q_PROPERTY(QString txtProdLen READ txtProdLen WRITE setTxtProdLen NOTIFY txtProdLenChanged)
+    Q_PROPERTY(QString txtT1 READ txtT1 WRITE setTxtT1 NOTIFY txtT1Changed)
+    Q_PROPERTY(QString txtT2 READ txtT2 WRITE setTxtT2 NOTIFY txtT2Changed)
+    Q_PROPERTY(QString txtT3 READ txtT3 WRITE setTxtT3 NOTIFY txtT3Changed)
+    Q_PROPERTY(QString txtT4 READ txtT4 WRITE setTxtT4 NOTIFY txtT4Changed)
+    Q_PROPERTY(QString txtT7 READ txtT7 WRITE setTxtT7 NOTIFY txtT7Changed)
+    Q_PROPERTY(QString txtT9 READ txtT9 WRITE setTxtT9 NOTIFY txtT9Changed)
+    Q_PROPERTY(QString txtFilterTime READ txtFilterTime WRITE setTxtFilterTime NOTIFY txtFilterTimeChanged)
+    Q_PROPERTY(QString txtUnitY READ txtUnitY WRITE setTxtUnitY NOTIFY txtUnitYChanged)
+    Q_PROPERTY(QString txtUnitT READ txtUnitT WRITE setTxtUnitT NOTIFY txtUnitTChanged)
+    Q_PROPERTY(QString txtUnitG READ txtUnitG WRITE setTxtUnitG NOTIFY txtUnitGChanged)
+    Q_PROPERTY(QString txtUnitMS READ txtUnitMS WRITE setTxtUnitMS NOTIFY txtUnitMSChanged)
+    Q_PROPERTY(QString txtUnitMM READ txtUnitMM WRITE setTxtUnitMM NOTIFY txtUnitMMChanged)
+    Q_PROPERTY(QString txtUnitDIV READ txtUnitDIV WRITE setTxtUnitDIV NOTIFY txtUnitDIVChanged)
 
-    Q_PROPERTY(QString txtProdName READ txtProdName WRITE setTxtProdName)
-    Q_PROPERTY(QString txtSample READ txtSample WRITE setTxtSample)
+    Q_PROPERTY(QString txtProdName READ txtProdName WRITE setTxtProdName NOTIFY txtProdNameChanged)
+    Q_PROPERTY(QString txtSample READ txtSample WRITE setTxtSample NOTIFY txtSampleChanged)
 
-    Q_PROPERTY(qreal valueProdNo READ valueProdNo WRITE setValueProdNo)
-    Q_PROPERTY(qreal valueRefVal READ valueRefVal WRITE setValueRefVal)
-    Q_PROPERTY(qreal valueProdLen READ valueProdLen WRITE setValueProdLen)
-    Q_PROPERTY(qreal valueT1 READ valueT1 WRITE setValueT1)
-    Q_PROPERTY(qreal valueT2 READ valueT2 WRITE setValueT2)
-    Q_PROPERTY(qreal valueT3 READ valueT3 WRITE setValueT3)
-    Q_PROPERTY(qreal valueT4 READ valueT4 WRITE setValueT4)
-    Q_PROPERTY(qreal valueT7 READ valueT7 WRITE setValueT7)
-    Q_PROPERTY(qreal valueT9 READ valueT9 WRITE setValueT9)
-    Q_PROPERTY(qreal valueFilterTime READ valueFilterTime WRITE setValueFilterTime)
-    Q_PROPERTY(qreal valueWeight READ valueWeight WRITE setValueWeight)
-    Q_PROPERTY(qreal valueY READ valueY WRITE setValueY)
-    Q_PROPERTY(qreal valueT READ valueT WRITE setValueT)
+    Q_PROPERTY(qreal valueProdNo READ valueProdNo WRITE setValueProdNo NOTIFY valueProdNoChanged)
+    Q_PROPERTY(qreal valueRefVal READ valueRefVal WRITE setValueRefVal NOTIFY valueRefValChanged)
+    Q_PROPERTY(qreal valueProdLen READ valueProdLen WRITE setValueProdLen NOTIFY valueProdLenChanged)
+    Q_PROPERTY(qreal valueT1 READ valueT1 WRITE setValueT1 NOTIFY valueT1Changed)
+    Q_PROPERTY(qreal valueT2 READ valueT2 WRITE setValueT2 NOTIFY valueT2Changed)
+    Q_PROPERTY(qreal valueT3 READ valueT3 WRITE setValueT3 NOTIFY valueT3Changed)
+    Q_PROPERTY(qreal valueT4 READ valueT4 WRITE setValueT4 NOTIFY valueT4Changed)
+    Q_PROPERTY(qreal valueT7 READ valueT7 WRITE setValueT7 NOTIFY valueT7Changed)
+    Q_PROPERTY(qreal valueT9 READ valueT9 WRITE setValueT9 NOTIFY valueT9Changed)
+    Q_PROPERTY(qreal valueFilterTime READ valueFilterTime WRITE setValueFilterTime NOTIFY valueFilterTimeChanged)
+    Q_PROPERTY(qreal valueWeight READ valueWeight WRITE setValueWeight NOTIFY valueWeightChanged)
+    Q_PROPERTY(qreal valueY READ valueY WRITE setValueY NOTIFY valueYChanged)
+    Q_PROPERTY(qreal valueT READ valueT WRITE setValueT NOTIFY valueTChanged)
 
-
-
+signals:
+    void txtWeightChanged();
+    void txtProdLenChanged();
+    void txtT1Changed();
+    void txtT2Changed();
+    void txtT3Changed();
+    void txtT4Changed();
+    void txtT7Changed();
+    void txtT9Changed();
+    void txtFilterTimeChanged();
+    void txtUnitYChanged();
+    void txtUnitTChanged();
+    void txtUnitGChanged();
+    void txtUnitMSChanged();
+    void txtUnitMMChanged();
+    void txtUnitDIVChanged();
+    void txtProdNameChanged();
+    void txtSampleChanged();
+    void valueProdNoChanged();
+    void valueRefValChanged();
+    void valueProdLenChanged();
+    void valueT1Changed();
+    void valueT2Changed();
+    void valueT3Changed();
+    void valueT4Changed();
+    void valueT7Changed();
+    void valueT9Changed();
+    void valueFilterTimeChanged();
+    void valueWeightChanged();
+    void valueYChanged();
+    void valueTChanged();
 
 public:
     AdjustTimingVer4_VM();
@@ -87,8 +116,6 @@ public:
     QString txtUnitDIV ();
     void setTxtUnitDIV(QString &value);
 
-
-
     //txtValue
     qreal valueProdNo();
     void setValueProdNo(qreal &value);
@@ -117,7 +144,6 @@ public:
     qreal valueFilterTime();
     void setValueFilterTime(qreal &value);
 
-
     Q_INVOKABLE void OnLoad();
     Q_INVOKABLE void onChangeLanguage();
     Q_INVOKABLE QList <int> genDataWeight();
@@ -126,8 +152,7 @@ public:
     Q_INVOKABLE QString getTextColor();
     Q_INVOKABLE QString getLineColor();
     Q_INVOKABLE QString getValueColor();
-
-
+    Q_INVOKABLE QString getWeightValueColor();
 
 private:
     QString m_TxtProdName;
@@ -162,7 +187,6 @@ private:
     qreal m_ValueUnitY;
     qreal m_ValueUnitT;
     qreal m_ValueFilterTime;
-
 
 signals:
     void txtRefValueChanged();

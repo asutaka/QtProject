@@ -1,5 +1,5 @@
 #include "zoomline.h"
-
+#include "screenmng.h"
 ZoomLine::ZoomLine(QQuickItem *parent): DrawControlBase(parent)
 {
     LoadImages();
@@ -283,4 +283,10 @@ void ZoomLine::LoadImages()
     //Other
     bRes = pixmapAve.load(":/Images/Icon_Ave_w5h7.png");
 
+}
+void ZoomLine::OnLoad(){
+  ScreenMng* screenMng = ScreenMng::GetInstance();
+  qDebug() << "menu load BottomBarId: " << ScreenMng::BottomBarId::BottomBarMainPage;
+  screenMng->ChangeBottomBar(ScreenMng::BottomBarId::BottomBarMainPage);
+  screenMng->ChangeStatusBar(ScreenMng::StatusBarId::NormalStatusBar);
 }

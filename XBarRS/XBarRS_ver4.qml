@@ -15,7 +15,13 @@ Item {
     property bool isR: true
     property bool isPass: false
     property int _currentLineNo: 1
-
+    property alias objxBarNewChartVM: xbarRS_NewChartVM
+    XBar_NewChartVM{
+        id:xbarRS_NewChartVM
+    }
+    Component.onCompleted: {
+        objxBarNewChartVM.onLoad();
+    }
     XBarRS_ver4 {
         id: _xBarRsVer4
         x: 0

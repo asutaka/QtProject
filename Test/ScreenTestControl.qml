@@ -10,7 +10,14 @@ Rectangle {
     width: 1024
     height: 640
     color: "#ffffff"
+    property alias objTestAccordionListVM: testAccordionListVM
+    TestVM {
+        id:testAccordionListVM
+    }
 
+    Component.onCompleted: {
+        objTestAccordionListVM.onLoad();
+    }
     TK_FlowLayoutPanel
     {
         id: flowLayout

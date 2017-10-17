@@ -66,7 +66,7 @@ void InvalidLine_ver2::CreateListTable()
     int colCount = 6;
     int numberOfTable = _maxLine / colCount;
     int beginNum = 0;
-    int corner = 5;
+    int corner = 2;
     int stepCount = 2;
     int cellWidth = 108;
     int cellHeight = 36;
@@ -95,7 +95,12 @@ void InvalidLine_ver2::CreateListTable()
         table->Step2Color = QColor(QColor(255, 217, 187));
         table->Step1Bkg = QColor(QColor(247, 150, 66));
         table->StepBkg = QColor(QColor(26, 70, 112));
-        table->FontTableLine = QFont(":/Images/MS Gothic.ttf", 14, QFont::Normal);
+
+        QFont mFont;
+        mFont.setFamily("MS Gothic");
+        mFont.setPixelSize(14);
+
+        table->FontTableLine = mFont;
         table->IsShowItemName = true;
         table->ItemNameBkg = QColor(QColor(187, 213, 227));
         table->ItemNameColor = QColor(Qt::black);
@@ -169,7 +174,6 @@ void InvalidLine_ver2::clickDisable()
             ListTable[i]->AdjustLineList[j]->IsSelect = false;
         }
     }
-
     UpdateData();
 }
 
@@ -187,6 +191,27 @@ void InvalidLine_ver2::onClickInvalidLinePanel(float x, float y)
             {
                 ListTable[i]->SelectColumnWithLine(lineNo);
                 this->update();
+                break;
+            }
+        }
+    }
+}
+
+void InvalidLine_ver2::onLongPressInvalidLinePanel(float x, float y) {
+    QPoint posClick(x,y);
+    for (int i = 0; i < ListTable.count(); i++)
+    {
+        if (ListTable[i]->IsSelect &&
+            (posClick.x() > ListTable[i]->position().x() && posClick.x() < (ListTable[i]->position().x() + ListTable[i]->width())) &&
+            (posClick.y() > ListTable[i]->position().y() && posClick.y() < (ListTable[i]->position().y() + ListTable[i]->height())))
+        {
+            int lineNo = ListTable[i]->GetLineNoOfColumnSelected(posClick);
+            if (lineNo > 0 && lineNo <= _maxLine)
+            {
+                int AdjustLineIndex = (lineNo - 1)%ListTable[i]->ColCount;
+                ListTable[i]->AdjustLineList[AdjustLineIndex]->IsValid = !(ListTable[i]->AdjustLineList[AdjustLineIndex]->IsValid);
+                ListTable[i]->AdjustLineList[AdjustLineIndex]->IsSelect = false;
+                UpdateData();
                 break;
             }
         }

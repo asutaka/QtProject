@@ -20,7 +20,6 @@ public:
     ~Integartion_ver4();
 
     Q_INVOKABLE void connectToBufferedGraphicsPanel(BufferedGraphicsPanel *buffered);
-
 private:
     QPixmap arrayPixmapLineNo[12];
     QPixmap imgBarGraph;

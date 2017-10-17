@@ -5,6 +5,8 @@ import QtQuick.Controls 1.3
 import QtQuick.Extras 1.4
 import QtQuick.Controls.Styles 1.3
 import QtQml 2.2
+import ControlApp 1.0
+
 import "../Control/menu"
 
 Item{
@@ -15,6 +17,7 @@ Item{
     property int i:0
     anchors.fill: parent
     height: 64
+
     Rectangle {
         id: statusBarAdjust
         x: 0
@@ -22,6 +25,7 @@ Item{
         width: 1024
         height: 64
         color: "#ffffff"
+
         Image {
             id: rectTopBkgnd
             source: "../Images/StatusBar_bg.png"
@@ -90,36 +94,55 @@ Item{
                 }
             }
 
-
-
-            ToolButton{
+            ToolButton {
                 id: toolButton_Question
                 x: 952
                 y: 0
                 width: 72
                 height: 64
+
                 Image {
                     anchors.fill: parent
                     id: imgQuestion
                     height: 64
                     source: "../Images/popup_question_gray_off.png"
                 }
+
                 MouseArea {
                     anchors.fill: parent
-                    onClicked: {
+
+                    onPressed: {
+                        imgQuestion.source= "../Images/popup_question_gray_on.png"
+                    }
+
+                    onReleased: {
+                        imgQuestion.source= "../Images/popup_question_gray_off.png"
                         menuQuestion.__popup(Qt.rect(790,62,0,0),0,0);
                     }
-                    onPressed: imgQuestion.source= "../Images/popup_question_gray_on.png"
-                    onReleased: imgQuestion.source= "../Images/popup_question_gray_off.png"
+
                     onCanceled: imgQuestion.source= "../Images/popup_question_gray_off.png"
                 }
 
-                MyMenu{
+                MyMenu {
                     id: menuQuestion
+//                    MenuItem {
+//                        text: "Connect Server"
+//                        onTriggered: {
+//                            ObjData.connectQml();
+//                        }
+//                    }
                     MenuItem {
-                        text: "Connect Server"
+                        id: itemStop
+                        text: "Stop"
                         onTriggered: {
-                            ObjData.connectQml();
+                            mainModel.guiEvent(EnumControl.STOP);
+                        }
+                    }
+                    MenuItem {
+                        id: itemStart
+                        text: "Start"
+                        onTriggered: {
+                            mainModel.guiEvent(EnumControl.START);
                         }
                     }
                     MenuItem {
@@ -132,31 +155,43 @@ Item{
                             appWindow.showDialog(component,300,400);
                         }
                     }
-                    MenuItem {
-                        text: "Access Level Change"
-                        onTriggered: {
-                            var component = Qt.createComponent("../Dialog/AccessLevelDialog.qml");
-                            var winAccessLevelChange =component.createObject(loaderContent, {"x":  (Screen.width - 730) / 2, "y": (Screen.height - 410) / 2});
-                            winAccessLevelChange.show();
-                        }
-                    }
+//                    MenuItem {
+//                        text: "Access Level Change"
+//                        onTriggered: {
+//                            var component = Qt.createComponent("../Dialog/AccessLevelDialog.qml");
+//                            var winAccessLevelChange =component.createObject(loaderContent, {"x":  (Screen.width - 730) / 2, "y": (Screen.height - 410) / 2});
+//                            winAccessLevelChange.show();
+//                        }
+//                    }
                     MenuItem {
                         text: "TestTheme"
                         onTriggered: {
-                            loaderContent.source="qrc:/AppTheme/TestTheme.qml";
+                            mainModel.InnerChangeScreen(ScreenMng.TestTheme)
                         }
                     }
                     MenuItem {
                         text: "Replace icon & text"
                         onTriggered: {
-                            loaderContent.source="qrc:/SetReplacePathScreen/GetPathReplace.qml";
+                            mainModel.InnerChangeScreen(ScreenMng.GetPathReplace)
+                        }
+                    }
+                    MenuItem {
+                        text: "Instruction Manual"
+                        onTriggered:{
+                            var component = Qt.createComponent("../Dialog/InstructionManualDialog.qml");
+                            appWindow.showDialog(component,300,400);
+                        }
+                    }
+                    MenuItem {
+                        text: "Error Alarm"
+                        onTriggered:{
+                            mainModel.InnerChangeStatusBar(ScreenMng.ErrorStatusBar)
                         }
                     }
                 }
-
             }
 
-            ToolButton{
+            ToolButton {
                 id: btnPhoto
                 x: 592
                 y: 0
@@ -194,7 +229,8 @@ Item{
                     onCanceled: imgPhoto.source= "../Images/statbtn_off_120_62.png"
                 }
             }
-            ToolButton{
+
+            ToolButton {
                 id: btnVerticalRange
                 x: 712
                 y: 0
@@ -239,15 +275,18 @@ Item{
 
                 MouseArea {
                     anchors.fill: parent
-                    onClicked: {
+
+                    onPressed: {
                         contentItem.timAdjObj.showDialogVerticalRange();
+                        imgVerticalRange.source= "../Images/statbtn_on_120_62.png"
                     }
-                    onPressed: imgVerticalRange.source= "../Images/statbtn_on_120_62.png"
+
                     onReleased: imgVerticalRange.source= "../Images/statbtn_off_120_62.png"
                     onCanceled: imgVerticalRange.source= "../Images/statbtn_off_120_62.png"
                 }
             }
-            ToolButton{
+
+            ToolButton {
                 id: btnAjustTiming
                 x: 832
                 y: 0
@@ -272,7 +311,7 @@ Item{
                     }
                 }
 
-                Rectangle{
+                Rectangle {
                     x: 0
                     y: 31
                     width: 120
@@ -290,46 +329,58 @@ Item{
 
                 MouseArea {
                     anchors.fill: parent
-                    onClicked: {
-                        contentItem.timAdjObj.showDialogSettingTime();
 
+                    onPressed: {
+                        contentItem.timAdjObj.showDialogSettingTime();
+                        imgAjustTiming_SettingTime.source= "../Images/statbtn_on_120_62.png"
                     }
-                    onPressed: imgAjustTiming_SettingTime.source= "../Images/statbtn_on_120_62.png"
+
                     onReleased: imgAjustTiming_SettingTime.source= "../Images/statbtn_off_120_62.png"
                     onCanceled: imgAjustTiming_SettingTime.source= "../Images/statbtn_off_120_62.png"
                 }
             }
-
         }
 
+        MouseArea {
+            id: statusArea
+            anchors.fill: parent
+            propagateComposedEvents: enabled
+            enabled: false
+        }
 
-        function updateSettingTime(strTime){
+        function updateSettingTime(strTime) {
             txtValueTime.text = strTime;
         }
-        function updateSignal(strSignal)
-        {
+
+        function updateSignal(strSignal) {
             txtValueSignal.text =strSignal;
         }
-        function updateVerticalRange(strRange){
+
+        function updateVerticalRange(strRange) {
             txtVerticalRange.text=strRange;
         }
 
-        function getValueTime(){
+        function getValueTime() {
             return txtValueTime.text;
         }
 
-        function updateAccessLevel(level){
+        function updateAccessLevel(level) {
             switch(level){
-            case 1: sourceAccessLevel = "../Images/statbar_accessLevel_1a.png"; break;
-            case 2: sourceAccessLevel = "../Images/statbar_accessLevel_1b.png"; break;
-            case 3: sourceAccessLevel = "../Images/statbar_accessLevel_2.png"; break;
-            case 4: sourceAccessLevel = "../Images/statbar_accessLevel_3.png"; break;
-            default: break;
+                case 1: sourceAccessLevel = "../Images/statbar_accessLevel_1a.png"; break;
+                case 2: sourceAccessLevel = "../Images/statbar_accessLevel_1b.png"; break;
+                case 3: sourceAccessLevel = "../Images/statbar_accessLevel_2.png"; break;
+                case 4: sourceAccessLevel = "../Images/statbar_accessLevel_3.png"; break;
+                default: break;
             }
             currAcessLevel = level;
         }
+
         function settingValueTime(str) {
             txtValueTime1.text = str
+        }
+
+        function enableMouseArea(_enable) {
+            statusArea.enabled = _enable
         }
     }
 }

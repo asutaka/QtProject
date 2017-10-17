@@ -7,11 +7,14 @@ import "qrc:/IOMonitor"
 
 Item {
     id: bottomBarIOMonitor
-
-    property Item objIOMonitorBottomBar: rowBottomBarIOMonitor
+    property alias bottomBarIOMonitorVM: bottomBarIOMonitorVMObject
+    property alias bottomBarIOMonitorObj: bottomBarIOMonitor
     property real _ratioDistance: 0.1
-    property real _ratioFont: 0.42
     property bool _isStartImport: true
+
+    BottomBarIOMonitorVM {
+        id: bottomBarIOMonitorVMObject
+    }
 
     Image {
 
@@ -30,7 +33,13 @@ Item {
                 contentItem: Image {
                     id: imgBack
                     anchors.fill: parent
-                    source: btnBack.pressed ? "image://MyProvider/contbar_btn_touched_104.png" : "image://MyProvider/contbar_btn_104.png"
+                    source: {
+                        if (btnBack.pressed) {
+                            return "image://MyProvider/contbar_btn_touched_104.png"
+                        } else {
+                            return "image://MyProvider/contbar_btn_104.png"
+                        }
+                    }
                     Image {
                         anchors.top: parent.top
                         anchors.horizontalCenter: parent.horizontalCenter
@@ -39,8 +48,8 @@ Item {
                     }
                     Text {
                         id: txtBack
-                        font.family: "MS Gothic"
-                        font.pixelSize: parent.height * _ratioFont
+                        font.family: fontFactory.getFontFamily(FontFactory.FNT_L3)
+                        font.pixelSize: fontFactory.getFontSize(FontFactory.FNT_L3)
                         color: "white"
                         anchors.bottom: parent.bottom
                         anchors.horizontalCenter: parent.horizontalCenter
@@ -48,9 +57,6 @@ Item {
                     }
                 }
                 onClicked: {
-//                    loaderStatusBar.source = "qrc:/StatusBar/StatusBar.qml"
-//                    loaderContent.source = "qrc:/Production/ProductionScreen_ver3.qml"
-//                    loaderBottomBar.source = "BottomBarMainPage.qml"
                     mainModel.GoBackScreen()
                 }
             }
@@ -62,7 +68,13 @@ Item {
                 contentItem: Image {
                     id: imgSignalCondition
                     anchors.fill: parent
-                    source: btnSignalCondition.pressed ? "image://MyProvider/contbar_btn_touched_168.png" : "image://MyProvider/contbar_btn_168.png"
+                    source: {
+                        if(btnSignalCondition.pressed) {
+                            return "image://MyProvider/contbar_btn_touched_168.png"
+                        } else {
+                            return "image://MyProvider/contbar_btn_168.png"
+                        }
+                    }
                     RowLayout {
                         id: layoutSignalCondition
                         anchors.fill: parent
@@ -78,8 +90,8 @@ Item {
                             width: parent.width
                             wrapMode : Text.WrapAnywhere
                             anchors.left: imgInput.right
-                            font.family: "MS Gothic"
-                            font.pixelSize: parent.height * _ratioFont
+                            font.family: fontFactory.getFontFamily(FontFactory.FNT_L3)
+                            font.pixelSize: fontFactory.getFontSize(FontFactory.FNT_L3)
                             color: "white"
                         }
                     }
@@ -93,7 +105,13 @@ Item {
                 contentItem: Image {
                     id: imgSignalSelection
                     anchors.fill: parent
-                    source: btnSignalSelection.pressed ? "image://MyProvider/contbar_btn_touched_168.png" : "image://MyProvider/contbar_btn_168.png"
+                    source: {
+                        if (btnSignalSelection.pressed) {
+                            return "image://MyProvider/contbar_btn_touched_168.png"
+                        } else {
+                            return "image://MyProvider/contbar_btn_168.png"
+                        }
+                    }
                     RowLayout {
                         id: layoutSignalSelect
                         anchors.fill: parent
@@ -109,8 +127,8 @@ Item {
                             width: parent.width
                             wrapMode : Text.WrapAnywhere
                             anchors.left: imgSelect.right
-                            font.family: "MS Gothic"
-                            font.pixelSize: parent.height * _ratioFont
+                            font.family: fontFactory.getFontFamily(FontFactory.FNT_L3)
+                            font.pixelSize: fontFactory.getFontSize(FontFactory.FNT_L3)
                             color: "white"
                         }
                     }
@@ -128,7 +146,13 @@ Item {
                 contentItem: Image{
                     id: bkgStartStopImport
                     anchors.fill: parent
-                    source: btnStartStopImport.pressed ? "image://MyProvider/contbar_btn_touched_168.png" : "image://MyProvider/contbar_btn_168.png"
+                    source: {
+                        if (btnStartStopImport.pressed) {
+                            return "image://MyProvider/contbar_btn_touched_168.png"
+                        } else {
+                            return "image://MyProvider/contbar_btn_168.png"
+                        }
+                    }
                     RowLayout {
                         id: layoutStartStopImport
                         anchors.fill: parent
@@ -144,8 +168,8 @@ Item {
                             width: parent.width
                             wrapMode : Text.WrapAnywhere
                             anchors.left: imgStartImport.right
-                            font.family: "MS Gothic"
-                            font.pixelSize: parent.height * _ratioFont
+                            font.family: fontFactory.getFontFamily(FontFactory.FNT_L3)
+                            font.pixelSize: fontFactory.getFontSize(FontFactory.FNT_L3)
                             color: "white"
                         }
                     }
@@ -154,17 +178,27 @@ Item {
                 onClicked: {
                     if (_isStartImport === true) {
                         imgStartImport.source = "image://MyProvider/contbar_icon_end.png"
-                        txtStartImport.text = loaderStatusBar.item.objIOMonitorVM.txtStopImport
+                        txtStartImport.text = bottomBarIOMonitorVM.txtStopImport
                         _isStartImport = false
-                        loaderContent.item.objIOMonitor.updateFetchingData(true)
-                        loaderStatusBar.item.objIOMonitorStatusBar.settingScreenName(true)
+                        if (loaderContent.item.objIOMonitor != null) {
+                            loaderContent.item.objIOMonitor.updateFetchingData(true)
+                        }
+                        if (loaderStatusBar.item.statusBarIOMonitorObj != null) {
+                            loaderStatusBar.item.statusBarIOMonitorObj.settingScreenName(true)
+                        }
                     }
                     else {
                         imgStartImport.source = "image://MyProvider/contbar_icon_start.png"
-                        txtStartImport.text = loaderStatusBar.item.objIOMonitorVM.txtStartImport
+                        txtStartImport.text = bottomBarIOMonitorVM.txtStartImport
                         _isStartImport = true
-                        loaderContent.item.objIOMonitor.updateFetchingData(false)
-                        loaderStatusBar.item.objIOMonitorStatusBar.settingScreenName(false)
+                        if (loaderContent.item.objIOMonitor != null) {
+                            console.log ("test content")
+                            loaderContent.item.objIOMonitor.updateFetchingData(false)
+                        }
+                        if (loaderStatusBar.item.statusBarIOMonitorObj != null) {
+                            loaderStatusBar.item.statusBarIOMonitorObj.settingScreenName(false)
+                            console.log ("test status bar")
+                        }
                     }
                 }
             }
@@ -177,7 +211,13 @@ Item {
                 contentItem: Image {
                     id: bkgClear
                     anchors.fill: parent
-                    source: btnClear.pressed ? "image://MyProvider/contbar_btn_touched_168.png" : "image://MyProvider/contbar_btn_168.png"
+                    source: {
+                        if(btnClear.pressed) {
+                            return "image://MyProvider/contbar_btn_touched_168.png"
+                        } else {
+                            return "image://MyProvider/contbar_btn_168.png"
+                        }
+                    }
                     RowLayout {
                         id: layoutClear
                         anchors.fill: parent
@@ -193,8 +233,8 @@ Item {
                             width: parent.width
                             wrapMode : Text.WrapAnywhere
                             anchors.left: imgClear.right
-                            font.family: "MS Gothic"
-                            font.pixelSize: parent.height * _ratioFont
+                            font.family: fontFactory.getFontFamily(FontFactory.FNT_L3)
+                            font.pixelSize: fontFactory.getFontSize(FontFactory.FNT_L3)
                             color: "white"
                         }
                     }
@@ -205,27 +245,39 @@ Item {
                 }
             }
 
-            function updateStartStopImport(isStatic) {
-                if (isStatic) {
-                    imgStartImport.source = "image://MyProvider/contbar_icon_start.png"
-                    txtStartImport.text = loaderStatusBar.item.objIOMonitorVM.txtStartImport
-                    _isStartImport = true
-                    loaderContent.item.objIOMonitor.updateFetchingData(false)
-                }
-            }
+
         }
     }
 
     Component.onCompleted: {
+        bottomBarIOMonitorVM.onLoad()
         updateText()
-        mainModel.onChangeLanguage.connect(updateText)
+        mainModel.onChangeLanguage.connect(onChangeLanguage)
+    }
+
+    Component.onDestruction: {
+        mainModel.onChangeLanguage.disconnect(onChangeLanguage)
+    }
+
+    function onChangeLanguage() {
+        bottomBarIOMonitorVM.onChangeLanguage()
+        updateText()
     }
 
     function updateText() {
-        txtBack.text = loaderStatusBar.item.objIOMonitorVM.txtBack;
-        txtSignalCondition.text = loaderStatusBar.item.objIOMonitorVM.txtSignalCondition
-        txtSignalSelection.text = loaderStatusBar.item.objIOMonitorVM.txtSignalSelection
-        txtStartImport.text = loaderStatusBar.item.objIOMonitorVM.txtStartImport
-        txtClear.text = loaderStatusBar.item.objIOMonitorVM.txtClear
+        txtBack.text = bottomBarIOMonitorVM.txtBack;
+        txtSignalCondition.text = bottomBarIOMonitorVM.txtSignalCondition
+        txtSignalSelection.text = bottomBarIOMonitorVM.txtSignalSelection
+        txtStartImport.text = bottomBarIOMonitorVM.txtStartImport
+        txtClear.text = bottomBarIOMonitorVM.txtClear
+    }
+
+    function updateStartStopImport(isStatic) {
+        if (isStatic) {
+            imgStartImport.source = "image://MyProvider/contbar_icon_start.png"
+            txtStartImport.text = loaderStatusBar.item.objIOMonitorVM.txtStartImport
+            _isStartImport = true
+            loaderContent.item.objIOMonitor.updateFetchingData(false)
+        }
     }
 }

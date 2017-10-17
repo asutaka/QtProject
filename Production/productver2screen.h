@@ -13,7 +13,7 @@ class ProductVer2Screen : public QQuickPaintedItem
 {
     Q_OBJECT
     Q_PROPERTY(bool isXBar READ isXBar WRITE setIsXBar)
-    Q_PROPERTY(QString measureValue READ getMeasureValue WRITE setMeasureValue)
+    Q_PROPERTY(QList<QString> measureValue READ getMeasureValue WRITE setMeasureValue)
     Q_PROPERTY(QString measureUnit READ getMeasureUnit WRITE setMeasureUnit)
 //    Q_PROPERTY(qreal measureValueXbar READ getMeasureValueXbar WRITE setMeasureValueXbar)
 
@@ -30,8 +30,8 @@ public:
 
     bool isXBar();
     void setIsXBar(bool &value);
-    QString getMeasureValue();
-    void setMeasureValue(QString &value);
+    QList<QString> getMeasureValue();
+    void setMeasureValue(QList<QString> &value);
     QString getMeasureUnit();
     void setMeasureUnit(QString &value);
 //    qreal getMeasureValueXbar();
@@ -48,13 +48,13 @@ public:
     QFont font;
     QPixmap pixmap;
     Q_INVOKABLE QString getBackGroundColorFromVM();
-
+    Q_INVOKABLE void OnLoad();
 private:
     bool m_IsXbar = false;
     QList<QPixmap> m_arrPixmapLineNo;
     QList<QPixmap> m_arrMassbarBargraph;
     QList<QPixmap> m_arrStatusLineNo;
-    QString m_MeasureValue;
+    QList<QString> m_MeasureValue;
     QString m_MeasureUnit;
 //    qreal m_MeasureValueXbar;
     int m_LineNo = 12;

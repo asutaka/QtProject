@@ -4,29 +4,35 @@ import QtQuick.Layouts 1.2
 import QtQuick.Controls 1.3
 import QtQuick.Extras 1.4
 import QtQuick.Controls.Styles 1.3
+import ControlApp 1.0
+
 import "../Control/menu"
 import "../Production"
 
 Item {
     property Item bottomBarAdjustTimingV4: rectBottom
     id: bottomBarMenu
+
     Rectangle {
         id: rectBottom
         width: 1024
         height: 64
         color: "#ffffff"
+
         Image {
             id: rectBottomBkgnd
             x: 0
             y: 0
             source: "../Images/ControlBar_bg.png"
         }
+
         ToolButton {
             id: btnBack
             x: 0
             y: 0
             width: 104
             height: 64
+
             Image{
                 id: imgBack
                 anchors.fill: parent
@@ -51,6 +57,7 @@ Item {
                     source: "../Images/contbar_icon_back.png"
                 }
             }
+
             MouseArea {
                 anchors.fill: parent
                 onPressed: {
@@ -58,15 +65,10 @@ Item {
                 }
                 onReleased:{
                     imgBack.source= "../Images/contbar_btn_104.png"
-//                    loaderContent.source ="../Production/Production.qml"
-//                    loaderBottomBar.source ="BottomBarMainPage.qml"
-//                    loaderStatusBar.source = "../StatusBar/StatusBar.qml"
+                    mainModel.GoBackScreen()
                 }
                 onCanceled: {
                     imgBack.source= "../Images/contbar_btn_104.png"
-                }
-                onClicked: {
-                    mainModel.GoBackScreen()
                 }
             }
         }
@@ -77,11 +79,13 @@ Item {
             y: 0
             width: 170
             height: 64
-            Image{
+
+            Image {
                 id: imgMeasTime
                 anchors.fill: parent
                 source: "../Images/contbar_btn_168.png"
-                Rectangle{
+
+                Rectangle {
                     x: 0
                     y: 0
                     width: 170
@@ -97,7 +101,7 @@ Item {
                     }
                 }
 
-                Rectangle{
+                Rectangle {
                     x: 0
                     y: 32
                     width: 170
@@ -113,7 +117,6 @@ Item {
                         font.family: "MS Gothic"
                     }
                 }
-
 
                 MouseArea {
                     anchors.fill: parent
@@ -138,7 +141,9 @@ Item {
             y: 0
             width: 170
             height: 64
-            Image{
+            visible: false
+
+            Image {
                 id: imgSignalAdj
                 anchors.fill: parent
                 source: "../Images/contbar_btn_168.png"
@@ -148,7 +153,7 @@ Item {
                     y:16
                     source: "qrc:/Images/contbar_icon_input.png"
                 }
-                Rectangle{
+                Rectangle {
                     x: 30
                     y: 0
                     width: 140
@@ -163,8 +168,6 @@ Item {
                         font.family: "MS Gothic"
                     }
                 }
-
-
 
                 MouseArea {
                     anchors.fill: parent
@@ -189,17 +192,21 @@ Item {
             y: 0
             width: 170
             height: 64
-            Image{
+            visible: false
+
+            Image {
                 id: imgSignalSelect
                 anchors.fill: parent
                 source: "../Images/contbar_btn_168.png"
+
                 Image {
                     id: iconButtonSelect
                     x:8
                     y:16
                     source: "qrc:/Images/contbar_icon_select.png"
                 }
-                Rectangle{
+
+                Rectangle {
                     x: 30
                     y: 0
                     width: 140
@@ -234,7 +241,6 @@ Item {
             }
         }
 
-
         ToolButton {
             id: btnClear
             x: 768
@@ -265,9 +271,9 @@ Item {
                     }
                     onReleased:{
                         imgBgClear.source= "../Images/contbar_btn_168.png";
-                        if(contentItem.timAdjObj){
-                        contentItem.timAdjObj.clearCharts();
-                        } else{
+                        if (contentItem.timAdjObj){
+                            contentItem.timAdjObj.clearCharts();
+                        } else {
                             contentItem.adjustTimingScreen.clearLineNoLegend();
                         }
                     }
@@ -310,6 +316,13 @@ Item {
             }
         }
 
+        MouseArea {
+            id: bottomArea
+            anchors.fill: parent
+            propagateComposedEvents: enabled
+            enabled: false
+        }
+
         MyMenu {
             id: menuAdjSettingFn
             widthItem: 150
@@ -319,8 +332,23 @@ Item {
                 }
             }
         }
+
         function settingValueMeasTime(strMeas){
             txtValueMeas.text=strMeas;
+        }
+
+        function visibleSelectSignalBtn() {
+            btnSignalAdj.visible = true
+            btnSignalSelect.visible = true
+        }
+
+        function invisiableSelectSignalBtn() {
+            btnSignalAdj.visible = false
+            btnSignalSelect.visible = false
+        }
+
+        function enableMouseArea(_enable) {
+            bottomArea.enabled = _enable
         }
     }
 }

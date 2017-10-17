@@ -2,12 +2,16 @@ import QtQuick 2.0
 import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.2
 import "qrc:/Control/menu"
-
+import ControlApp 1.0
 Rectangle {
     id: testAccordionList
     width: 1024
     height: 640
     color: "lightgray"
+    property alias objTestAccordionListVM: testAccordionListVM
+    TestVM {
+        id:testAccordionListVM
+    }
 
     Rectangle {
         x: 200
@@ -180,5 +184,8 @@ Rectangle {
                 Layout.fillHeight: true
             }
         }
+    }
+    Component.onCompleted: {
+        objTestAccordionListVM.onLoad();
     }
 }

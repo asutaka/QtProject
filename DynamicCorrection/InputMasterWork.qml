@@ -5,7 +5,7 @@ import QtQuick.Controls 1.3
 import QtQuick.Extras 1.4
 import QtQuick.Controls.Styles 1.3
 import "../Control"
-import "../Control/switchControl"
+import CommonControl 1.0
 import "../Control/switchLineUC"
 import ControlApp 1.0
 import "../Control/VirtualKey.js" as Ops
@@ -32,6 +32,7 @@ Item {
             font.family: "MS Gothic"
             color: "#ffffff"
         }
+
         Label {
             id: lb_MasterWeight
             x: 10
@@ -41,6 +42,7 @@ Item {
             font.family: "MS Gothic"
             color: "#ffffff"
         }
+
         Label {
             id: lb_MasterWeightUnit
             x: 400
@@ -50,6 +52,7 @@ Item {
             font.family: "MS Gothic"
             color: "#ffffff"
         }
+
         TextField {
             id: masterWeight
             x: 240
@@ -97,6 +100,7 @@ Item {
 //                masterWeight.focus = false;
 //            }
         }
+
         Label {
             id: lb_RefVal
             x: 10
@@ -106,6 +110,7 @@ Item {
             font.family: "MS Gothic"
             color: "#ffffff"
         }
+
         Label {
             id: lb_RefValUnit
             x: 400
@@ -115,6 +120,7 @@ Item {
             font.family: "MS Gothic"
             color: "#ffffff"
         }
+
         Label {
             id: lb_RefValue
             x: 350
@@ -124,21 +130,24 @@ Item {
             font.family: "MS Gothic"
             color: "#ffffff"
         }
-        StartSwitchControl{
+
+        TK_SwitchControl  {
             id: switchControl
-            isLeft: !isForLine
             x: 12
             y: 116
-            onSwitchControl:{
+            isLeft: !isForLine
+            strLeft: "All"
+            strRight: "Forline"
+            onSwitchButton:{
                 switchLine.visible = !switchControl.isLeft;
                 inputMasterWorkScreen.getIsForLine(!switchControl.isLeft);
                 isForLine = (!switchControl.isLeft);
-                if(isForLine)
-                {
+                if(isForLine) {
                     _currentLineNo = inputMasterWorkScreen.getCurrentLine(switchLine.currentLineNo);
                 }
             }
         }
+
         SwitchLineUc{
             id: switchLine
             currentLineNo: _currentLineNo
@@ -153,28 +162,33 @@ Item {
                 }
             }
         }
-        Component.onCompleted:
-        {
+
+        Component.onCompleted: {
             inputMasterWorkScreen.getIsForLine(isForLine);
         }
 
         function getLine(){
             return _currentLineNo;
         }
+
         function setLine(currentLine){
             _currentLineNo = currentLine;
         }
+
         function getForLine(){
             return isForLine;
         }
+
         function setForLine(_isForLine){
             isForLine = _isForLine;
             inputMasterWorkScreen.getIsForLine(isForLine);
             inputMasterWorkScreen.getCurrentLine(_currentLineNo);
         }
+
         function getMasterValue(){
             return inputMasterWorkScreen.sendValueToDynamic();
         }
+
         function setMasterValue(listValue){
             inputMasterWorkScreen.getListValue(listValue);
         }

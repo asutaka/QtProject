@@ -37,12 +37,14 @@ XbarRS_NewChart::~XbarRS_NewChart()
 {
 
 }
+
 void XbarRS_NewChart::paint(QPainter *painter)
 {
     DrawControlBase_Ver3::paint(painter);
     drawMainGraph(painter);
-    drawThreshold(painter);
+    //    drawThreshold(painter);
 }
+
 void XbarRS_NewChart::drawMainGraph(QPainter *qp)
 {
     //draw border
@@ -132,41 +134,73 @@ void XbarRS_NewChart::drawThreshold(QPainter *qp)
     //Draw UCL Line
     pen_xBar.setColor("#FFB200");
     qp->setPen(pen_xBar);
-    qp->drawLine(330, 100, 980, 100);
+    qp->drawLine(328, 100, 982, 100);
 
     //Draw LCL Line
     pen_xBar.setColor("red");
     qp->setPen(pen_xBar);
-    qp->drawLine(330, 138, 980, 138 );
+    qp->drawLine(328, 138, 982, 138 );
 
     //Draw CL Line
     pen_xBar.setColor("#0EEDED");
     qp->setPen(pen_xBar);
-    qp->drawLine(330, 175, 980, 175 );
-
-    //Draw area chart Xbar
-    pen_xBar.setColor("#7e7e7e");
-    qp->setPen(pen_xBar);
-    qp->drawLine(330,70, 980,70 );
-    qp->drawLine(330, 70, 330, 200);
-    qp->drawLine(980, 70, 980, 200);
+    qp->drawLine(328, 175, 982, 175 );
 
     //Draw UCL Line RS
     pen_xBar.setColor("#FFB200");
     qp->setPen(pen_xBar);
-    qp->drawLine(330,300, 980, 300 );
+    qp->drawLine(328,300, 982, 300 );
 
     //Draw CL Line RS
     pen_xBar.setColor("#0EEDED");
     qp->setPen(pen_xBar);
-    qp->drawLine(330,350, 980, 350);
-
-    //Draw area chart RS
-    pen_xBar.setColor("#7e7e7e");
-    qp->setPen(pen_xBar);
-    qp->drawLine(330,270, 980,270);
-    qp->drawLine(330,270, 330,400);
-    qp->drawLine(980,270, 980,400);
+    qp->drawLine(328,350, 982, 350);
 
 }
 
+void XbarRS_NewChart::getPlotLocation(int plotX, int plotY, int plotWidth, int plotHeight, int space)
+{
+    _plotX = plotX;
+    _plotY = plotY;
+    _plotWidth = plotWidth;
+    _plotHeight = plotHeight;
+    _space = space;
+
+    this->update();
+
+}
+
+void XbarRS_NewChart::drawRSLine(QQuickItem *item, QPainter *painter) {
+    DrawControlBase_Ver3::drawRSLine(item, painter);
+
+    QPen pen_xBar;
+    //Draw UCL Line RS
+    pen_xBar.setColor("#FFB200");
+    painter->setPen(pen_xBar);
+    painter->drawLine(_plotX, _plotY + _plotHeight/3, _plotX + _plotWidth -1, _plotY + _plotHeight/3);
+
+    //Draw CL Line RS
+    pen_xBar.setColor("#0EEDED");
+    painter->setPen(pen_xBar);
+    painter->drawLine(_plotX, _plotY + _plotHeight*2/3, _plotX + _plotWidth -1, _plotY + _plotHeight*2/3 );
+}
+
+void XbarRS_NewChart::drawXBarLine(QQuickItem *item, QPainter *painter) {
+    DrawControlBase_Ver3::drawXBarLine(item, painter);
+
+    QPen pen_xBar;
+    //Draw UCL Line
+    pen_xBar.setColor("#FFB200");
+    painter->setPen(pen_xBar);
+    painter->drawLine(_plotX, _plotY + _plotHeight/4, _plotX + _plotWidth -1, _plotY + _plotHeight/4);
+
+    //Draw LCL Line
+    pen_xBar.setColor("red");
+    painter->setPen(pen_xBar);
+    painter->drawLine(_plotX, _plotY + _plotHeight/2, _plotX + _plotWidth -1, _plotY + _plotHeight/2);
+
+    //Draw CL Line
+    pen_xBar.setColor("#0EEDED");
+    painter->setPen(pen_xBar);
+    painter->drawLine(_plotX, _plotY + _plotHeight*3/4, _plotX + _plotWidth -1, _plotY + _plotHeight*3/4);
+}

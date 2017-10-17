@@ -9,7 +9,7 @@
 class MainProductionVer2VM : public ProductScreenBaseVM
 {
     Q_OBJECT
-    Q_PROPERTY(QString measureValue READ getMeasureValue WRITE setMeasureValue)
+    Q_PROPERTY(QList<QString> measureValue READ getMeasureValue WRITE setMeasureValue)
     Q_PROPERTY(QString measureUnit READ getMeasureUnit WRITE setMeasureUnit)
 //    Q_PROPERTY(qreal measureValueXbar READ getMeasureValueXbar WRITE setMeasureValueXbar)
     Q_PROPERTY(QColor backgroundColor READ getBackgroundColor WRITE setBackgroundColor)
@@ -27,8 +27,8 @@ public:
     ~MainProductionVer2VM();
 
     // Method
-    QString getMeasureValue();
-    void setMeasureValue(QString &value);
+    QList<QString> getMeasureValue();
+    void setMeasureValue(QList<QString> &value);
     QString getMeasureUnit();
     void setMeasureUnit(QString &value);
     QColor getBackgroundColor();
@@ -71,7 +71,7 @@ private:
     QList<QPixmap> m_arrPixmapLineNo;
     QList<QPixmap> m_arrMassbarBargraph;
     QList<QPixmap> m_arrStatusLineNo;
-    QString m_MeasureValue;
+    QList<QString> m_MeasureValue;
     QString m_MeasureUnit;
     qreal m_MeasureValueXbar;
     QColor m_BackgroundColor;

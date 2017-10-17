@@ -1,5 +1,5 @@
 #include "productver2screen.h"
-
+#include "screenmng.h"
 ProductVer2Screen::ProductVer2Screen(QQuickItem *parent): QQuickPaintedItem(parent)
 {
 }
@@ -87,25 +87,27 @@ void ProductVer2Screen::drawProd(QPainter *qp)
     for(int i = 0; i < m_LineNo; i++)
     {
 
-        statusImage=rand()%100;
-        if(statusImage>=0&&statusImage<10){
+        randWidth = rand()%m_arrMassbarBargraph[0].width() +4;
+        float randValue= randWidth/4.69;
+
+        if(randValue>=0&&randValue<10){
             statusImage=2;
             x =2;
         }
-        else if(statusImage>=10&&statusImage<20){
-            statusImage=1;
-            x =3;
-        }
-        else if(statusImage>=70&&statusImage<80){
-            statusImage=3;
-            x = 3;
-        }
-        else if(statusImage>=80&&statusImage<90){
+        else if(randValue>=10&&randValue<15){
             statusImage=4;
-            x = 3;
+            x =4;
         }
-        else if(statusImage>=90&&statusImage<100){
+        else if(randValue>=15&&randValue<20){
             statusImage=5;
+            x =4;
+        }
+        else if(randValue>=20&&randValue<30){
+            statusImage=3;
+            x = 4;
+        }
+        else if(randValue>=80&&randValue<100){
+            statusImage=1;
             x = 3;
         }
         else
@@ -114,8 +116,6 @@ void ProductVer2Screen::drawProd(QPainter *qp)
             x = 1;// pass, not display
         }
 
-        randWidth = rand()%m_arrMassbarBargraph[x].width() +4;
-//
         if(i < m_LineNo)
         {
             // draw Line Color of main content
@@ -128,14 +128,14 @@ void ProductVer2Screen::drawProd(QPainter *qp)
             {
                 qp->drawPixmap((108 ),spaceLineColor,  pixmaptmp);
                 qp->drawPixmap(600,spaceLineColor, pixStatus.scaled(44, 44, Qt::KeepAspectRatio));
-                qp->drawText(780, spaceLineColor +40, "+"+ m_MeasureValue);
+                qp->drawText(780, spaceLineColor +40, "+"+ m_MeasureValue[i]);
 
             }
             else
             {
                 qp->drawPixmap((108 ), spaceLineColor, pixmaptmp);
                 qp->drawPixmap(600,spaceLineColor, pixStatus.scaled(44, 44, Qt::KeepAspectRatio));
-                qp->drawText(780, spaceLineColor +40, "+" + m_MeasureValue);
+                qp->drawText(780, spaceLineColor +40, "+" + m_MeasureValue[i]);
             }
 
             spaceLineColor += 110*factor;
@@ -151,7 +151,7 @@ void ProductVer2Screen::drawProd(QPainter *qp)
     int spaceTxt =33;
     for (int i= 0; i<m_LineNo; i++ ){
 
-        qp->drawText(900,spaceTxt +40, m_MeasureUnit);
+        qp->drawText(935,spaceTxt +40, m_MeasureUnit);
         spaceTxt += 110;
 
     }
@@ -176,7 +176,7 @@ void ProductVer2Screen::drawXBar(QPainter *qp)
     int spaceLine=33;
     for(int i = 0; i < m_LineNo; i++)
     {
-        qp->drawText(780, spaceLine + 40, "+" +m_MeasureValue);/*+QString::number(m_MeasureValueXbar));*/
+        qp->drawText(780, spaceLine + 40, "+" +m_MeasureValue[i]);/*+QString::number(m_MeasureValueXbar));*/
         spaceLine += 110;
     }
     //Draw unit of measure
@@ -189,7 +189,7 @@ void ProductVer2Screen::drawXBar(QPainter *qp)
         int spaceTxt =33;
         for (int i= 0; i<m_LineNo; i++ ){
 
-            qp->drawText(900,spaceTxt +40, m_MeasureUnit);
+            qp->drawText(935,spaceTxt +40, m_MeasureUnit);
             spaceTxt += 110;
 
         }
@@ -205,12 +205,12 @@ void ProductVer2Screen::setIsXBar(bool &value)
     m_IsXbar = value;
 }
 
-QString ProductVer2Screen::getMeasureValue()
+QList<QString> ProductVer2Screen::getMeasureValue()
 {
     return m_MeasureValue;
 }
 
-void ProductVer2Screen::setMeasureValue(QString &value)
+void ProductVer2Screen::setMeasureValue(QList<QString> &value)
 {
     m_MeasureValue = value;
 }
@@ -241,4 +241,9 @@ QString ProductVer2Screen::getBackGroundColorFromVM()
     pen.color();
     return pen.color().name();
 }
-
+void ProductVer2Screen::OnLoad(){
+  ScreenMng* screenMng = ScreenMng::GetInstance();
+  qDebug() << "menu load BottomBarId: " << ScreenMng::BottomBarId::BottomBarMainPage;
+  screenMng->ChangeBottomBar(ScreenMng::BottomBarId::BottomBarMainPage);
+  screenMng->ChangeStatusBar(ScreenMng::StatusBarId::NormalStatusBar);
+}

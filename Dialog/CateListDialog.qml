@@ -365,11 +365,11 @@ Item{
                         }
                         onReleased:{
                             imgOK.source = "../Images/keyboard_btn_okcancel.png";
-                            if(list.model.get(list.currentRow)!== -1){
+                            if(list.currentRow !== -1){
                                 value = list.model.get(list.currentRow).title
                                 gridview.send()
-                                settingDialog.visible = false;
                             }
+                            settingDialog.visible = false
                         }
                         onCanceled:
                         {

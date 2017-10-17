@@ -2,7 +2,7 @@ import QtQuick 2.0
 import QtQuick.Controls 2.0
 import "../Control/switchLineUC"
 import "../Control/slideControl"
-import ZoomLine4V 1.0
+import ControlApp 1.0
 
 Item {
     property ZoomLine4V zoomlineObj: drawContent
@@ -14,7 +14,13 @@ Item {
     y: 0
     width: 1024
     height: 640
-
+    property alias objZoomLineVM: zoomlineVM
+    ZoomLine_VM{
+        id:zoomlineVM
+    }
+    Component.onCompleted: {
+        objZoomLineVM.onLoad();
+    }
     ZoomLine4V{
         id: drawContent
         width: 1024

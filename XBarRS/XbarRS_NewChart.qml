@@ -10,13 +10,21 @@ import "../Control/spinner"
 import "../Control/switchControl"
 import "../Control/switchLineUC"
 import "../ChartXbar"
+import CommonControl 1.0
+import QtQml 2.2
 
 Item {
+    property alias objxBarNewChartVM: xbarRS_NewChartVM
     property XbarRS_NewChart objxBarRsNewChart: _xBarNewChart
     property bool isForLine: false
     property bool isR: true
     property bool isPass: false
     property int _currentLineNo: 1
+
+    XBar_NewChartVM{
+        id:xbarRS_NewChartVM
+    }
+
     XbarRS_NewChart{
         id: _xBarNewChart
         x:0
@@ -61,7 +69,7 @@ Item {
                 objxBarRsNewChart.getIsLeft(isPass, 2, 4);
                 if(isLeft)
                 {
-                    chartXbar.lineChartColor ="#F4A460"
+                    chartXbar.lineChartColor ="#EECFA1"
                 }
                 else{
                     chartXbar.lineChartColor="#FFFF66"
@@ -75,16 +83,16 @@ Item {
             y: 585
             textLeft: "R"
             textRight: "S"
-            isLeft: !isR
+            isLeft: isR
             onSwitchButton: {
                 isR = sw_Rs.isLeft;
                 objxBarRsNewChart.getIsLeft(isR, 1, 4);
                 if(isLeft)
                 {
-                    chartRS.lineChartColor ="red"
+                    chartRS.lineChartColor ="lightgreen"
                 }
                 else{
-                    chartRS.lineChartColor="lightgreen"
+                    chartRS.lineChartColor="red"
                 }
             }
         }
@@ -148,28 +156,72 @@ Item {
                 }
             }
         }
-        MainChart{
-            id: chartXbar
-            x:290
-            y:0
-            lineChartColor: "#EECFA1"
-            onGenData: {
-                chartXbar.valueY = objxBarRsNewChart.setValueToDraw();
+        Timer{
+            id: timerDraw
+            running: true
+            repeat: true
+            interval: 100
+            onTriggered: {
+                chartXbar.lastValue = objxBarRsNewChart.randData();
+                chartXbar.timerTrigger()
+                chartRS.lastValue = objxBarRsNewChart.randData();
+                chartRS.timerTrigger()
             }
         }
-        MainChart{
+        TK_XBarRSChart {
+            id: chartXbar
+            x: 290
+            y: (Qt.platform.os === "android") ? -30 : -10
+            width: 720
+            height: (Qt.platform.os === "android") ? 260 : 240
+            lineChartColor: "#EECFA1"
+
+            Component.onCompleted: {
+                getPlotAreaX()
+                directConnectionObject.source = chartXbar.lowerLayer
+                directConnectionObject.signal = "onPaintHandle(QQuickItem*,QPainter*)"
+                directConnectionObject.destination = _xBarNewChart
+                directConnectionObject.slot = "drawXBarLine(QQuickItem*,QPainter*)"
+                directConnectionObject.isConnect = true
+            }
+            function getPlotAreaX(){
+                var beginPlot_X = chartXbar.plotX
+                var beginPlot_Y = chartXbar.plotY
+                var plotAreaWidth =  chartXbar.plotWidth
+                var plotAreaHeight = chartXbar.plotHeight
+                var space =chartXbar.height - plotAreaHeight
+                objxBarRsNewChart.getPlotLocation(beginPlot_X, beginPlot_Y, plotAreaWidth, plotAreaHeight, space)
+            }
+        }
+
+        TK_XBarRSChart {
             id: chartRS
             x: 290
-            y: chartXbar.y +chartXbar.height -50
-            lineTitle2: "Line R/S"
+            y: (Qt.platform.os === "android") ? (chartXbar.y +chartXbar.height - 40) : (chartXbar.y +chartXbar.height - 20)
+            width: 720
+            height: (Qt.platform.os === "android") ? 260 : 240
+            lineTitle2: sw_Rs.isLeft ? "Line R" : "Line S"
             lineChartColor: "lightgreen"
-            onGenData: {
-                chartRS.valueY = objxBarRsNewChart.setValueToDraw();
-                console.log(objxBarRsNewChart.setValueToDraw())
+
+            Component.onCompleted: {
+                directConnectionObject.source = chartRS.lowerLayer
+                directConnectionObject.signal = "onPaintHandle(QQuickItem*,QPainter*)"
+                directConnectionObject.destination = _xBarNewChart
+                directConnectionObject.slot = "drawRSLine(QQuickItem*,QPainter*)"
+                directConnectionObject.isConnect = true
             }
+
+        }
+
+        DirectConnection {
+            id: directConnectionObject
+        }
+
+        TestFramework {
+            id: testFrameworkItem
         }
     }
-
-
-
+    Component.onCompleted: {
+        objxBarNewChartVM.onLoad();
+    }
 }

@@ -143,7 +143,7 @@ Item{
                     id: areaDateTime
                     anchors.fill: parent
                     onClicked: {
-                        loaderContent.source="qrc:/Control/dateTime/DateTimeChange.qml"
+                        mainModel.InnerChangeScreen(ScreenMng.DateTimeChange)
                     }
                     onPressed: imgDateTimeBgr.source= "../Images/statbtn_on_120_62.png"
                     onReleased: imgDateTimeBgr.source= "../Images/statbtn_off_120_62.png"
@@ -237,10 +237,17 @@ Item{
 
                 MyMenu{
                     id: menuQuestion
+                    //                    MenuItem {
+                    //                        text: "Connect Server"
+                    //                        onTriggered: {
+                    //                            statusModel.connectQml();
+                    //                        }
+                    //                    }
                     MenuItem {
-                        text: "Connect Server"
+                        id: itemStop
+                        text: "Stop"
                         onTriggered: {
-                            statusModel.connectQml();
+                            mainModel.guiEvent(EnumControl.STOP);
                         }
                     }
                     MenuItem {
@@ -250,13 +257,7 @@ Item{
                             mainModel.guiEvent(EnumControl.START);
                         }
                     }
-                    MenuItem {
-                        id: itemStop
-                        text: "Stop"
-                        onTriggered: {
-                            mainModel.guiEvent(EnumControl.STOP);
-                        }
-                    }
+
 
                     MenuItem {
                         text: "Language"
@@ -265,28 +266,40 @@ Item{
                             appWindow.showDialog(component,300,400);
                         }
                     }
-                    MenuItem {
-                        text: "Access Level Change"
-                        onTriggered: {
-                            var component = Qt.createComponent("../Dialog/AccessLevelDialog.qml");
-                            var winAccessLevelChange =component.createObject(loaderContent, {"x":  (Screen.width - 730) / 2, "y": (Screen.height - 410) / 2});
-                            winAccessLevelChange.show();
-                        }
-                    }
+                    //                    MenuItem {
+                    //                        text: "Access Level Change"
+                    //                        onTriggered: {
+                    //                            var component = Qt.createComponent("../Dialog/AccessLevelDialog.qml");
+                    //                            var winAccessLevelChange =component.createObject(loaderContent, {"x":  (Screen.width - 730) / 2, "y": (Screen.height - 410) / 2});
+                    //                            winAccessLevelChange.show();
+                    //                        }
+                    //                    }
                     MenuItem {
                         text: "TestTheme"
                         onTriggered: {
-                            loaderContent.source="qrc:/AppTheme/TestTheme.qml";
+                            mainModel.InnerChangeScreen(ScreenMng.TestTheme)
                         }
                     }
                     MenuItem {
                         text: "Replace icon & text"
                         onTriggered: {
-                            loaderContent.source="qrc:/SetReplacePathScreen/GetPathReplace.qml";
+                            mainModel.InnerChangeScreen(ScreenMng.GetPathReplace)
+                        }
+                    }
+                    MenuItem {
+                        text: "Instruction Manual"
+                        onTriggered:{
+                            var component = Qt.createComponent("qrc:/Dialog/InstructionManualDialog.qml");
+                            appWindow.showDialog(component,300,400);
+                        }
+                    }
+                    MenuItem {
+                        text: "Error Alarm"
+                        onTriggered:{
+                            mainModel.InnerChangeStatusBar(ScreenMng.ErrorStatusBar)
                         }
                     }
                 }
-
             }
 
             ToolButton{
@@ -331,7 +344,21 @@ Item{
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
+                        var patt = /^P/;
+                        var patt2 = /^I/;
+                        var patt3 = /^O/;
                         contentItem.timAdjObj.showDialogSignalPhoto();
+                        contentItem.timAdjObj.disableScreen();
+                        if(patt.test(txtValueSignal.text)){
+                            contentItem.timAdjObj.signalSetCurrentIndex(0);
+                            contentItem.timAdjObj.photoSetSource(0);
+                        } else if(patt2.test(txtValueSignal.text)){
+                            contentItem.timAdjObj.signalSetCurrentIndex(1);
+                            contentItem.timAdjObj.photoSetSource(1);
+                        } else if(patt3.test(txtValueSignal.text)){
+                            contentItem.timAdjObj.signalSetCurrentIndex(2);
+                            contentItem.timAdjObj.photoSetSource(2);
+                        }
                     }
                     onPressed: imgPhoto.source= "../Images/statbtn_on_120_62.png"
                     onReleased: imgPhoto.source= "../Images/statbtn_off_120_62.png"
@@ -356,7 +383,7 @@ Item{
                     height: 31
                     color: "transparent"
                     Text {
-                       anchors.centerIn: parent
+                        anchors.centerIn: parent
                         text: "縦レンジ"
                         font.family: "MS Gothic"
                         font.pixelSize: 20
@@ -381,6 +408,7 @@ Item{
                     anchors.fill: parent
                     onClicked: {
                         contentItem.timAdjObj.showDialogVerticalRange();
+                        contentItem.timAdjObj.disableScreen();
                     }
                     onPressed: imgVerticalRange.source= "../Images/statbtn_on_120_62.png"
                     onReleased: imgVerticalRange.source= "../Images/statbtn_off_120_62.png"
@@ -430,6 +458,7 @@ Item{
                     anchors.fill: parent
                     onClicked: {
                         contentItem.timAdjObj.showDialogSettingTime();
+                        contentItem.timAdjObj.disableScreen();
 
                     }
                     onPressed: imgAjustTiming_SettingTime.source= "../Images/statbtn_on_120_62.png"
@@ -458,6 +487,7 @@ Item{
 
         }
 
+
         function getStatusBarAdjustTiming(isAdjustTiming){
             isAdjustTimingScreen = isAdjustTiming;
             if(!isAdjustTiming){
@@ -483,6 +513,18 @@ Item{
             return txtValueTime.text;
         }
 
+        function getValueSignal(){
+            return txtValueSignal.text;
+        }
+
+        function getTimeValue(){
+            return txtValueTime1.text;
+        }
+
+        function getVerticalRange(){
+            return txtVerticalRange.text;
+        }
+
         function updateAccessLevel(level){
             switch(level){
             case 1: sourceAccessLevel = "../Images/statbar_accessLevel_1a.png"; break;
@@ -495,6 +537,13 @@ Item{
         }
         function settingValueTime(str) {
             txtValueTime1.text = str
+        }
+
+        function disableStatusBar(){
+            statusBarScreen.enabled = false;
+        }
+        function enableStatusBar(){
+            statusBarScreen.enabled = true;
         }
     }
 
@@ -538,6 +587,8 @@ Item{
         toolButton_AccessLevel.visible = isShowAccessLevel
         toolButton_Question.visible = isShowQuestion
     }
+
+
 }
 
 

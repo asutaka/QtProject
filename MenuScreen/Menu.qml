@@ -9,7 +9,7 @@ Item{
     id: menuScreen
 
     property  alias menuScreenVM: menuScreenModel
-    Menu{
+    MenuV1{
         id: menuScreenModel
     }
 
@@ -50,8 +50,8 @@ Item{
                         anchors.verticalCenterOffset: 0
                         anchors.horizontalCenterOffset: 8
                         anchors.bottomMargin: 0
-                        font.family: "MS Gothic"
-                        font.pixelSize:24
+                        font.family: fontFactory.getFontFamily(FontFactory.FNT_L2)
+                        font.pixelSize:fontFactory.getFontSize(FontFactory.FNT_L2)
                         color: "#000000"
                         anchors.bottom: parent.bottom
                         anchors.centerIn: parent
@@ -59,8 +59,7 @@ Item{
                     MouseArea {
                         anchors.fill: parent
                         onClicked: {
-                            loaderContent.source ="MenuList.qml"
-                            loaderBottomBar.source ="qrc:/BottomBar/BottomBarMenuList.qml"
+                            mainModel.InnerChangeScreen(ScreenMng.SettingParamV1)
                         }
                         onPressed: imgRegisterNewProduct.source= "image://MyProvider/Key_W380_push.png"
                         onReleased:imgRegisterNewProduct.source= "image://MyProvider/Key_W380.png"
@@ -85,8 +84,8 @@ Item{
                         anchors.verticalCenterOffset: 0
                         anchors.horizontalCenterOffset: 10
                         anchors.bottomMargin: 2
-                        font.family: "MS Gothic"
-                        font.pixelSize:24
+                        font.family: fontFactory.getFontFamily(FontFactory.FNT_L2)
+                        font.pixelSize:fontFactory.getFontSize(FontFactory.FNT_L2)
                         color: "#000000"
                         anchors.bottom: parent.bottom
                         anchors.centerIn: parent
@@ -102,8 +101,7 @@ Item{
                     MouseArea {
                         anchors.fill: parent
                         onClicked: {
-                            loaderContent.source ="MenuList.qml"
-                            loaderBottomBar.source ="qrc:/BottomBar/BottomBarMenuList.qml"
+                            mainModel.InnerChangeScreen(ScreenMng.MenuList)
                         }
                         onPressed: imgDisplayProductList.source= "image://MyProvider/Key_W380_push.png"
                         onReleased:imgDisplayProductList.source= "image://MyProvider/Key_W380.png"
@@ -128,8 +126,8 @@ Item{
                         anchors.verticalCenterOffset: 0
                         anchors.horizontalCenterOffset: 40
                         anchors.bottomMargin: 0
-                        font.family: "MS Gothic"
-                        font.pixelSize:24
+                        font.family: fontFactory.getFontFamily(FontFactory.FNT_L2)
+                        font.pixelSize:fontFactory.getFontSize(FontFactory.FNT_L2)
                         color: "#000000"
                         anchors.bottom: parent.bottom
                         anchors.centerIn: parent
@@ -145,7 +143,7 @@ Item{
                     MouseArea {
                         anchors.fill: parent
                         onClicked: {
-                            mainModel.InnerChangeScreen(ScreenMng.SettingParamV1)
+                            mainModel.InnerChangeScreen(ScreenMng.SettingParamV2)
                         }
                         onPressed: imgAdjustRegisteredProduct.source= "image://MyProvider/Key_W380_push.png"
                         onReleased:imgAdjustRegisteredProduct.source= "image://MyProvider/Key_W380.png"
@@ -170,8 +168,8 @@ Item{
                         anchors.verticalCenterOffset: 0
                         anchors.horizontalCenterOffset: -41
                         anchors.bottomMargin: 1
-                        font.family: "MS Gothic"
-                        font.pixelSize:24
+                        font.family: fontFactory.getFontFamily(FontFactory.FNT_L2)
+                        font.pixelSize:fontFactory.getFontSize(FontFactory.FNT_L2)
                         color: "#000000"
                         anchors.bottom: parent.bottom
                         anchors.centerIn: parent
@@ -213,8 +211,8 @@ Item{
                         anchors.verticalCenterOffset: 0
                         anchors.horizontalCenterOffset: 6
                         anchors.bottomMargin: 1
-                        font.family: "MS Gothic"
-                        font.pixelSize:24
+                        font.family: fontFactory.getFontFamily(FontFactory.FNT_L2)
+                        font.pixelSize:fontFactory.getFontSize(FontFactory.FNT_L2)
                         color: "#000000"
                         anchors.bottom: parent.bottom
                         anchors.centerIn: parent
@@ -230,8 +228,7 @@ Item{
                     MouseArea {
                         anchors.fill: parent
                         onClicked: {
-                            loaderContent.source ="MenuList.qml"
-                            loaderBottomBar.source ="qrc:/BottomBar/BottomBarMenuList.qml"
+                            mainModel.InnerChangeScreen(ScreenMng.MenuListNew)
                         }
                         onPressed: imgStatsControl.source= "image://MyProvider/Key_W380_push.png"
                         onReleased:imgStatsControl.source= "image://MyProvider/Key_W380.png"
@@ -257,8 +254,8 @@ Item{
                         anchors.verticalCenterOffset: 0
                         anchors.horizontalCenterOffset: -19
                         anchors.bottomMargin: 0
-                        font.family: "MS Gothic"
-                        font.pixelSize:24
+                        font.family: fontFactory.getFontFamily(FontFactory.FNT_L2)
+                        font.pixelSize:fontFactory.getFontSize(FontFactory.FNT_L2)
                         color: "#000000"
                         anchors.bottom: parent.bottom
                         anchors.centerIn: parent
@@ -274,8 +271,7 @@ Item{
                     MouseArea {
                         anchors.fill: parent
                         onClicked: {
-                            loaderContent.source ="MenuList.qml"
-                            loaderBottomBar.source ="qrc:/BottomBar/BottomBarMenuList.qml"
+                            mainModel.InnerChangeScreen(ScreenMng.MenuList)
                         }
                         onPressed: imgOpeCheck.source= "image://MyProvider/Key_W380_push.png"
                         onReleased:imgOpeCheck.source= "image://MyProvider/Key_W380.png"
@@ -302,8 +298,8 @@ Item{
                         anchors.verticalCenterOffset: 0
                         anchors.horizontalCenterOffset: 0
                         anchors.bottomMargin: 0
-                        font.family: "MS Gothic"
-                        font.pixelSize:24
+                        font.family: fontFactory.getFontFamily(FontFactory.FNT_L2)
+                        font.pixelSize:fontFactory.getFontSize(FontFactory.FNT_L2)
                         color: "#000000"
                         anchors.bottom: parent.bottom
                         anchors.centerIn: parent
@@ -319,8 +315,7 @@ Item{
                     MouseArea {
                         anchors.fill: parent
                         onClicked: {
-                            loaderContent.source ="MenuList.qml"
-                            loaderBottomBar.source ="qrc:/BottomBar/BottomBarMenuList.qml"
+                            mainModel.InnerChangeScreen(ScreenMng.MenuList)
                         }
                         onPressed: imgUsbMemory.source= "image://MyProvider/Key_W380_push.png"
                         onReleased:imgUsbMemory.source= "image://MyProvider/Key_W380.png"
@@ -345,8 +340,8 @@ Item{
                         anchors.verticalCenterOffset: 0
                         anchors.horizontalCenterOffset: -25
                         anchors.bottomMargin: 0
-                        font.family: "MS Gothic"
-                        font.pixelSize:24
+                        font.family: fontFactory.getFontFamily(FontFactory.FNT_L2)
+                        font.pixelSize:fontFactory.getFontSize(FontFactory.FNT_L2)
                         color: "#000000"
                         anchors.bottom: parent.bottom
                         anchors.centerIn: parent
@@ -362,8 +357,7 @@ Item{
                     MouseArea {
                         anchors.fill: parent
                         onClicked: {
-                            loaderContent.source ="MenuList.qml"
-                            loaderBottomBar.source ="qrc:/BottomBar/BottomBarMenuList.qml"
+                            mainModel.InnerChangeScreen(ScreenMng.MenuList)
                         }
                         onPressed: imgLanguage.source= "image://MyProvider/Key_W380_push.png"
                         onReleased:imgLanguage.source= "image://MyProvider/Key_W380.png"
@@ -388,8 +382,8 @@ Item{
                         anchors.verticalCenterOffset: 0
                         anchors.horizontalCenterOffset: -32
                         anchors.bottomMargin: 0
-                        font.family: "MS Gothic"
-                        font.pixelSize:24
+                        font.family: fontFactory.getFontFamily(FontFactory.FNT_L2)
+                        font.pixelSize:fontFactory.getFontSize(FontFactory.FNT_L2)
                         color: "#000000"
                         anchors.bottom: parent.bottom
                         anchors.centerIn: parent
@@ -405,8 +399,7 @@ Item{
                     MouseArea {
                         anchors.fill: parent
                         onClicked: {
-                            loaderContent.source ="MenuList.qml"
-                            loaderBottomBar.source ="qrc:/BottomBar/BottomBarMenuList.qml"
+                            mainModel.InnerChangeScreen(ScreenMng.MenuList3V)
                         }
                         onPressed: imgHistory.source= "image://MyProvider/Key_W380_push.png"
                         onReleased:imgHistory.source= "image://MyProvider/Key_W380.png"
@@ -431,8 +424,8 @@ Item{
                         anchors.verticalCenterOffset: 0
                         anchors.horizontalCenterOffset: 33
                         anchors.bottomMargin: 0
-                        font.family: "MS Gothic"
-                        font.pixelSize:24
+                        font.family: fontFactory.getFontFamily(FontFactory.FNT_L2)
+                        font.pixelSize:fontFactory.getFontSize(FontFactory.FNT_L2)
                         color: "#000000"
                         anchors.bottom: parent.bottom
                         anchors.centerIn: parent
@@ -448,8 +441,7 @@ Item{
                     MouseArea {
                         anchors.fill: parent
                         onClicked: {
-                            loaderContent.source ="MenuList.qml"
-                            loaderBottomBar.source ="qrc:/BottomBar/BottomBarMenuList.qml"
+                            mainModel.InnerChangeScreen(ScreenMng.MenuList)
                         }
                         onPressed: imgMaintAndSetting.source= "image://MyProvider/Key_W380_push.png"
                         onReleased:imgMaintAndSetting.source= "image://MyProvider/Key_W380.png"
@@ -462,16 +454,17 @@ Item{
 
     Component.onCompleted: {
         menuScreenVM.OnLoad();
-        mainModel.onChangeLanguage.connect(updateText);
-        console.log("scale_factor: " + appWindow.scale_factor);
-        console.log("width: " + appWindow.width);
-        console.log("height: " + appWindow.height);
+        updateText();
+        mainModel.onChangeLanguage.connect(onChangeLanguage);
+    }
+
+    function onChangeLanguage() {
+        menuScreenVM.OnChangeLanguage();
         updateText();
     }
 
     function updateText() {
         console.log("update text on Menu screen");
-        menuScreenVM.OnChangeLanguage();
         txtAdjustRegisteredProduct.text = menuScreenVM.txtAdjustRegisteredProduct
         txtControlPanel.text = menuScreenVM.txtControlPanel
         txtDisplayProductList.text = menuScreenVM.txtDisplayProductList

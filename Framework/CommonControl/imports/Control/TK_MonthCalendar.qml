@@ -1,10 +1,12 @@
-import QtQuick 2.5
-import QtQuick.Controls 1.4
+import QtQuick 2.7
+import QtQuick.Layouts 1.3
 import QtQuick.Controls.Styles 1.4
 
-Calendar {
+Item {
+    id: boss
 
-    id: cal
+    width: 200
+    height: 200
     //    property	alias	id:                             Not customize   <=> CONTROL LIST: Name
     //    property	alias	enabled:                        Not customize   <=> CONTROL LIST: Enabled
     //    property	alias	visible:                        Not customize   <=> CONTROL LIST: Visibled
@@ -25,207 +27,179 @@ Calendar {
     //    property	bool	mGeneratemember                 Not used        <=> CONTROL LIST: Generatemember
     //    property	bool	mLocked                         Not used        <=> CONTROL LIST: Locked
     //    proprerty alias   mModifiers                      Not used        <=> CONTROL LIST: Modifiers
-    //    property	int 	mCausesValidation               Not used        <=> CONTROL LIST: CausesValidation
-    //    property  alias	mUseWaitCursor                  Not used        <=> CONTROL LIST: UseWaitCursor
     //    property  alias   mAllowDrop                      Not used        <=> CONTROL LIST: AllowDrop
     //    property  alias   mDock                           Not used        <=> CONTROL LIST: Dock
-    //    proprerty alias   mCalendarDimensions             Not used        <=> CONTROL LIST: CalendarDimensions
-    //    property  alias   mScrollChange                   Not used        <=> CONTROL LIST: ScrollChange
-
-    //    property  alias   mFirstDayOfWeek                 Thinking        <=> CONTROL LIST: firstDayOfWeek
-    //    property  alias   mMaxSelectionCount              Thinking        <=> CONTROL LIST: MaxSelectionCount
-    //    property  alias   mSelectionRange                 Thinking        <=> CONTROL LIST: SelectionRange
-    //    property  alias   mShowTodaysCircle               Thinking        <=> CONTROL LIST: ShowTodaysCircle
-    //    property  alias   mRighToLeftLayout               Thinking        <=> CONTROL LIST: RighToLeftLayout
-    //    property  alias   mTrailingForeColor              Thinking        <=> CONTROL LIST: TrailingForeColor
-
-
 
     property	size 	mMaximumSize:           Qt.size(1000, 1000)             // <=> CONTROL LIST: MaximumSize
     property	size 	mMinimumSize:           Qt.size(0, 0)                   // <=> CONTROL LIST: MinimumSize
     property    color   mBackColor:             "white"                         // <=> CONTROL LIST: BackColor
-    property    string  mFont:                  "Consolas"                      // <=> CONTROL LIST: Font
+    property    string  mFont:                  "NotoSans-Regular"                      // <=> CONTROL LIST: Font
     property    color   mForeColor:             "black"
     property    bool    mRightToLeft:           false                           // <=> CONTROL LIST: RightToLeft
+    property    date    mTodayDate:             cal.mTodayDate                                              // <=> CONTROL LIST: TodayDate
     property    alias   mMaxDate:               cal.maximumDate                 // <=> CONTROL LIST: maxDate
     property    alias   mMinDate:               cal.minimumDate                 // <=> CONTROL LIST: minDate
-    property    date    mTodayDate                                              // <=> CONTROL LIST: TodayDate
-    property    alias   mShowWeekNumber:        cal.weekNumbersVisible          // <=> CONTROL LIST: ShowWeekNumber
     property    bool    mShowToday:             true                            // <=> CONTROL LIST: ShowToday
     property    color   mTitleBackColor:        "white"                         // <=> CONTROL LIST: TitleBackColor
     property    color   mTitleForeColor:        "black"                         // <=> CONTROL LIST: TitleForeColor
+    property    bool	mUseWaitCursor:         false                           // <=> CONTROL LIST: UseWaitCursor
+    property    bool    mCausesValidation:      false                           // <=> CONTROL LIST: CausesValidation
+    property    int     mScrollChange:          1                               // <=> CONTROL LIST: ScrollChange
+    property    bool    mShowTodaysCircle:      true                            // <=> CONTROL LIST: ShowTodaysCircle
+    property    int     mMaxSelectionCount:     7                               // <=> CONTROL LIST: MaxSelectionCount
+    property    bool    mShowWeekNumber:        true
+    property    int     mCursor:                Qt.ArrowCursor              // <=> CONTROL LIST: Cursor
 
+    property    color   mTrailingForeColor:     "grey"                          // <=> CONTROL LIST: TrailingForeColor
+    //Saturday: -1 Sunday: 0 Monday: 1
+    property    int     mFirstDayOfWeek:        0                               // <=> CONTROL LIST: FirstDayOfWeek
 
-    property    color   mSelectedColor:         "#deecef"                       // new
-    property    color   mTodayColor:            "#00d1ff"                       // new
-
-
-    style: CalendarStyle {
-        gridVisible: false
-
-        navigationBar: Rectangle {
-            height: cal.height / 6
-            color: mTitleBackColor
-
-            Rectangle {
-                id: down
-                height: parent.height * 2 / 3
-                x: parent.width / 12
-                y: parent.height / 6
-                width: height
-                color: mTitleBackColor
-                border.width: 0.3
-                border.color: "grey"
-
-                Canvas {
-                    anchors.fill: parent
-                    onPaint: {
-                        var ctx = getContext("2d");
-                        ctx.fillStyle = "grey"
-                        ctx.beginPath();
-                        ctx.moveTo(down.width/3, down.height*0.5);
-                        ctx.lineTo(down.width*2/3, down.height*0.2);
-                        ctx.lineTo(down.width*2/3, down.height*0.8);
-                        ctx.closePath();
-                        ctx.fill();
-                    }
-                }
-
-                MouseArea {
-                    anchors.fill: parent
-                    onPressed: {
-                        showPreviousMonth();
-                    }
-                }
-            }
-
-            Label {
-
-                text: styleData.title
-                color: mTitleForeColor
-                font.pixelSize: parent.height / 3
-                anchors.centerIn: parent
-            }
-
-
-            Rectangle {
-                id: up
-                height: parent.height * 2 / 3
-                width: height
-                y: parent.height / 6
-                x: parent.width * 11 / 12 - width
-                color: mTitleBackColor
-                border.width: 0.3
-                border.color: "grey"
-                Canvas {
-                    anchors.fill: parent
-                    onPaint: {
-                        var ctx = getContext("2d");
-                        ctx.fillStyle = "grey"
-                        ctx.beginPath();
-                        ctx.moveTo(up.width/3, up.height* 0.2);
-                        ctx.lineTo(up.width*2/3, up.height* 0.5);
-                        ctx.lineTo(up.width/3, up.height*0.8);
-                        ctx.closePath();
-                        ctx.fill();
-                    }
-                }
-                MouseArea {
-                    anchors.fill: parent
-                    onPressed: {
-                        showNextMonth();
-                    }
-                }
-            }
-        }
-
-
-        dayDelegate: Rectangle {
-            id: dayRect
-            color: styleData.today ? mTodayColor : (styleData.selected ? mSelectedColor : mBackColor)
-                                     //:(styleData.visibleMonth && styleData.valid ? mBackColor : mBackColor)
-            Label {
-                id: lab
-                text: styleData.date.getDate()
-                font.family: mFont
-                font.pixelSize: parent.width / 3
-                anchors.centerIn: parent
-                color: styleData.visibleMonth && styleData.valid ? mForeColor : "grey"
-                Component.onCompleted: {
-                    if(styleData.today) {
-                        mTodayDate = styleData.date;
-                    }
-                }
-            }
-
-
-        }
-        dayOfWeekDelegate: Rectangle {
-            color: mBackColor
-            height: 20
-            Label {
-                text: styleData.dayOfWeek;
-                font.family: mFont
-                font.pixelSize: parent.width * 2 / 5
-                anchors.centerIn: parent
-
-                Component.onCompleted: {
-                    var temp = styleData.dayOfWeek + 1;
-                    if(temp === 7) {
-                        text = "Sun"
-                    }else if(temp === Locale.Monday) {
-                        text = "Mon"
-                    }else if(temp === Locale.Tuesday) {
-                        text = "Tue"
-                    }else if(temp === Locale.Wednesday) {
-                        text = "Wed"
-                    }else if(temp === Locale.Thursday) {
-                        text = "Thu"
-                    }else if(temp === Locale.Friday) {
-                        text = "Fri"
-                    }else if(temp === Locale.Saturday) {
-                        text = "Sat"
-                    }else {
-
-                    }
-                }
-            }
-        }
-    }
-
-    Rectangle {
-        visible: mShowToday
-        anchors.top: parent.bottom
-
-        width: parent.width
-        height: parent.height / 10
-        Label {
-            anchors.centerIn: parent
-            text: ""
-            font.pixelSize: parent.width / 17
-
-            Component.onCompleted: {
-                text = mTodayDate.getDate() + "/" + (mTodayDate.getUTCMonth() + 1) + "/" + mTodayDate.getFullYear();
-            }
-        }
-    }
+    //new Date("2017-09-06")
+    property    date    mSelectionRangeStartDate:   new Date()                  // <=> CONTROL LIST: SelectionRange
+    property    date    mSelectionRangeEndDate:     new Date()                  // <=> CONTROL LIST: SelectionRange
+    property    alias   mRightToLeftLayout:     cal.rightToLeftLayout           // <=> CONTROL LIST: RightToLeftLayout
+    property    int     xDimension: 1                                           // <=> CONTROL LIST: CalendarDimension
+    property    int     yDimension: 1                                           // <=> CONTROL LIST: CalendarDimension
     Component.onCompleted: {
-        if(cal.width <= mMinimumSize.width) {
-            cal.width = mMinimumSize.width
+        if(xDimension * yDimension == 1) cal.visible = true;
+        else {
+            col.visible = true;
+        }
+    }
+
+    CalendarControl {
+       id: cal
+       visible: false
+       height:         boss.height
+       width:          boss.width
+       mMaximumSize:           boss.mMaximumSize
+       mMinimumSize:           boss.mMinimumSize
+       mBackColor:          boss.mBackColor
+       mFont:               boss.mFont
+       mForeColor:          boss.mForeColor
+       mRightToLeft:        boss.mRightToLeft
+       mShowWeekNumber:     boss.mShowWeekNumber
+       mShowToday:          boss.mShowToday
+       mTitleBackColor:     boss.mTitleBackColor
+       mTitleForeColor:     boss.mTitleForeColor
+       mUseWaitCursor:      boss.mUseWaitCursor
+       mCursor:             boss.mCursor
+       mCausesValidation:   boss.mCausesValidation
+       mScrollChange:       boss.mScrollChange
+       mShowTodaysCircle:   boss.mShowTodaysCircle
+       mMaxSelectionCount:  boss.mMaxSelectionCount
+       mTrailingForeColor:  boss.mTrailingForeColor
+       //Saturday: -1 Sunday: 0 Monday: 1
+       mFirstDayOfWeek:     boss.mFirstDayOfWeek
+
+       //new Date("2017-09-06")
+       mSelectionRangeStartDate:   boss.mSelectionRangeStartDate
+       mSelectionRangeEndDate:     boss.mSelectionRangeEndDate
+
+    }
+
+    Column {
+        id: col
+        visible: false
+        Repeater {
+            id: rep
+            model: yDimension
+            Row {
+                id: row
+                property int mIndex: index
+
+                Repeater {
+                    id: cell
+                    model: xDimension
+
+                    CalendarControl {
+                        width:              boss.width
+                        height:             boss.height
+                        mBackColor:         boss.mBackColor
+                        mFont:              boss.mFont
+                        mForeColor:         boss.mForeColor
+                        mRightToLeft:       boss.mRightToLeft
+                        mTitleBackColor:    boss.mTitleBackColor
+                        mTitleForeColor:    boss.mTitleForeColor
+                        mUseWaitCursor:     boss.mUseWaitCursor
+                        mCursor:            boss.mCursor
+                        mCausesValidation:  boss.mCausesValidation
+                        mScrollChange: 1
+                        mShowTodaysCircle:  false
+                        mMaxSelectionCount: 0
+
+                        mShowWeekNumber: false
+                        mShowLeftArrow: false
+                        mShowRightArrow: false
+                        mShowToday: false
+                        mTrailingForeColor: "white"
+                        mSelectedColor: "white"
+                        mDayClickedEnable: false
+                        onArrowLeftClicked: {
+                            showNextMonth();
+                            col.previousMonth();
+                        }
+                        onArrowRightClicked: {
+                            showPreviousMonth();
+                            col.nextMonth();
+                        }
+
+
+                    }
+                }
+
+                function nextMonth() {
+                    for(var i = 0; i < cell.model; i++) {
+                        cell.itemAt(i).showNextMonth();
+                    }
+                }
+
+                function previousMonth() {
+                    for(var i = 0; i < cell.model; i++) {
+                        cell.itemAt(i).showPreviousMonth();
+                    }
+                }
+
+                function init(){
+                    for(var i = 0; i < cell.model; i++) {
+                        var plus = row.mIndex * cell.model + i
+                        if(plus == 0) {
+                            cell.itemAt(i).mShowLeftArrow = true;
+
+                        }
+                        if(plus == cell.model - 1) {
+                            cell.itemAt(i).mShowRightArrow = true;
+
+                        }
+                        if(plus != 0 && plus != xDimension * yDimension - 1) {
+
+                        }
+
+                        for(var j = 0; j < plus; j++) {
+                            cell.itemAt(i).showNextMonth();
+                        }
+                    }
+                }
+
+                Component.onCompleted: {
+                    mIndex = index
+                    init();
+                }
+            }
 
         }
 
-        if(cal.width >= mMaximumSize.width) {
-            cal.width = mMaximumSize.width
+        function nextMonth() {
+            for(var i = 0; i < rep.model; i++) {
+                rep.itemAt(i).nextMonth();
+            }
         }
 
-        if(cal.height <= mMinimumSize.height) {
-            cal.height = mMinimumSize.height
-        }
 
-        if(cal.height >= mMaximumSize.height) {
-            cal.height = mMaximumSize.height
+        function previousMonth() {
+            for(var i = 0; i < rep.model; i++) {
+                rep.itemAt(i).previousMonth();
+            }
         }
-
     }
 }

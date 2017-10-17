@@ -10,6 +10,13 @@ Item{
     property Production productScreen: drawContentProduction
     width: 1024
     height: 640
+    property ProductionScreenVM_ver3 productionVM: prodVM
+    ProductionScreenVM_ver3 {
+        id: prodVM
+    }
+    Component.onCompleted: {
+        productionVM.onLoad();
+    }
     Production{
         id: drawContentProduction
         width: 1024

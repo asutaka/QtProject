@@ -136,7 +136,7 @@ void DrawControlBase_Ver3::getIsLeft(bool _isLeft, int _btnID, int _screenID)
     if (_screenID == 4) {
         switch (_btnID) {
         case 0:
-           isForLine = _isLeft;
+            isForLine = _isLeft;
             break;
         case 1:
             isR = _isLeft;
@@ -165,3 +165,13 @@ QList<int> DrawControlBase_Ver3::setValueToDraw()
     }
     return listValue;
 }
+int DrawControlBase_Ver3::randData()
+{
+    return (80 + qrand() %150);
+}
+
+void DrawControlBase_Ver3::drawXBarLine(QQuickItem *item, QPainter *painter) { }
+
+void DrawControlBase_Ver3::drawRSLine(QQuickItem *item, QPainter *painter) { }
+
+void DrawControlBase_Ver3::getPlotLocation(int plotX, int plotY, int plotWidth, int plotHeight, int space){}

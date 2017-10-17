@@ -24,7 +24,6 @@ Item {
     //    property	bool 	mGeneratemember         Not used        <=> CONTROL LIST: Generatemember
     //    property	bool	mLocked                 Not used        <=> CONTROL LIST: Locked
     //    property	var 	mModifiers              Not used        <=> CONTROL LIST: Modifiers
-    //    property	bool	mCausesValidation       Not used        <=> CONTROL LIST: CausesValidation
     //    property	bool	mAllowDrop              Not used        <=> CONTROL LIST: AllowDrop
     //    property	int 	mDock                   Not used        <=> CONTROL LIST: Dock
     //    property	alias	mImeMode                Not used        <=> CONTROL LIST: ImeMode
@@ -51,12 +50,16 @@ Item {
     property    bool    mUseWaitCursor:         false                           // <=> CONTROL LIST: UseWaitCursor
     property	size 	mMaximumSize:           Qt.size(0, 0)                   // <=> CONTROL LIST: MaximumSize
     property	size 	mMinimumSize:           Qt.size(0, 0)                   // <=> CONTROL LIST: MinimumSize
+    property	bool	mCausesValidation:      true                            // <=> CONTROL LIST: CausesValidation
+
     property    bool    mAutoSize:              false
     property    alias   mImageUp:               imageUp.source                  // <=> create newly
     property    alias   mImageDown:             imageDown.source                // <=> create newly
     property    int     mImgFillMode                                            // <=> create newly
     property    int     mAutoEllipsis                                           // <=> create newly
     property    int     mCurrentIndex:          1                               // <=> create newly
+
+    signal validating()
 
     Column {
         id: btnColumn
@@ -136,6 +139,10 @@ Item {
                             break;
                         }
                     }
+                }
+
+                onTextChanged: {
+                    if (mCausesValidation) { validating() }
                 }
             }
         }

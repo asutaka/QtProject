@@ -18,13 +18,13 @@ MainProductionVer2VM::~MainProductionVer2VM()
 }
 
 // Property
-QString MainProductionVer2VM::getMeasureValue()
+QList<QString> MainProductionVer2VM::getMeasureValue()
 {
     return m_MeasureValue;
 }
-void MainProductionVer2VM::setMeasureValue(QString &value)
+void MainProductionVer2VM::setMeasureValue(QList<QString> &value)
 {
-    m_MeasureValue=value;
+    m_MeasureValue = value;
 }
 QString MainProductionVer2VM::getMeasureUnit()
 {
@@ -153,27 +153,30 @@ void MainProductionVer2VM::LoadImage()
     m_arrPixmapLineNo.append(img);
 
     //MassBarGraph
-    img.load(":/Images/Massbar_bargraph_avg.png");
+    img.load(":/Images/Massbar_bargraph_avg.png");          //X0-BACKGROUND
     m_arrMassbarBargraph.append(img);
-    img.load(":/Images/Massbar_bargraph_pass.png");
+    img.load(":/Images/Massbar_bargraph_pass.png");         //X1-PASS
     m_arrMassbarBargraph.append(img);
-    img.load(":/Images/Massbar_bargraph_minusng.png");
+    img.load(":/Images/Massbar_bargraph_minusng.png");      //X2-NG-
     m_arrMassbarBargraph.append(img);
-    img.load(":/Images/Massbar_bargraph_plusng.png");
+    img.load(":/Images/Massbar_bargraph_plusng.png");       //X3-NG+
+    m_arrMassbarBargraph.append(img);
+    img.load(":/Images/Massbar_bargraph_Fill.png");         //X4-FILL BULUE
     m_arrMassbarBargraph.append(img);
 
+
      //StatusLineNoNG
-    img.load (""); //(":/Images/cw_eval_pass.png");
+    img.load (""); //(":/Images/cw_eval_pass.png");     //statusImage 0 OK
     m_arrStatusLineNo.append(img);
-    img.load(":/Images/cw_eval_plusng.png");
+    img.load(":/Images/cw_eval_plusng.png");            //statusImage 1 NG+
     m_arrStatusLineNo.append(img);
-    img.load(":/Images/cw_eval_minus.png");
+    img.load(":/Images/cw_eval_minus.png");             //statusImage 2 NG-
     m_arrStatusLineNo.append(img);
-    img.load(":/Images/cw_eval_exng2.png");
+    img.load(":/Images/cw_eval_exng2.png");             //statusImage 3 NG
     m_arrStatusLineNo.append(img);
-    img.load(":/Images/cw_eval_md_dblprod.png");
+    img.load(":/Images/cw_eval_md_dblprod.png");        //statusImage 4 NG
     m_arrStatusLineNo.append(img);
-    img.load(":/Images/cw_eval_mdng_en.png");
+    img.load(":/Images/cw_eval_mdng_en.png");           //statusImage 5 MDNG
     m_arrStatusLineNo.append(img);
 
 }
@@ -181,14 +184,16 @@ void MainProductionVer2VM::LoadImage()
 //Method
 void MainProductionVer2VM::updateMeasureValue()
 {
-    qreal randVal = (rand()%4) + (float(rand()%4/5.0));
-    //qreal valXbar = (rand()%3) + (float(rand()%4/5.0));
-    QString val = QString::number(randVal);
-    QString strUnit="g";
+    QList<QString> val; /*= QString::number(randVal);*/
+    for(int i = 0; i < m_MaxLine; i++){
+        val.append(QString::number(rand()%10/7.0, 'f', 2));
+    }
+    setMeasureValue(val);
 
     QColor bkgColor = AppThemeManager::GetInstance()->theme()->colorBackGround();
-    setMeasureValue(val);
     setBackgroundColor(bkgColor);
+
+    QString strUnit="g";
     setMeasureUnit(strUnit);
     //setMeasureValueXbar(valXbar);
 

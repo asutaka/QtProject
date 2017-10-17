@@ -9,7 +9,12 @@ Item {
     id: settingReplacePathScreen
     width: 1024
     height: 640
+    property alias objGetPathReplaceVM: getPathReplaceVM
     property GetPathReplace getPathRep: getPathReplace
+
+    SetReplacePathScreenVM {
+        id:getPathReplaceVM
+    }
 
     Rectangle {
         anchors.fill: parent
@@ -18,6 +23,17 @@ Item {
             id: getPathReplace
         }
 
+        FileBrowser {
+            id: fileBrowser
+            anchors.fill: parent
+            folder: "file:///sdcard"
+            selectFolder: true
+            onFolderSelected: {
+                getPathRep.settingApp(fileBrowser.folder)
+                fileBrowser.visible = false
+                btnReplace.visible = true
+            }
+        }
 
         Rectangle {
             id: btnReplace
@@ -34,23 +50,38 @@ Item {
                 anchors.horizontalCenterOffset: 8
                 anchors.bottomMargin: 0
                 font.family: "MS Gothic"
-                font.pixelSize:24
+                font.pixelSize: 24
                 color: "black"
                 anchors.bottom: parent.bottom
                 anchors.centerIn: parent
             }
+
             MouseArea {
                 anchors.fill: parent
-                onPressed: {
-                    btnReplace.color ="gray"
+                onPressed: btnReplace.color ="gray"
 
-
-                }
                 onReleased: {
                     btnReplace.color ="white"
-                    getPathReplace.setPath()
+                    var isAndroid = getPathRep.isAndroid();
+
+                    if(isAndroid){
+                        btnReplace.visible = false
+                        if (fileBrowser.visible) { fileBrowser.show() }
+                        else { fileBrowser.visible = true }
+                    } else { getPathRep.setPath() }
                 }
             }
         }
+    }
+    Component.onCompleted: {
+        objGetPathReplaceVM.onLoad();
+    }
+    function convertPathFolder(pathFile){
+        var list = pathFile.split("/")
+        var pathFolder = "file:";
+        for (var i = 1; i < list.length - 1; i++){
+            pathFolder = pathFolder.concat("/", list[i])
+        }
+        return pathFolder
     }
 }

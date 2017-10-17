@@ -4,12 +4,11 @@ import QtQuick.Layouts 1.3
 import QtQuick.Controls.Styles 1.4
 import ControlApp 1.0
 import "qrc:/Dialog"
-import "qrc:/Control/switchControl";
 
 
 Item {
-    property IOMonitor objIOMonitor: ioMonitor
-    property alias ioMonitorVM : ioMonitorVMControl
+    property alias objIOMonitor: ioMonitor
+    property alias ioMonitorVM : ioMonitorVMObject
     property int chanelSelect: 1
     property int chanelOld: 1
     property bool isButtonUpDown: false
@@ -19,7 +18,7 @@ Item {
     ]
 
     IOMonitorScreenVM {
-        id: ioMonitorVMControl
+        id: ioMonitorVMObject
     }
 
     Rectangle {
@@ -203,7 +202,9 @@ Item {
                             btnStart.border.color ="#5a6469"
                             txtStart.color ="#5a6469"
                             objIOMonitor.updateStartStopMachine(false)
-                            loaderStatusBar.item.objIOMonitorStatusBar.settingValueTitle(false)
+                            if (loaderStatusBar.item.statusBarIOMonitorObj != null) {
+                                loaderStatusBar.item.statusBarIOMonitorObj.settingValueTitle(false)
+                            }
                         }
                     }
                 }
@@ -232,7 +233,9 @@ Item {
                             btnStop.border.color ="#5a6469"
                             txtStop.color ="#5a6469"
                             objIOMonitor.updateStartStopMachine(true)
-                            loaderStatusBar.item.objIOMonitorStatusBar.settingValueTitle(true)
+                            if (loaderStatusBar.item.statusBarIOMonitorObj != null) {
+                                loaderStatusBar.item.statusBarIOMonitorObj.settingValueTitle(true)
+                            }
                         }
                     }
                 }
@@ -355,9 +358,13 @@ Item {
                 indexSelect: 0
                 visible: false
                 onSend: {
-                    loaderStatusBar.item.objIOMonitorStatusBar.settingValueDisplay(value)
+                    if (loaderStatusBar.item.statusBarIOMonitorObj != null) {
+                        loaderStatusBar.item.statusBarIOMonitorObj.settingValueDisplay(value)
+                    }
                     if (value === listDisplay.get(1).title) {
-                        loaderBottomBar.item.objIOMonitorBottomBar.updateStartStopImport(true)
+                        if (loaderBottomBar.item.bottomBarIOMonitorObj != null) {
+                            loaderBottomBar.item.bottomBarIOMonitorObj.updateStartStopImport(true)
+                        }
                     }
                 }
             }
@@ -369,20 +376,22 @@ Item {
                 indexSelect: 0
                 visible: false
                 onSend: {
-                    var src = ""
-                    if (value === listTrigerCondition.get(0).title)
-                    {
-                        src = "image://MyProvider/statbar_event_down.png"
+                    if (loaderStatusBar.item.statusBarIOMonitorObj != null) {
+                        var src = ""
+                        if (value === listTrigerCondition.get(0).title)
+                        {
+                            src = "image://MyProvider/statbar_event_down.png"
+                        }
+                        else if (value === listTrigerCondition.get(1).title)
+                        {
+                            src = "image://MyProvider/statbar_event_up.png"
+                        }
+                        else
+                        {
+                            src = "image://MyProvider/statbar_event_none.png"
+                        }
+                        loaderStatusBar.item.statusBarIOMonitorObj.settingValueTriggerCondition(value, src)
                     }
-                    else if (value === listTrigerCondition.get(1).title)
-                    {
-                        src = "image://MyProvider/statbar_event_up.png"
-                    }
-                    else
-                    {
-                        src = "image://MyProvider/statbar_event_none.png"
-                    }
-                    loaderStatusBar.item.objIOMonitorStatusBar.settingValueTriggerCondition(value, src)
                 }
             }
 
@@ -393,7 +402,9 @@ Item {
                 indexSelect: 0
                 visible: false
                 onSend: {
-                    loaderStatusBar.item.objIOMonitorStatusBar.settingValueTriggerNo(value)
+                    if (loaderStatusBar.item.statusBarIOMonitorObj != null) {
+                        loaderStatusBar.item.statusBarIOMonitorObj.settingValueTriggerNo(value)
+                    }
                 }
             }
 
@@ -404,7 +415,9 @@ Item {
                 indexSelect: 0
                 visible: false
                 onSend: {
-                    loaderStatusBar.item.objIOMonitorStatusBar.settingValueSignalType(value)
+                    if (loaderStatusBar.item.statusBarIOMonitorObj != null) {
+                        loaderStatusBar.item.statusBarIOMonitorObj.settingValueSignalType(value)
+                    }
                     if (value === listSignalType.get(0).title) {
                         objIOMonitor.updatePredictedSignal(false)
                     }
@@ -543,51 +556,69 @@ Item {
     Component.onCompleted: {
         ioMonitorVM.onLoad();
         updateText()
-        mainModel.onChangeLanguage.connect(updateText)
+        mainModel.onChangeLanguage.connect(onChangeLanguage)
+    }
+
+    Component.onDestruction: {
+        mainModel.onChangeLanguage.disconnect(onChangeLanguage)
+    }
+
+    function onChangeLanguage() {
+        ioMonitorVM.onChangeLanguage()
+        updateText()
     }
 
     function updateText() {
-        objIOMonitor.txtSampCycleTitle = loaderStatusBar.item.objIOMonitorVM.txtSampCycleTitle
-        objIOMonitor.txtSampCycleUnit = loaderStatusBar.item.objIOMonitorVM.txtSampCycleUnit
-        txtStart.text = loaderStatusBar.item.objIOMonitorVM.txtStart
-        txtStop.text = loaderStatusBar.item.objIOMonitorVM.txtStop
-        dlgSMPCYC.title = loaderStatusBar.item.objIOMonitorVM.txtSMPCYCTitle
-        dlgDisplay.title = loaderStatusBar.item.objIOMonitorVM.txtDisplayTitle
-        dlgTrigerCondition.title = loaderStatusBar.item.objIOMonitorVM.txtTrigerConditionTitle
-        dlgTrigerNo.title = loaderStatusBar.item.objIOMonitorVM.txtTrigerNoTitle
-        dlgSignalType.title = loaderStatusBar.item.objIOMonitorVM.txtSignalTypeTitle
+        objIOMonitor.txtSampCycleTitle = ioMonitorVM.txtSampCycleTitle
+        objIOMonitor.txtSampCycleUnit = ioMonitorVM.txtSampCycleUnit
+        txtStart.text = ioMonitorVM.txtStart
+        txtStop.text = ioMonitorVM.txtStop
+        dlgSMPCYC.title = ioMonitorVM.txtSMPCYCTitle
+        dlgDisplay.title = ioMonitorVM.txtDisplayTitle
+        dlgTrigerCondition.title = ioMonitorVM.txtTrigerConditionTitle
+        dlgTrigerNo.title = ioMonitorVM.txtTrigerNoTitle
+        dlgSignalType.title = ioMonitorVM.txtSignalTypeTitle
 
         listSMPCYC.clear()
-        for (var i = 0; i < loaderStatusBar.item.objIOMonitorVM.listSMPCYC.length; i++) {
-            listSMPCYC.append({"title": loaderStatusBar.item.objIOMonitorVM.listSMPCYC[i]})
+        for (var i = 0; i < ioMonitorVM.listSMPCYC.length; i++) {
+            listSMPCYC.append({"title": ioMonitorVM.listSMPCYC[i]})
         }
         dlgSMPCYC.source = listSMPCYC
 
         listDisplay.clear()
-        for (i = 0; i < loaderStatusBar.item.objIOMonitorVM.listDisplay.length; i++) {
-            listDisplay.append({"title": loaderStatusBar.item.objIOMonitorVM.listDisplay[i]})
+        for (i = 0; i < ioMonitorVM.listDisplay.length; i++) {
+            listDisplay.append({"title": ioMonitorVM.listDisplay[i]})
         }
         dlgDisplay.source = listDisplay
 
         listTrigerCondition.clear()
-        for (i = 0; i < loaderStatusBar.item.objIOMonitorVM.listTrigerCondition.length; i++) {
-            listTrigerCondition.append({"title": loaderStatusBar.item.objIOMonitorVM.listTrigerCondition[i]})
+        for (i = 0; i < ioMonitorVM.listTrigerCondition.length; i++) {
+            listTrigerCondition.append({"title": ioMonitorVM.listTrigerCondition[i]})
         }
         dlgTrigerCondition.source = listTrigerCondition
 
         listTrigerNo.clear()
-        for (i = 0; i < loaderStatusBar.item.objIOMonitorVM.listTrigerNo.length; i++) {
-            listTrigerNo.append({"title": loaderStatusBar.item.objIOMonitorVM.listTrigerNo[i]})
+        for (i = 0; i < ioMonitorVM.listTrigerNo.length; i++) {
+            listTrigerNo.append({"title": ioMonitorVM.listTrigerNo[i]})
         }
         dlgTrigerNo.source = listTrigerNo
 
         listSignalType.clear()
-        for (i = 0; i < loaderStatusBar.item.objIOMonitorVM.listSignalType.length; i++) {
-            listSignalType.append({"title": loaderStatusBar.item.objIOMonitorVM.listSignalType[i]})
+        for (i = 0; i < ioMonitorVM.listSignalType.length; i++) {
+            listSignalType.append({"title": ioMonitorVM.listSignalType[i]})
         }
         dlgSignalType.source = listSignalType
 
         objIOMonitor.update()
+
+        //update select signal
+        dlgSignalSelect.title = ioMonitorVM.txtSignalSelectTitle
+        dlgSignalSelect.inputName = ioMonitorVM.txtInputName
+        dlgSignalSelect.outputName = ioMonitorVM.txtOutputName
+        dlgSignalSelect.internalName = ioMonitorVM.txtInternalName
+        dlgSignalSelect.noneName = ioMonitorVM.txtNoneName
+        dlgSignalSelect.btnOKName = ioMonitorVM.txtBtnOKName
+        dlgSignalSelect.btnCancelName = ioMonitorVM.txtBtnCancelName
     }
 
     function showDlgSettingSMPCYC() {

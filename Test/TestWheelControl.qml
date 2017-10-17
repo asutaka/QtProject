@@ -1,7 +1,11 @@
 import QtQuick 2.0
 import "../Control/wheelControl"
-
+import ControlApp 1.0
 Item {
+    property alias objTestWheelControlVM: testWheelControlVM
+    TestVM {
+        id:testWheelControlVM
+    }
     Rectangle{
         x: 0
         y: 0
@@ -34,5 +38,8 @@ Item {
             x:500
             y:255
         }
+    }
+    Component.onCompleted: {
+        objTestWheelControlVM.onLoad();
     }
 }

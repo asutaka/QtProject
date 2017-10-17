@@ -53,7 +53,6 @@
         <file>Images/statbar_accessLevel_3.png</file>
         <file>Images/statbar_accessLevel_4.png</file>
         <file>Images/statbar_accessLevel_5.png</file>
-        <file>main.qml</file>
         <file>Images/statistics_btn_off.png</file>
         <file>Images/statistics_btn_on.png</file>
         <file>Dialog/CateListDialog.qml</file>
@@ -61,7 +60,6 @@
         <file>BottomBar/BottomBarAdjustTiming.qml</file>
         <file>Images/bargraph_w32_.bmp</file>
         <file>BottomBar/BottomBarInvalid.qml</file>
-        <file>Images/MS Gothic.ttf</file>
         <file>Images/Number_w24h24_01.bmp</file>
         <file>Images/Number_w24h24_01_out.png</file>
         <file>Images/Number_w24h24_02.bmp</file>
@@ -543,7 +541,6 @@
         <file>BottomBar/BottomBarIOMonitor.qml</file>
         <file>IOMonitor/IOMonitorItemControl.qml</file>
         <file>IOMonitor/IOMonitorSignalSelect.qml</file>
-        <file>StatusBar/IOMonitorStatusBar.qml</file>
         <file>AppTheme/TestTheme.qml</file>
         <file>XBarRS/XbarRS_NewChart.qml</file>
         <file>ChartXbar/MainChart.qml</file>
@@ -589,7 +586,57 @@
         <file>IOMonitor/IOMonitor.qml</file>
         <file>Images/error_16x16.png</file>
         <file>Images/editing.png</file>
-        <file>TestFramework/Arcording.qml</file>
-        <file>Images/triangle.svg</file>
+        <file>Dialog/InstructionManualDialog.qml</file>
+        <file>Images/instruction_manual.png</file>
+        <file>Images/plus.png</file>
+        <file>Images/minus.png</file>
+        <file>ErrorAlarm/ErrorAlarm.qml</file>
+        <file>EvalRJ/EvalRJ.qml</file>
+        <file>EvalRJ/EvalRJEnd.qml</file>
+        <file>EvalRJ/EvalRJStart.qml</file>
+        <file>BottomBar/BottomBarWizard.qml</file>
+        <file>StatusBar/ErrorAlarmStatusBar.qml</file>
+        <file>Dialog/WaitDialog.qml</file>
+        <file>Images/Area02_Alert_Red_bg.png</file>
+        <file>Images/Area02_Alert_Yellow_bg.png</file>
+        <file>Images/buzzer.png</file>
+        <file>Images/ErrorAlarm.png</file>
+        <file>Images/ErrorImage.png</file>
+        <file>Images/EvalRJEnd.png</file>
+        <file>Images/EvalRJStart.png</file>
+        <file>Images/icon_startpush.png</file>
+        <file>Images/Key_h60_w180_Finish.png</file>
+        <file>Images/Key_h60_w180_Finish_dead.png</file>
+        <file>Images/Key_h60_w180_Finish_push.png</file>
+        <file>Images/Key_h60_w180_Retry.png</file>
+        <file>Images/Key_h60_w180_Retry_dead.png</file>
+        <file>Images/Key_h60_w180_Retry_push.png</file>
+        <file>Images/Number_w21h27_01_Er.png</file>
+        <file>Images/Number_w21h27_02_Er.png</file>
+        <file>Images/Number_w21h27_03_Er.png</file>
+        <file>Images/Number_w21h27_04_Er.png</file>
+        <file>Images/Number_w21h27_05_Er.png</file>
+        <file>Images/Number_w21h27_06_Er.png</file>
+        <file>Images/statbar_reset.png</file>
+        <file>Images/staticon_error.png</file>
+        <file>Images/staticon_exclamation.png</file>
+        <file>BottomBar/BottomBarInternalStatusMonitor.qml</file>
+        <file>StatusMonitor/InternalStatusMonitor.qml</file>
+        <file>Images/contbar_icon_backup.png</file>
+        <file>Images/icon_again.png</file>
+        <file>Images/contbar_icon_save.png</file>
+        <file>SetReplacePathScreen/FileBrowser.qml</file>
+        <file>Images/folder.png</file>
+        <file>Images/up.png</file>
+        <file>Fonts/MS Gothic.ttf</file>
+        <file>Images/Massbar_bargraph_Fill.png</file>
+        <file>Data/byteArray2.data</file>
+        <file>Oee/Oee.qml</file>
+        <file>Fonts/NotoSans-Regular.ttf</file>
+        <file>StatusBar/IOMonitorStatusBar.qml</file>
+        <file>Fonts/NotoNaskhArabic-Regular.ttf</file>
+        <file>Fonts/NotoSansDevanagari-Regular.ttf</file>
+        <file>Fonts/NotoSansCJKkr-Regular.ttf</file>
+        <file>Fonts/NotoSansCJKtc-Regular.ttf</file>
     </qresource>
 </RCC>

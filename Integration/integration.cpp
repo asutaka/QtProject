@@ -1,4 +1,5 @@
 #include "integration.h"
+#include "integartionvm.h"
 #include <QPainter>
 #include <QDebug>
 #include <QDateTime>
@@ -42,7 +43,7 @@ void Integration::paint(QPainter *painter)
 
 void Integration::DrawContent()
 {
-    update();
+//    update();
 }
 
 void Integration::ClearContent()
@@ -163,7 +164,7 @@ void Integration::DrawMainContent(QPainter *qp)
     space = 170;
     for(int i =0; i< 10; i++)
     {
-        qp->drawPixmap(space, 163, com4lineImg);
+//        qp->drawPixmap(space, 163, com4lineImg);
         space += 90;
     }
 
@@ -193,20 +194,19 @@ void Integration::DrawMainContent(QPainter *qp)
         if(i < 10)
         {
             // draw status line.
-            qp->drawPixmap(space,185,arrayLineImage[x].GetStatusLine());
+//            qp->drawPixmap(space,185,arrayLineImage[x].GetStatusLine());
             space += 90;
 
             // draw Line Color of main content
             QRect rec(0,0,32,y);
-            pixmaptmp = arrayLineImage[x].GetBigLineColor().copy(rec);
-            qp->drawPixmap(spaceLineColor,(180 + (215 -y)),  pixmaptmp);
+//            pixmaptmp = arrayLineImage[x].GetBigLineColor().copy(rec);
+//            qp->drawPixmap(spaceLineColor,(180 + (215 -y)),  pixmaptmp);
             spaceLineColor += 90;
         }
         z = (y *63/209);
         QRect rec1(0,0,3,z);
         // draw Line color of com4
         pixmaptmp = arrayLineImage[x].GetSmallLineColor().copy(rec1);
-
         qp->drawPixmap(spaceLineColorCom4, 123 - z, pixmaptmp); // 140 = 77 + 63
         spaceLineColorCom4 += 7;
         if( (i + 1) % 10 == 0 && i != 0)
@@ -266,7 +266,7 @@ void Integration::updateDraw()
 {
 //    if(checkUpdate)
 //    {
-        this->update();
+//        this->update();
 //    }
 }
 

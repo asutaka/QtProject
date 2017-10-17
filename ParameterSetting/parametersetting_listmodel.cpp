@@ -45,6 +45,22 @@ QVariant ParameterSettingListModel::data(const QModelIndex & index, int role) co
     return QVariant();
 }
 
+QVariantMap ParameterSettingListModel::get(int i) const{
+    QHash<int,QByteArray> data = roleNames();
+    QHashIterator <int, QByteArray> a(data);
+    QVariantMap res;
+    while(a.hasNext()){
+        a.next();
+        QModelIndex idx = index(i, 0);
+
+        QVariant data = idx.data(a.key());
+        res[a.value()] = data;
+        //qDebug() << a.key() << ": " << a.value() <<  endl;
+    }
+    return res;
+}
+
+
 QHash<int, QByteArray> ParameterSettingListModel::roleNames() const {
     QHash<int, QByteArray> roles;
     roles[SerialRoles] = SERIAL_COLUMN_NAME;

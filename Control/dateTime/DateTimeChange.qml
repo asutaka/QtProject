@@ -4,6 +4,7 @@ import QtQuick.Controls.Styles 1.4
 import "qrc:/Control/spinner"
 import "qrc:/Control/dateTime"
 import "qrc:/StatusBar"
+import ControlApp 1.0
 
 Rectangle {
     x:0
@@ -13,9 +14,13 @@ Rectangle {
     color: "#EEE8CD"
 
     signal setCurrentIndex(int _setCurIndex)
+    property alias objDateTimeVM: dateTimeVM
     property int day
     property int month
     property int year
+    DateTimeVM {
+        id:dateTimeVM
+    }
 
     Rectangle{
         width: 350
@@ -205,6 +210,7 @@ Rectangle {
                 weekNumbersVisible: true
                 style: CalendarStyle {
                     gridVisible: false
+
                     dayDelegate: Rectangle {
                         gradient: Gradient {
                             GradientStop {
@@ -219,6 +225,7 @@ Rectangle {
 
                         Label {
                             text: styleData.date.getDate()
+                            font.pixelSize: 13
                             anchors.centerIn: parent
                             color: styleData.valid ? "white" : "grey"
                         }
@@ -237,7 +244,135 @@ Rectangle {
                             anchors.right: parent.right
                         }
                     }
+
+                    navigationBar: Rectangle {
+                        height: myCalendar.height / 6
+                        color: "white"
+
+                        Rectangle {
+                            id: down
+                            height: parent.height * 2 / 3
+                            x: parent.width / 12
+                            y: parent.height / 6
+                            width: height
+                            color: "white"
+                            border.width: 0.3
+                            border.color: "grey"
+
+                            Canvas {
+                                anchors.fill: parent
+                                onPaint: {
+                                    var ctx = getContext("2d");
+                                    ctx.fillStyle = "grey"
+                                    ctx.beginPath();
+                                    ctx.moveTo(down.width / 3, down.height * 0.5);
+                                    ctx.lineTo(down.width * 2 / 3, down.height * 0.2);
+                                    ctx.lineTo(down.width * 2 / 3, down.height * 0.8);
+                                    ctx.closePath();
+                                    ctx.fill();
+                                }
+                            }
+
+                            MouseArea {
+                                anchors.fill: parent
+                                onPressed: {
+                                    myCalendar.showPreviousMonth()
+                                }
+                            }
+                        }
+
+                        Label {
+                            text: styleData.title
+                            color: "black"
+                            font.pixelSize: parent.height / 3
+                            anchors.centerIn: parent
+                        }
+
+                        Rectangle {
+                            id: up
+                            height: parent.height * 2 / 3
+                            width: height
+                            y: parent.height / 6
+                            x: parent.width * 11 / 12 - width
+                            color: "white"
+                            border.width: 0.3
+                            border.color: "grey"
+                            Canvas {
+                                anchors.fill: parent
+                                onPaint: {
+                                    var ctx = getContext("2d");
+                                    ctx.fillStyle = "grey"
+                                    ctx.beginPath();
+                                    ctx.moveTo(up.width / 3, up.height * 0.2);
+                                    ctx.lineTo(up.width * 2 / 3, up.height * 0.5);
+                                    ctx.lineTo(up.width / 3, up.height * 0.8);
+                                    ctx.closePath();
+                                    ctx.fill();
+                                }
+                            }
+                            MouseArea {
+                                anchors.fill: parent
+                                onPressed: {
+                                    myCalendar.showNextMonth()
+                                }
+                            }
+                        }
+                    }
+
+                    dayOfWeekDelegate: Rectangle {
+                        color: "white"
+                        height: 20
+                        Label {
+                            text: styleData.dayOfWeek;
+                            font.pixelSize: 13
+                            anchors.centerIn: parent
+
+                            Component.onCompleted: {
+                                var temp = styleData.dayOfWeek + 1
+                                showDayName(temp)
+                            }
+
+                            function showDayName(dayOfWeek) {
+                                switch(dayOfWeek) {
+                                case Locale.Monday:
+                                    text = "Mon"
+                                    break
+                                case Locale.Tuesday:
+                                    text = "Tue"
+                                    break
+                                case Locale.Wednesday:
+                                    text = "Wed"
+                                    break
+                                case Locale.Thursday:
+                                    text = "Thu"
+                                    break
+                                case Locale.Friday:
+                                    text = "Fri"
+                                    break
+                                case Locale.Saturday:
+                                    text = "Sat"
+                                    break
+                                case Locale.Sunday:
+                                    text = "Sun"
+                                    break
+                                default:
+                                    break
+                                }
+                            }
+                        }
+                    }
+
+                    weekNumberDelegate: Rectangle {
+                        color: "white"
+                        width: 40
+                        Label {
+                            text: styleData.weekNumber
+                            font.pixelSize: 13
+                            anchors.centerIn: parent
+                        }
+                    }
                 }
+
                 onPressed: {
                     day = selectedDate.getDate();
                     month = selectedDate.getMonth() + 1;
@@ -419,7 +554,7 @@ Rectangle {
                     StatusBar.strDate = day+"-"+month+"-"+year
                 }
                 onReleased: {
-                    loaderContent.source="qrc:/Production/Production.qml"
+                    mainModel.InnerChangeScreen(ScreenMng.Production)
                     btnOK.color ="green"
                 }
             }
@@ -447,11 +582,13 @@ Rectangle {
 
                 }
                 onReleased: {
-                    loaderContent.source="qrc:/Production/Production.qml"
+                    mainModel.InnerChangeScreen(ScreenMng.Production)
                     btnCancel.color ="green"
                 }
             }
         }
     }
-
+    Component.onCompleted: {
+       objDateTimeVM.onLoad();
+    }
 }

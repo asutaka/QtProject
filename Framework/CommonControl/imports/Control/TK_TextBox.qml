@@ -1,7 +1,8 @@
 import QtQuick 2.5
+import QtGraphicalEffects 1.0
+//import QtQuick.Controls 2.0
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
-import QtGraphicalEffects 1.0
 
 Rectangle {
     id: textBox
@@ -22,7 +23,6 @@ Rectangle {
     //    property	alias	anchors.rightMargin:            Not customize   <=> CONTROL LIST: Margin(Right)
     //    property	alias	anchors.topMargin:              Not customize   <=> CONTROL LIST: Margin(Top)
     //    property	alias	anchors.bottomMargin:           Not customize   <=> CONTROL LIST: Margin(Bottom)
-    //    property  alias   mCharacterCasing:               Not customize   <=> CONTROL LIST: Font
 
     //    property	bool 	mAutoCompleteCustomSource       Not used        <=> CONTROL LIST: AutoCompleteCustomSource
     //    property	bool	mGeneratemember                 Not used        <=> CONTROL LIST: Generatemember
@@ -33,26 +33,30 @@ Rectangle {
     //    property  alias   mDock                           Not used        <=> CONTROL LIST: Dock
     //    proprerty alias   mCalendarDimensions             Not used        <=> CONTROL LIST: CalendarDimensions
 
-    property    color   mBackColor:       "#fff"                                //  <=> CONTROL LIST: BackColor
+    property    color   mBackColor:             "#fff"                          //  <=> CONTROL LIST: BackColor
     property    bool    mReadOnly:              false                           //  <=> CONTROL LIST: ReadOnly
     property    bool    mUseSystemPasswordChar: false                           //  <=> CONTROL LIST: UseSystemPasswordChar
-    property    string  mPasswordChar:          ""                              //  <=> CONTROL LIST: PasswordChar
+    property    string  mPasswordChar:          ''                              //  <=> CONTROL LIST: PasswordChar
+    property    bool    mMultiline:             false                           //  <=> CONTROL LIST: Multiline
+
     property    bool    mWordWrap:              false                           //  <=> CONTROL LIST: WordWrap
     property    size    mMaximumSize:           Qt.size(1000, 1000)             //  <=> CONTROL LIST: MaximumSize
     property    size    mMinimumSize:           Qt.size(0, 0)                   //  <=> CONTROL LIST: MinimumSize
     property    int     mMaxLength:             999                             //  <=> CONTROL LIST: MaxLenght
-    property    var     mSize:                  [10, 10]                        //  <=> CONTROL LIST: Size
-    property    string  mText: ""                                               //  <=> CONTROL LIST: Text
-    property    bool    mMultiline:             false                           //  <=> CONTROL LIST: Multiline
+    property    size    mSize:                  Qt.size(10, 10)                 //  <=> CONTROL LIST: Size
+    property    string  mText:                  ""                              //  <=> CONTROL LIST: Text
     property    font    mFont                                                   //  <=> CONTROL LIST: Font
     property    color   mForeColor:             "#000"                          //  <=> CONTROL LIST: ForeColor
     property    var     mLines:                 []                              //  <=> CONTROL LIST: Lines
     property    int     mCursor:                Qt.ArrowCursor                          //  <=> CONTROL LIST: Cursor
     property    bool    mUseWaitCursor:         false                                   //  <=> CONTROL LIST: UseWaitCursor
     property    int     mBorderStyle:           borderStyle.mFixed3D                    //  <=> CONTROL LIST: BorderStyle
-    property    var     mCausesValidation:      RegExpValidator {
-                                                    regExp: /[0-9A-Fa-f.-]+/ }          //  <=> CONTROL LIST: CausesValidation
+    property    var     mCausesValidation:      RegExpValidator { regExp: /.*/ }        //  <=> CONTROL LIST: CausesValidation
     property    bool    mAcceptsReturn:         false                                   //  <=> CONTROL LIST: AcceptsReturn
+    property    int mCharacterCasing:               objCharacterCasing.mNormal          //  <=> CONTROL LIST: CharacterCasing
+    property	int     mAutoCompleteMode:          autoCompleteMode.mNone              //  <=> CONTROL LIST: AutoCompleteMode
+    property	int 	mAutoCompleteSource:        autoCompleteSource.mNone            //  <=> CONTROL LIST: AutoCompleteSource
+    property    var     mAutoCompleteCustomSource:  []                                  //  <=> CONTROL LIST: AutoCompleteCustomSource
 
     property    int     mScrollBarVPolicy:          Qt.ScrollBarAsNeeded                //  <=> Create newly
     property    int     mScrollBarHPolicy:          Qt.ScrollBarAsNeeded                //  <=> Create newly
@@ -67,13 +71,14 @@ Rectangle {
     property    int     mTextAlignV:                Qt.AlignTop | Qt.AlignVCenter       //  <=> Create newly
     property    color   mBorderColor:               "black"                             //  <=> Create newly
     property    int     mBorderWidth:               1                                   //  <=> Create newly
-    property	int     mAutoCompleteMode:          autoCompleteMode.mNone              //  <=> CONTROL LIST: AutoCompleteMode
-    property	int 	mAutoCompleteSource:        autoCompleteSource.mNone            //  <=> CONTROL LIST: AutoCompleteSource
-    property    var     mSuggestSource:             []
     property    var     mResultFilter:              []
     property    string  textAutoComplete
     readonly property   int  mLineCount:            textField.visible ? 1 : textArea.lineCount  //  <=> Create newly
 
+
+
+    signal textInputChanged()
+    color: mBackColor
 
     // Border Style Option
     QtObject {
@@ -87,14 +92,21 @@ Rectangle {
         id: autoCompleteMode
         property int mNone:             1
         property int mSuggest:          2
-//        property int mAppend:           3
-//        property int mSuggestAppend:    4
+        property int mAppend:           3
+        property int mSuggestAppend:    4
     }
 
     QtObject {
         id: autoCompleteSource
         property int mNone:             1
         property int mCustomSource:     2
+    }
+
+    QtObject {
+        id: objCharacterCasing
+        property int mNormal: 0
+        property int mUpper: 1
+        property int mLower: 2
     }
 
     // Singleline TextBox
@@ -110,8 +122,14 @@ Rectangle {
         horizontalAlignment: mTextAlignH
         text: mLines.length > 0 ? linesToString() : mText
 
+
         // Single Line TextBox Background
         style: TextFieldStyle {
+            textColor: mForeColor
+            passwordCharacter: {
+                if(mUseSystemPasswordChar){ return '' }
+                (mPasswordChar !== '')?mPasswordChar:''
+            }
             background: Rectangle {
                 id: __rect
                 color: mBackColor
@@ -147,20 +165,22 @@ Rectangle {
 
         // Single Line TextBox Display Mode
         echoMode: {
-            if (!mPasswordChar || 0 === mPasswordChar.length) {
-                return TextInput.Normal
-            } else {
-                if (!mUseSystemPasswordChar) {
-                    textField.passwordCharacter = mPasswordChar
-                }
+            if (mUseSystemPasswordChar || mPasswordChar !== '') {
                 return TextInput.Password
+            }
+            else {
+                return TextInput.Normal
             }
         }
 
         onTextChanged: {
+            textInputChanged()
             filter(textField.text)
-            if(suggestView !== null){
+            if(textField.text == ""){
+                suggestView.visible = false
+            } else if(suggestView !== null){
                 suggestView.model = mResultFilter
+                suggestView.visible = true
             }
         }
 
@@ -178,22 +198,29 @@ Rectangle {
         //Filter of autoComplete suggest
         function filter(value) {
             mResultFilter.length = 0
-            for(var i = 0; i < mSuggestSource.length; i ++) {
-                if(mSuggestSource[i].indexOf(value) === 0) {
-                    mResultFilter.push(mSuggestSource[i])
+            for(var i = 0; i < mAutoCompleteCustomSource.length; i ++) {
+                if(mAutoCompleteCustomSource[i].indexOf(value) === 0) {
+                    mResultFilter.push(mAutoCompleteCustomSource[i])
                 }
             }
         }
     }
 
+Rectangle{
+    id: tmp
+    width: !tmp.children ? 0 : childrenRect.width
+    height: !tmp.children ? 0:childrenRect.height
+    color:"white"
+    anchors.top: textField.bottom
+    anchors.left: textField.left
+    border.color: "gray"
 
     ListView {
         id: suggestView
+
         z: 100
         width: textField.width
         height: Math.min(childrenRect.height, 300)
-        anchors.top: textField.bottom
-        anchors.left: textField.left
         clip: true
         model: mResultFilter
         highlightFollowsCurrentItem: true
@@ -205,8 +232,9 @@ Rectangle {
         delegate: Text {
             anchors.margins: 2
             elide: Text.ElideRight
-            color: "white"
+            color: "black"
             text: modelData
+            width: parent.width
 
             MouseArea {
                 anchors.fill: parent
@@ -215,16 +243,21 @@ Rectangle {
                     textAutoComplete = suggestView.currentItem.text
                 }
             }
-        }
-
-        Keys.onPressed: {
-            if(event.key === Qt.Key_Down) {
-                console.log("CurrentIndex: Down: " + suggestView.currentIndex)
-            } else if(event.key === Qt.Key_Up) {
-                console.log("CurrentIndex: Up: " + suggestView.currentIndex)
+            Keys.onPressed: {
+                if(event.key === Qt.Key_Down) {
+                    console.log("CurrentIndex: Down: " + suggestView.currentIndex)
+                } else if(event.key === Qt.Key_Up) {
+                    console.log("CurrentIndex: Up: " + suggestView.currentIndex)
+                } else if(event.key === Qt.Key_Enter || event.key === Qt.Key_Return) {
+                    suggestView.currentIndex = index
+                    textAutoComplete = suggestView.currentItem.text
+                }
             }
         }
+
+
     }
+}
 
     onTextAutoCompleteChanged: {
         textField.text = textAutoComplete
@@ -261,8 +294,8 @@ Rectangle {
 
             // Scrollbar Styles
             handle: Item {
-                implicitWidth: mSize[0]
-                implicitHeight: mSize[1]
+                implicitWidth: mSize.width
+                implicitHeight: mSize.height
 
                 Rectangle {
                     color: mScrollbarColor
@@ -287,6 +320,7 @@ Rectangle {
 
         // Set Max Length Text in TextBox
         onTextChanged: {
+            textInputChanged()
             if (textArea.text.length > mMaxLength) {
                 textArea.text = textArea.text.substring(0, mMaxLength)
                 textArea.cursorPosition = mMaxLength
@@ -318,6 +352,22 @@ Rectangle {
     Component.onCompleted: {
         textBox.width = getComponentWidth()
         textBox.height = getComponentHeight()
+        //CharacterCasing
+        characterCasing()
+    }
+
+    //CharacterCasing
+    function characterCasing(){
+        switch(mCharacterCasing){
+            case objCharacterCasing.mUpper:
+                mFont.capitalization = Font.AllUppercase
+                break
+            case objCharacterCasing.mLower:
+                mFont.capitalization = Font.AllLowercase
+                break
+            default:
+                break
+        }
     }
 
     // Get TextBox Width

@@ -7,11 +7,23 @@ import QtQuick.Controls 1.4
 import QtQuick.Controls 2.0
 import QtQuick.Controls.Styles 1.2
 import "../Control/VirtualKey.js" as Ops
-
+import ControlApp 1.0
 Item{
     property int indexSelect:1;
+    property int startPage: 1;
+    property int endPage: 10;
     property int linePage:10;
     property int temp;
+    property alias objMenuListV1VM: menuListV1VM
+
+    MenuListVM {
+        id:menuListV1VM
+    }
+
+    Component.onCompleted: {
+        menuListV1VM.onLoad();
+    }
+
 
     Label{
         id:lblValNumber
@@ -19,6 +31,7 @@ Item{
         text:"0"
         onTextChanged: libraryModel.set(indexSelect-1, {"author": lblValNumber.text})
     }
+
 
     Rectangle {
         id: rectcontentMenuList
@@ -210,6 +223,13 @@ Item{
             horizontalScrollBarPolicy: Qt.ScrollBarAlwaysOff
             z: 1
 
+
+            //this Mousearea to prevent tableView scroll
+            MouseArea {
+                anchors.fill: parent
+                acceptedButtons: Qt.MidButton
+                onWheel: {}
+            }
             TableViewColumn {
                 id:col1
                 movable : false
@@ -221,7 +241,7 @@ Item{
                         text: styleData.value
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
-                        font.family: "MS Gothic"
+                        font.family: "Noto Sans CJK JP DemiLight"
                         font.pixelSize: 27
                     }
                 }
@@ -243,15 +263,14 @@ Item{
                         text: styleData.value
                         horizontalAlignment: Text.AlignRight
                         verticalAlignment: Text.AlignVCenter
-                        font.family: "MS Gothic"
+                        font.family: "Noto Sans CJK JP DemiLight"
                         font.pixelSize: 27
 
                     }
                 }
                 width:(list.width - col1.width -col2.width - 15)
             }
-            TableViewColumn
-            {
+            TableViewColumn {
                 id: col4
                 movable : false
                 role: "type"
@@ -260,9 +279,13 @@ Item{
             }
 
             style: TableViewStyle {
+                scrollBarBackground: Rectangle{
+                    implicitHeight: 16
+                    implicitWidth: 14
+                }
                 headerDelegate: Rectangle {
                     id: headerDelegateView
-                    height: textItem.implicitHeight *2
+                    height: textItem.implicitHeight * 1.3
                     width: textItem.implicitWidth
                     Image{
                         anchors.fill : parent
@@ -272,7 +295,7 @@ Item{
                     Text {
                         id: textItem
                         text: styleData.value
-                        font.family: "MS Gothic"
+                        font.family: "Noto Sans CJK JP DemiLight"
                         font.pixelSize: 27
                         horizontalAlignment: Text.AlignVCenter
                         verticalAlignment: Text.AlignBottom
@@ -289,12 +312,11 @@ Item{
                         color: "#ccc"
                     }
                 }
-                itemDelegate:
-                    Text {
+                itemDelegate:Text {
                     id: iContent
                     color: styleData.pressed ? "black" : "black"
                     text: styleData.value
-                    font.family: "MS Gothic"
+                    font.family: "Noto Sans CJK JP DemiLight"
                     font.pixelSize: 27
                     verticalAlignment: Text.AlignVCenter
                 }
@@ -311,6 +333,7 @@ Item{
                         color: "#c6c3c6"
                     }
                 }
+                transientScrollBars: true
                 handle: Rectangle {
                     implicitWidth: 14
                     implicitHeight: 0
@@ -320,7 +343,9 @@ Item{
                         anchors.fill: parent
                         border.color: "white"
                         border.width: 2
+
                     }
+
 
                 }
                 decrementControl: Rectangle {
@@ -344,18 +369,33 @@ Item{
 
             Keys.onPressed:
             {
-                if(event.key==Qt.Key_Down)
+                if(event.key===Qt.Key_Down)
                 {
+                    if(indexSelect == endPage) {
+                        if(indexSelect < list.rowCount) {
+                            startPage++;
+                            endPage++;
+                        }
+                    }
+
                     if(indexSelect<list.rowCount){
                         txtSelectIndex.text=(++indexSelect).toString();
                     }
                 }
-                else if(event.key==Qt.Key_Up)
+                else if(event.key===Qt.Key_Up)
                 {
+                    if(indexSelect == startPage) {
+                        if(indexSelect > 1) {
+                            startPage--;
+                            endPage--;
+                        }
+                    }
+
                     if(indexSelect>1){
                         txtSelectIndex.text=(--indexSelect).toString();
                     }
                 }
+                event.accepted = true;
 
             }
             Component.onCompleted: {
@@ -381,17 +421,30 @@ Item{
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    temp =((Math.floor(indexSelect/linePage))-1)*linePage ;
-                    if(temp < 1){
-                        indexSelect = 1;
+
+                }
+                onPressed: {
+                    imgPageUp.source= "qrc:/Images/scroll_pageup_on.png"
+
+                    if(indexSelect > startPage) {
+                        indexSelect = startPage;
+                    }else if(indexSelect == startPage) {
+                        if(startPage -  10 < 1) {
+                            startPage = 1;
+                            endPage = startPage + linePage - 1;
+                        }
+                        else {
+                            endPage -= 10;
+                            startPage -= 10;
+                        }
+                        indexSelect = startPage;
                     }
-                    else{ indexSelect = temp;}
                     txtSelectIndex.text=indexSelect;
                     list.selection.clear();
                     list.selection.select(indexSelect-1);
                     list.positionViewAtRow(indexSelect-1,ListView.Beginning);
                 }
-                onPressed: imgPageUp.source= "qrc:/Images/scroll_pageup_on.png"
+
                 onReleased: imgPageUp.source= "qrc:/Images/scroll_pageup_off.png"
                 onCanceled: imgPageUp.source= "qrc:/Images/scroll_pageup_off.png"
             }
@@ -412,15 +465,27 @@ Item{
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    if(indexSelect>1)
-                    {
+
+                }
+                onPressed: {
+                    if(indexSelect < 1) {
+                        indexSelect = 1;
+                        startPage = 1;
+                        endPage = 10;
+                    }else if(indexSelect <= list.rowCount && indexSelect > 1){
+                        if(indexSelect == startPage) {
+                            startPage--;
+                            endPage--;
+                        }
+
                         txtSelectIndex.text=(--indexSelect).toString();
                         list.selection.clear();
                         list.selection.select(indexSelect-1);
-                        list.positionViewAtRow(indexSelect-1,ListView.Beginning);
+                        list.positionViewAtRow(indexSelect-1,ListView.Contain);
                     }
+                    imgLineUp.source= "qrc:/Images/scroll_lineup_on.png"
+
                 }
-                onPressed: imgLineUp.source= "qrc:/Images/scroll_lineup_on.png"
                 onReleased: imgLineUp.source= "qrc:/Images/scroll_lineup_off.png"
             }
         }
@@ -440,19 +505,30 @@ Item{
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    temp =((Math.floor(indexSelect/linePage))+1)*linePage ;
-                    if(temp <list.rowCount){
-                        indexSelect = temp;
+
+                }
+                onPressed: {
+                    if(indexSelect < endPage) {
+                        indexSelect = endPage;
+                    }else if(indexSelect == endPage) {
+                        if(endPage + 10 > list.rowCount) {
+                            endPage = list.rowCount;
+                            startPage = endPage - linePage + 1;
+                        }
+                        else {
+                            endPage += 10;
+                            startPage += 10;
+                        }
+                        indexSelect = endPage;
                     }
-                    else{
-                        indexSelect= list.rowCount;
-                    }
+
                     txtSelectIndex.text=indexSelect;
                     list.selection.clear();
                     list.selection.select(indexSelect-1);
-                    list.positionViewAtRow(indexSelect-1,ListView.End )
+                    list.positionViewAtRow(indexSelect-1,ListView.End );
+                    imgPageDown.source= "qrc:/Images/scroll_pagedown_on.png"
+
                 }
-                onPressed: imgPageDown.source= "qrc:/Images/scroll_pagedown_on.png"
                 onReleased: imgPageDown.source= "qrc:/Images/scroll_pagedown_off.png"
                 onCanceled: imgPageDown.source= "qrc:/Images/scroll_pagedown_off.png"
             }
@@ -472,15 +548,21 @@ Item{
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
+                }
+                onPressed: {
                     if(indexSelect<list.rowCount)
                     {
+                        if(endPage == indexSelect) {
+                            startPage++;
+                            endPage++
+                        }
                         txtSelectIndex.text=(++indexSelect).toString();
                         list.selection.clear();
                         list.selection.select(indexSelect-1);
-                        list.positionViewAtRow(indexSelect-1,ListView.End);
+                        list.positionViewAtRow(indexSelect-1,ListView.Contain);
                     }
+                    imgLineDown.source= "qrc:/Images/scroll_linedown_on.png"
                 }
-                onPressed: imgLineDown.source= "qrc:/Images/scroll_linedown_on.png"
                 onReleased: imgLineDown.source= "qrc:/Images/scroll_linedown_off.png"
                 onCanceled: imgLineDown.source= "qrc:/Images/scroll_linedown_off.png"
             }
@@ -507,7 +589,7 @@ Item{
                     anchors.verticalCenterOffset: 24
                     anchors.horizontalCenterOffset: 0
                     anchors.bottomMargin: -24
-                    font.family: "MS Gothic"
+                    font.family: "Noto Sans CJK JP DemiLight"
                     font.pixelSize: 27
                     color: "#000000"
                     anchors.bottom: parent.bottom
@@ -525,12 +607,40 @@ Item{
                     anchors.verticalCenterOffset: -21
                     anchors.horizontalCenterOffset: 0
                     anchors.bottomMargin: 21
-                    font.family: "MS Gothic"
+                    font.family: "Noto Sans CJK JP DemiLight"
                     font.pixelSize: 27
                     color: "#000000"
                     anchors.bottom: parent.bottom
                     anchors.centerIn: parent
+
+                    onTextChanged:
+                    {
+                        indexSelect=parseInt(txtSelectIndex.text)
+                        if(indexSelect == startPage) {
+                            txtSelectIndex.text=indexSelect
+                            list.selection.clear();
+                            list.selection.select(indexSelect-1);
+                            list.positionViewAtRow(indexSelect-1,ListView.Beginning);
+                        }
+
+                        else if(indexSelect == endPage) {
+                            txtSelectIndex.text=indexSelect
+                            list.selection.clear();
+                            list.selection.select(indexSelect-1);
+                            list.positionViewAtRow(indexSelect-1,ListView.End);
+                        }
+
+                        else if(indexSelect<=list.rowCount)
+                        {
+                            txtSelectIndex.text=indexSelect
+                            list.selection.clear();
+                            list.selection.select(indexSelect-1);
+                            list.positionViewAtRow(indexSelect-1,ListView.Contain);
+                        }
+                    }
                 }
+
+
             }
             MouseArea {
                 anchors.fill: parent
@@ -544,5 +654,6 @@ Item{
             }
         }
     }
+
 }
 

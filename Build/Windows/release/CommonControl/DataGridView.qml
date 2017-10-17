@@ -1,12 +1,13 @@
-import QtQuick 2.7
+import QtQuick 2.0
 import QtQuick.Controls 1.4
 
 TableView {
     id: tblView
 
     property    var         mDataSource                                                             // <=>  CONTROL LIST: DataSource
-    property    bool        mMultiSelect:           false                                           // <=>	CONTROL LIST:	MultiSelect
     property    int         mSelectionMode:         objSelectionMode.mCellSelect                    // <=>	CONTROL LIST:	SelectionMode
+
+
 
     //Row Style
     property    var         mRowBackColor:          ["whitesmoke","white"]                          //  <=>	CONTROL LIST:   RowTemplate
@@ -23,14 +24,15 @@ TableView {
     property    int         mColHeaderWidth:        50                                              // Create newly: default width of column header0
     property    var         mInputType:             []                                              // Create newly: choose what to dislay in table view
 
+    //////////////////////////////////////////////////////////////////////
+    /*property add new*/
+    property    var         mCurrent:               [-1,-1]//The coordinates of the selected cell
+    //////////////////////////////////////////////////////////////////////
+
     width: 500
     height: 400
     model: mDataSource
-    selectionMode : {
-        if(mMultiSelect)
-            return SelectionMode.ExtendedSelection
-        return SelectionMode.SingleSelection
-    }
+    selectionMode : SelectionMode.SingleSelection
 
     resources: {
         var i
@@ -112,10 +114,21 @@ TableView {
         border.color: mRowBorderColor
         border.width: mRowBorderWidth
         color: {
-            return getColor(true,styleData,-1,-1)
+            if(styleData === null) return "transparent"
+            if(styleData.row % 2 === 0)
+                return mRowBackColor[0]
+            return mRowBackColor[mRowBackColor.length - 1]
         }
+//        MouseArea {
+//            anchors.fill: parent
+//            onClicked: {
+//                console.log("Click Me:"+styleData.row+","+styleData.column+","+styleData.selected )
+//            }
+//        }
     }
     itemDelegate: {
+        if(mSelectionMode == objSelectionMode.mFullRowSelect)
+            return comItemSelectRow
         return comItemSelectCell
     }
 
@@ -164,192 +177,42 @@ TableView {
     Component{
         id: comItemSelectCell
         Rectangle {
-            property int iCol : -1
-            property int iRow : -1
-            color:{
-//                return 'transparent'
-                console.log("StyleData:"+styleData.row+','+styleData.column)
-                return getColor(false,styleData,iRow,iCol)
-            }
-            MouseArea {
-                Component.onCompleted: {
-                    switch(mSelectionMode){
-                        case objSelectionMode.mCellSelect:
-                            anchors.fill = parent
-                            break
-                        case objSelectionMode.mFullRowSelect:
-                        case objSelectionMode.mRowHeaderSelect:
-                        default:
-                            break
-                    }
-                }
-                onPressed: {
-                    iCol = styleData.column
-                    iRow = styleData.row
-                    tblView.selection.select(styleData.row)
-                    console.log("WTF:"+styleData.row+','+styleData.column)
-                }
-            }
-
+            color:'transparent'
             Text {
-                width: parent.width
                 anchors.verticalCenter: parent.verticalCenter
-                color: 'black'
-                elide: styleData.elideMode
-                text: {
-                    if(styleData.value !== undefined && !isSrcImg(styleData.value)){
-                        return styleData.value
-                    }
-                    return ''
-                }
-                visible: {
-                    switch(mSelectionMode){
-                        case objSelectionMode.mCellSelect:
-                            !styleData.selected ||
-                            !(styleData.selected && styleData.column === iCol)
-                            break
-                        case objSelectionMode.mFullRowSelect:
-                        case objSelectionMode.mRowHeaderSelect:
-                        default:
-                            !styleData.selected
-                            break
-                    }
-                }
+                color: styleData.textColor
+                width: parent.width
+                elide: Text.ElideRight
+                text: txtEdit.text
             }
-            Image {
-                anchors.centerIn: parent
-                source: {
-                    if(isSrcImg(styleData.value)){
-                        return styleData.value
-                    }
-                    return ''
-                }
+            TextEdit{
+                id:txtEdit
+                text: styleData.value
+                visible: false
             }
-            Loader {
-                id: loaderEditor
+            MouseArea{
                 anchors.fill: parent
-                sourceComponent: {
-                        if(!styleData.selected) return null
-                        switch(mSelectionMode){
-                            case objSelectionMode.mCellSelect:
-                                if(styleData.column === iCol){
-                                    editor
-                                }
-                                else {
-                                    null
-                                }
-                                break
-                            case objSelectionMode.mFullRowSelect:
-                            case objSelectionMode.mRowHeaderSelect:
-                            default:
-                                editor
-                                break
-                        }
-                }
-                Component {
-                    id: editor
-                    TextInput {
-                        id: textinput
-                        color: 'red'
-                        text: styleData.value
-                        visible: !isSrcImg(styleData.value)
+                onClicked: {
 
-                        MouseArea {
-                            id: mouseArea
-                            anchors.fill : parent
-                            hoverEnabled: true
-                            onDoubleClicked: textinput.forceActiveFocus()
-//                            onPressed: tblView.selection.deselect(styleData.row)
-                        }
-                        onEditingFinished: {
-                            if (typeof styleData.value === 'number'){
-                                mDataSource.setProperty(styleData.row, styleData.role, Number(parseFloat(textinput.text).toFixed(0)))
-                            }
-                            else
-                                mDataSource.setProperty(styleData.row, styleData.role, textinput.text)
-                        }
-                    }
+                    console.log("Click Me:"+styleData.row+","+styleData.column+","+styleData.selected )
                 }
             }
         }
     }
-    /*
-        sumary: function getColor set to item
-        parameter:  opt: mode row or cell
-                    + 0: row
-                    + 1: cell
-    */
-    function getColor(isRow,iStyleData,iRow,iColum){
 
-        //selectionMode, multiselect,selected
-        console.log("GetColor:"+iStyleData.row+','+iStyleData.column)
-        var result = 'transparent'
-        if(iStyleData === null) return result
+    function getColorItemDelegate(isEditable){
+        switch(mSelectionMode){
+            case objSelectionMode.mFullRowSelect:
+                if(isEditable){
 
-        //row
-        if(isRow){
-            console.log("ROW")
-            //default is not select
-            if(!iStyleData.selected){
-                result = getNormalColor(iStyleData)
-            }
-            else {
-                switch(mSelectionMode){
-                    case objSelectionMode.mFullRowSelect:
-                    case objSelectionMode.mRowHeaderSelect:
-                        result = mRowSelectionColor
-                        break
-                    case objSelectionMode.mCellSelect:
-                    default:
-                        result = getNormalColor(iStyleData)
-                        break
                 }
-            }
-        }
-        else {
-            console.log("COLUMN:"+iStyleData.selected)
-//            //default is not select
-            if(!iStyleData.selected){
-                result = getNormalColor(iStyleData)
-            }
-            else {
-                switch(mSelectionMode){
-                case objSelectionMode.mFullRowSelect: break
-                case objSelectionMode.mRowHeaderSelect:break
-//                    result = mRowSelectionColor
-//                    break
-                case objSelectionMode.mCellSelect:
-                    if(iStyleData.column === iColum){
-                        result = mRowSelectionColor
-                    }
-                    else {
-                        result = getNormalColor(iStyleData)
-                    }
-                    break
-                default:
-                    result = getNormalColor(iStyleData)
-                    break
-                }
-            }
-        }
-        return result
-    }
-    function getNormalColor(iStyleData){
-        if(iStyleData.row % 2 === 0){
-            return mRowBackColor[0]
-        }
-        else {
-            return mRowBackColor[mRowBackColor.length - 1]
-        }
-    }
+                else {
 
-    function isSrcImg(obj){
-        if(obj !== undefined){
-            if(typeof obj === 'string'
-                     && obj.indexOf('image://MyProvider/') !== -1){
-                return true
-            }
+                }
+                break
+            case objSelectionMode.mCellSelect:break
+            case objSelectionMode.mRowHeaderSelect:break
+            default: break
         }
-        return false
     }
 }

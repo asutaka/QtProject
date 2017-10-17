@@ -1,11 +1,14 @@
 import QtQuick 2.5
 import ControlApp 1.0
+import CommonControl 1.0
+import CommonModule 1.0
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Controls 1.2 as Controls
 import QtCharts 2.1
 import "../Dialog"
 import "../Control/VirtualKey.js" as Ops
+import "../Control"
 
 Item {
 
@@ -25,11 +28,15 @@ Item {
     property int  indexlineActive :0;
     property int heightPanelItem: 45
     property int spaceItem: 10
+    property int  preSignal: selectSignal.indexSelect
+    property string preAsisY_min: txtAsisY_min.text
+    property int preSelectLegend: 0
 
     AdjustTimingVer3{
         width: 1024
         height: 640
         id: adjTimeVer3
+
         Rectangle{
             x:4
             y: 4
@@ -45,7 +52,7 @@ Item {
                 y:5
                 text: "品種"
                 font.pixelSize:18
-                font.family: "MS Gothic"
+                font.family: "Noto Sans CJK JP DemiLight "
                 color: "white"
             }
             Text {
@@ -53,7 +60,7 @@ Item {
                 y:40
                 text: "サンプル"
                 font.pixelSize:18
-                font.family: "MS Gothic"
+                font.family: "Noto Sans CJK JP DemiLight "
                 color: "white"
             }
             Text {
@@ -61,11 +68,12 @@ Item {
                 y: 15
                 text: "050"
                 font.pixelSize:34
-                font.family: "MS Gothic"
+                font.family: "Noto Sans CJK JP DemiLight "
                 color: "white"
             }
 
         }
+
         Rectangle{
             id: itemPanel1
             x:4
@@ -82,7 +90,7 @@ Item {
                 anchors.verticalCenter: parent.verticalCenter
                 text: "基準値"
                 font.pixelSize:18
-                font.family: "MS Gothic"
+                font.family: "Noto Sans CJK JP DemiLight"
                 color: "white"
             }
             Text{
@@ -90,7 +98,7 @@ Item {
                 anchors.verticalCenter: parent.verticalCenter
                 text: "g"
                 font.pixelSize:18
-                font.family: "MS Gothic"
+                font.family: "Noto Sans CJK JP DemiLight "
                 color: "white"
             }
             TextField {
@@ -104,7 +112,7 @@ Item {
                 readOnly: true
                 horizontalAlignment :TextInput.AlignRight
                 font.pixelSize:18
-                font.family: "MS Gothic"
+                font.family: "Noto Sans CJK JP DemiLight "
                 style:  TextFieldStyle {
                     textColor: "#95B3D7"
                     background: Rectangle {
@@ -122,13 +130,14 @@ Item {
                 }
                 onDisplayTextChanged:
                 {
-                    valueAxisY.max = parseInt(inputRefVal.text)*1.5;
-                    valueAxisY.min =parseInt(txtAsisY_min.text)-((valueAxisY.max - parseInt(txtAsisY_min.text))/9)*2;
+                    text = Math.round(text)
+                    weightChart.maxY = parseInt(inputRefVal.text)*1.5;
+                    weightChart.minY =parseInt(txtAsisY_min.text)-((weightChart.maxY - parseInt(txtAsisY_min.text))/9)*2;
                 }
                 Component.onCompleted:
                 {
-                    valueAxisY.max = parseInt(inputRefVal.text)*1.5;
-                    valueAxisY.min =parseInt(txtAsisY_min.text)-((valueAxisY.max - parseInt(txtAsisY_min.text))/9)*2;
+                    weightChart.maxY = parseInt(inputRefVal.text)*1.5;
+                    weightChart.minY =parseInt(txtAsisY_min.text)-((weightChart.maxY - parseInt(txtAsisY_min.text))/9)*2;
                 }
             }
         }
@@ -148,7 +157,7 @@ Item {
                 y:5
                 anchors.verticalCenter: parent.verticalCenter
                 text: "製品長さ"
-                font.family: "MS Gothic"
+                font.family: "Noto Sans CJK JP DemiLight "
                 font.pixelSize:18
                 color: "white"
             }
@@ -156,7 +165,7 @@ Item {
                 x:240
                 anchors.verticalCenter: parent.verticalCenter
                 text: "mm"
-                font.family: "MS Gothic"
+                font.family: "Noto Sans CJK JP DemiLight "
                 font.pixelSize:18
                 color: "white"
             }
@@ -166,34 +175,29 @@ Item {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.right: parent.right
                 anchors.rightMargin: 40
-                text: "1200"
+                text: "160"
                 readOnly: true
                 horizontalAlignment :TextInput.AlignRight
                 font.pixelSize:18
-                font.family: "MS Gothic"
+                font.family: "Noto Sans CJK JP DemiLight "
                 style:  TextFieldStyle {
                     textColor: "#95B3D7"
                     background: Rectangle {
                         color: "transparent"
                     }
                 }
-                validator: IntValidator { bottom:1; top: 275}
+                validator: IntValidator { bottom:1; top: 1000}
                 maximumLength: 10
-                MouseArea{
-                    anchors.fill: parent
-                    onClicked: {
-                        inputKeyboard.visible = true;
-                        myKeyBoard.state ="active";
+                onActiveFocusChanged:
+                {
+                    if(activeFocus)
+                    {
+                        Ops.showCalculator(txtProdLen,"1","1000");
                     }
                 }
-                MouseArea{
-                    anchors.fill: parent
-                    onClicked: {
-                        inputKeyboard.visible = true;
-                        inputKeyboard.objText.cursorVisible = true
-                        inputKeyboard.objText.text = txtProdLen.text;
-                        myKeyBoard.state ="active";
-                    }
+                onDisplayTextChanged:
+                {
+                    text = Math.round(text)
                 }
             }
         }
@@ -214,7 +218,7 @@ Item {
                 text: "T7"
                 anchors.verticalCenter: parent.verticalCenter
                 font.pixelSize:18
-                font.family: "MS Gothic"
+                font.family: "Noto Sans CJK JP DemiLight "
                 color: "white"
             }
             Text{
@@ -222,7 +226,7 @@ Item {
                 anchors.verticalCenter: parent.verticalCenter
                 text: "ms"
                 font.pixelSize:18
-                font.family: "MS Gothic"
+                font.family: "Noto Sans CJK JP DemiLight "
                 color: "white"
             }
             TextField {
@@ -235,7 +239,7 @@ Item {
                 readOnly: true
                 horizontalAlignment :TextInput.AlignRight
                 font.pixelSize:18
-                font.family: "MS Gothic"
+                font.family: "Noto Sans CJK JP DemiLight "
                 style:  TextFieldStyle {
                     textColor: "#95B3D7"
                     background: Rectangle {
@@ -253,17 +257,18 @@ Item {
                 }
                 onDisplayTextChanged:
                 {
+                    text = Math.round(text)
 //                    if(optionTime ===1){
-//                        valueAxisX.max =(parseInt(inputT7.text)+ parseInt(inputT2.text))*2;
-//                        signalAxisX.max =(parseInt(inputT7.text)+ parseInt(inputT2.text))*2;
+//                        weightChart.maxX =(parseInt(inputT7.text)+ parseInt(inputT2.text))*2;
+//                        signalChart.maxX =(parseInt(inputT7.text)+ parseInt(inputT2.text))*2;
 //                    }
                     getLocalTn();
                 }
                 Component.onCompleted:
                 {
 //                    if(optionTime ===1){
-//                        valueAxisX.max =(parseInt(inputT7.text)+ parseInt(inputT2.text))*2;
-//                        signalAxisX.max =(parseInt(inputT7.text)+ parseInt(inputT2.text))*2;
+//                        weightChart.maxX =(parseInt(inputT7.text)+ parseInt(inputT2.text))*2;
+//                        signalChart.maxX =(parseInt(inputT7.text)+ parseInt(inputT2.text))*2;
 //                    }
                     getLocalTn();
                 }
@@ -286,7 +291,7 @@ Item {
                 text: "T1"
                 anchors.verticalCenter: parent.verticalCenter
                 font.pixelSize:18
-                font.family: "MS Gothic"
+                font.family: "Noto Sans CJK JP DemiLight "
                 color: "white"
             }
             Text{
@@ -294,7 +299,7 @@ Item {
                 anchors.verticalCenter: parent.verticalCenter
                 text: "ms"
                 font.pixelSize:18
-                font.family: "MS Gothic"
+                font.family: "Noto Sans CJK JP DemiLight "
                 color: "white"
             }
             TextField {
@@ -307,7 +312,7 @@ Item {
                 readOnly: true
                 horizontalAlignment :TextInput.AlignRight
                 font.pixelSize:18
-                font.family: "MS Gothic"
+                font.family: "Noto Sans CJK JP DemiLight "
                 style:  TextFieldStyle {
                     textColor: "#95B3D7"
                     background: Rectangle {
@@ -325,17 +330,18 @@ Item {
                 }
                 onDisplayTextChanged:
                 {
+                    text = Math.round(text)
                     if(optionTime ===1){
-                        valueAxisX.max =(parseInt(inputT1.text)+ parseInt(inputT2.text))*2;
-                        signalAxisX.max =(parseInt(inputT1.text)+ parseInt(inputT2.text))*2;
+                        weightChart.maxX =(parseInt(inputT1.text)+ parseInt(inputT2.text))*2;
+                        signalChart.maxX =(parseInt(inputT1.text)+ parseInt(inputT2.text))*2;
                     }
                     getLocalTn();
                 }
                 Component.onCompleted:
                 {
                     if(optionTime ===1){
-                        valueAxisX.max =(parseInt(inputT1.text)+ parseInt(inputT2.text))*2;
-                        signalAxisX.max =(parseInt(inputT1.text)+ parseInt(inputT2.text))*2;
+                        weightChart.maxX =(parseInt(inputT1.text)+ parseInt(inputT2.text))*2;
+                        signalChart.maxX =(parseInt(inputT1.text)+ parseInt(inputT2.text))*2;
                     }
                     getLocalTn();
                 }
@@ -358,7 +364,7 @@ Item {
                 anchors.verticalCenter: parent.verticalCenter
                 text: "T2"
                 font.pixelSize:18
-                font.family: "MS Gothic"
+                font.family: "Noto Sans CJK JP DemiLight "
                 color: "white"
             }
             Text{
@@ -366,7 +372,7 @@ Item {
                 text: "ms"
                 anchors.verticalCenter: parent.verticalCenter
                 font.pixelSize:18
-                font.family: "MS Gothic"
+                font.family: "Noto Sans CJK JP DemiLight "
                 color: "white"
             }
             TextField {
@@ -379,7 +385,7 @@ Item {
                 readOnly: true
                 horizontalAlignment :TextInput.AlignRight
                 font.pixelSize:18
-                font.family: "MS Gothic"
+                font.family: "Noto Sans CJK JP DemiLight "
                 style:  TextFieldStyle {
                     textColor: "#95B3D7"
                     background: Rectangle {
@@ -397,17 +403,18 @@ Item {
                 }
                 onDisplayTextChanged:
                 {
+                    text = Math.round(text)
                     if(optionTime ===1){
-                        valueAxisX.max =(parseInt(inputT1.text)+ parseInt(inputT2.text))*2;
-                        signalAxisX.max =(parseInt(inputT1.text)+ parseInt(inputT2.text))*2;
+                        weightChart.maxX =(parseInt(inputT1.text)+ parseInt(inputT2.text))*2;
+                        signalChart.maxX =(parseInt(inputT1.text)+ parseInt(inputT2.text))*2;
                     }
                     getLocalTn();
                 }
                 Component.onCompleted:
                 {
                     if(optionTime ===1){
-                        valueAxisX.max =(parseInt(inputT1.text)+ parseInt(inputT2.text))*2;
-                        signalAxisX.max =(parseInt(inputT1.text)+ parseInt(inputT2.text))*2;
+                        weightChart.maxX =(parseInt(inputT1.text)+ parseInt(inputT2.text))*2;
+                        signalChart.maxX =(parseInt(inputT1.text)+ parseInt(inputT2.text))*2;
                     }
                     getLocalTn();
                 }
@@ -430,7 +437,7 @@ Item {
                 anchors.verticalCenter: parent.verticalCenter
                 text: "T3"
                 font.pixelSize:18
-                font.family: "MS Gothic"
+                font.family: "Noto Sans CJK JP DemiLight "
                 color: "white"
             }
             Text{
@@ -438,7 +445,7 @@ Item {
                 text: "ms"
                 anchors.verticalCenter: parent.verticalCenter
                 font.pixelSize:18
-                font.family: "MS Gothic"
+                font.family: "Noto Sans CJK JP DemiLight "
                 color: "white"
             }
             TextField {
@@ -451,7 +458,7 @@ Item {
                 readOnly: true
                 horizontalAlignment :TextInput.AlignRight
                 font.pixelSize:18
-                font.family: "MS Gothic"
+                font.family: "Noto Sans CJK JP DemiLight "
                 style:  TextFieldStyle {
                     textColor: "#95B3D7"
                     background: Rectangle {
@@ -469,6 +476,7 @@ Item {
                 }
                 onDisplayTextChanged:
                 {
+                    text = Math.round(text)
                     getLocalTn();
                 }
                 Component.onCompleted:
@@ -494,7 +502,7 @@ Item {
                 anchors.verticalCenter: parent.verticalCenter
                 text: "T4"
                 font.pixelSize:18
-                font.family: "MS Gothic"
+                font.family: "Noto Sans CJK JP DemiLight "
                 color: "white"
             }
             Text{
@@ -502,7 +510,7 @@ Item {
                 text: "ms"
                 anchors.verticalCenter: parent.verticalCenter
                 font.pixelSize:18
-                font.family: "MS Gothic"
+                font.family: "Noto Sans CJK JP DemiLight "
                 color: "white"
             }
             TextField {
@@ -516,7 +524,7 @@ Item {
                 anchors.right: parent.right
                 anchors.rightMargin: 35
                 font.pixelSize:18
-                font.family: "MS Gothic"
+                font.family: "Noto Sans CJK JP DemiLight "
                 style:  TextFieldStyle {
                     textColor: "#95B3D7"
                     background: Rectangle {
@@ -534,6 +542,7 @@ Item {
                 }
                 onDisplayTextChanged:
                 {
+                    text = Math.round(text)
                     getLocalTn();
                 }
                 Component.onCompleted:
@@ -559,7 +568,7 @@ Item {
                 anchors.verticalCenter: parent.verticalCenter
                 text: "T9"
                 font.pixelSize:18
-                font.family: "MS Gothic"
+                font.family: "Noto Sans CJK JP DemiLight "
                 color: "white"
             }
             Text{
@@ -567,7 +576,7 @@ Item {
                 text: "ms"
                 anchors.verticalCenter: parent.verticalCenter
                 font.pixelSize:18
-                font.family: "MS Gothic"
+                font.family: "Noto Sans CJK JP DemiLight "
                 color: "white"
             }
             TextField {
@@ -581,7 +590,7 @@ Item {
                 anchors.right: parent.right
                 anchors.rightMargin: 35
                 font.pixelSize:18
-                font.family: "MS Gothic"
+                font.family: "Noto Sans CJK JP DemiLight "
                 style:  TextFieldStyle {
                     textColor: "#95B3D7"
                     background: Rectangle {
@@ -594,11 +603,12 @@ Item {
                 {
                     if(activeFocus)
                     {
-                        Ops.showCalculator(txtfilterTime,"0","50");
+                        Ops.showCalculator(inputT9,"0","50");
                     }
                 }
                 onDisplayTextChanged:
                 {
+                    text = Math.round(text)
                     getLocalTn();
                 }
                 Component.onCompleted:
@@ -624,7 +634,7 @@ Item {
                 anchors.verticalCenter: parent.verticalCenter
                 text: "フィルタ時間"
                 font.pixelSize:18
-                font.family: "MS Gothic"
+                font.family: "Noto Sans CJK JP DemiLight "
                 color: "white"
             }
             Text{
@@ -632,9 +642,10 @@ Item {
                 text: "ms"
                 anchors.verticalCenter: parent.verticalCenter
                 font.pixelSize:18
-                font.family: "MS Gothic"
+                font.family: "Noto Sans CJK JP DemiLight "
                 color: "white"
             }
+
             TextField {
                 id: txtfilterTime
                 //x: 60
@@ -646,7 +657,7 @@ Item {
                 anchors.right: parent.right
                 anchors.rightMargin: 35
                 font.pixelSize:18
-                font.family: "MS Gothic"
+                font.family: "Noto Sans CJK JP DemiLight "
                 style:  TextFieldStyle {
                     textColor: "#95B3D7"
                     background: Rectangle {
@@ -655,6 +666,10 @@ Item {
                 }
                 validator: IntValidator { bottom:1; top: 1495}
                 maximumLength: 10
+                onDisplayTextChanged: {
+                    text = Math.round(text)
+                }
+
                 onActiveFocusChanged:
                 {
                     if(activeFocus)
@@ -676,50 +691,53 @@ Item {
             border.color: "#848385"
             radius:5
 
+
             Rectangle{
                 id: rectWeight
-                x: 25
-                y:10
-                width: 120
-                height: 30
+                x: 10
+                y: 5
+                width: 80
+                height: 20
                 color: "transparent"
                 Text {
                     id: txtWeight
                     anchors.centerIn: parent
-                    font.pixelSize: 20
-                    text: qsTr("質量値")
-                    font.family: "MS Gothic"
+                    font.pixelSize: 16
+                    text: qsTr("質量値:")
+                    font.family: "Noto Sans CJK JP DemiLight "
                     color: "white"
                 }
             }
+
             Rectangle{
                 id: weight
                 x: rectWeight.x+ rectWeight.width
-                y:10
-                width: 80
-                height: 30
+                y:5
+                width: 50
+                height: 20
                 color: "transparent"
                 Text {
                     id: txtValueWeight
                     anchors.centerIn: parent
-                    font.pixelSize: 20
+                    font.pixelSize: 16
                     text: qsTr("3.25")
-                    font.family: "MS Gothic"
-                    color: "#F4A460"
+                    font.family: "Noto Sans CJK JP DemiLight "
+                    color: "#FFD9BB"
                 }
             }
+
             Rectangle{
                 id: rectGram
-                x: rectWeight.x+ rectWeight.width +80
-                y:10
-                width: 40
-                height: 30
+                x: rectWeight.x+ rectWeight.width +50
+                y: 5
+                width: 20
+                height: 20
                 color: "transparent"
                 Text {
                     id: txtGram
                     anchors.centerIn: parent
-                    font.pixelSize: 20
-                    font.family: "MS Gothic"
+                    font.pixelSize: 16
+                    font.family: "Noto Sans CJK JP DemiLight "
                     text: qsTr("g")
                     color: "white"
                 }
@@ -727,175 +745,313 @@ Item {
 
             Rectangle{
                 id: rectUnitY
-                x: 410
-                y:10
-                width: 40
-                height: 30
+                x: rectGram.x+ rectGram.width + 50
+                y: 5
+                width: 50
+                height: 20
                 color: "transparent"
                 Text {
                     id: txtUnitY
                     anchors.centerIn: parent
-                    font.pixelSize: 20
+                    font.pixelSize: 17
                     text: qsTr("y : ")
-                    font.family: "MS Gothic"
+                    font.family: "Noto Sans CJK JP DemiLight "
                     color: "white"
                 }
             }
+
             Rectangle{
                 id: rectUnitYY
-                x: rectUnitY.x +rectUnitY.width +80
-                y:10
+                x: rectUnitY.x +rectUnitY.width + 50
+                y: 5
                 width: 80
-                height: 30
+                height: 20
                 color: "transparent"
                 Text {
                     id: txtUnitYY
                     anchors.centerIn: parent
-                    font.pixelSize: 20
-                    font.family: "MS Gothic"
+                    font.pixelSize: 16
+                    font.family: "Noto Sans CJK JP DemiLight "
                     text: qsTr("g/div")
                     color: "white"
                 }
             }
+
             Rectangle{
                 id: rectValueY
                 x: rectUnitY.x+ rectUnitY.width
-                y:10
-                width: 80
-                height: 30
+                y: 5
+                width: 70
+                height: 20
                 color: "transparent"
                 Text {
                     id: txtValueY
                     anchors.centerIn: parent
-                    font.pixelSize: 20
-                    font.family: "MS Gothic"
+                    font.pixelSize: 16
+                    font.family: "Noto Sans CJK JP DemiLight "
                     text: qsTr("19.00")
-                    color: "#F4A460"
+                    color: "#FFD9BB"
                 }
             }
+
             Rectangle{
                 id: rectUnitT
-                x: 410
-                y:50
+                x: 450
+                y: 5
                 width: 40
-                height: 30
+                height: 20
                 color: "transparent"
                 Text {
                     id: txtUnitT
                     anchors.centerIn: parent
-                    font.pixelSize: 20
-                    font.family: "MS Gothic"
+                    font.pixelSize: 16
+                    font.family: "Noto Sans CJK JP DemiLight "
                     text: qsTr("t : ")
                     color: "white"
                 }
             }
+
             Rectangle{
                 id: rectUnitTT
-                x: rectUnitY.x +rectUnitY.width +80
-                y:50
+                x: rectUnitT.x +rectUnitT.width + 60
+                y: 5
                 width: 80
-                height: 30
+                height: 20
                 color: "transparent"
                 Text {
                     id: txtUnitTT
                     anchors.centerIn: parent
-                    font.pixelSize: 20
-                    font.family: "MS Gothic"
+                    font.pixelSize: 16
+                    font.family: "Noto Sans CJK JP DemiLight "
                     text: qsTr("ms/div")
                     color: "white"
                 }
             }
+
             Rectangle{
                 id: rectValueT
                 x: rectUnitT.x+ rectUnitT.width
-                y:50
+                y: 5
                 width: 80
-                height: 30
+                height: 20
                 color: "transparent"
                 Text {
                     id: txtValueT
                     anchors.centerIn: parent
-                    font.pixelSize: 20
-                    font.family: "MS Gothic"
+                    font.pixelSize: 16
+                    font.family: "Noto Sans CJK JP DemiLight "
                     text: qsTr("100")
-                    color: "#F4A460"
+                    color: "#FFD9BB"
                 }
             }
 
+            Rectangle{
+                y: 30
+                width: 400
+                anchors.horizontalCenter: parent.horizontalCenter
+                color: "transparent"
+                Legend{
+                    id: legend0
+                    x: 0
+                    y: 0
+                    strColor: getColor(0)
+                    strSource: "qrc:/Images/Number_w24h24_01.png"
+                    onClickStateChanged: {
+                        changeSeries(0)
+                        preSelectLegend = 0
+                    }
+                }
+                Legend{
+                    id: legend1
+                    x: 80
+                    y: 0
+                    strColor: getColor(1)
+                    strSource: "qrc:/Images/Number_w24h24_01.png"
+                    onClickStateChanged: {
+                        changeSeries(1)
+                        preSelectLegend = 1
+                    }
+                }
+                Legend{
+                    id: legend2
+                    x: 160
+                    y: 0
+                    strColor: getColor(2)
+                    strSource: "qrc:/Images/Number_w24h24_01.png"
+                    onClickStateChanged: {
+                        changeSeries(2)
+                        preSelectLegend = 2
+                    }
+                }
+                Legend{
+                    id: legend3
+                    x: 240
+                    y: 0
+                    strColor: getColor(3)
+                    strSource: "qrc:/Images/Number_w24h24_01.png"
+                    onClickStateChanged: {
+                        changeSeries(3)
+                        preSelectLegend = 3
+                    }
+                }
+                Legend{
+                    id: legend4
+                    x: 320
+                    y: 0
+                    strColor: getColor(4)
+                    strSource: "qrc:/Images/Number_w24h24_01.png"
+                    onClickStateChanged: {
+                        changeSeries(4)
+                        preSelectLegend = 4
+                    }
+                }
+                Legend{
+                    id: legend5
+                    x: 400
+                    y: 0
+                    strColor: getColor(5)
+                    strSource: "qrc:/Images/Number_w24h24_01.png"
+                    onClickStateChanged: {
+                        changeSeries(5)
+                        preSelectLegend = 5
+                    }
+                }
+                Legend{
+                    id: legend6
+                    x: 0
+                    y: 35
+                    strColor: getColor(6)
+                    strSource: "qrc:/Images/Number_w24h24_01.png"
+                    onClickStateChanged: {
+                        changeSeries(6)
+                        preSelectLegend = 6
+                    }
+                }
+                Legend{
+                    id: legend7
+                    x: 80
+                    y: 35
+                    strColor: getColor(7)
+                    strSource: "qrc:/Images/Number_w24h24_01.png"
+                    onClickStateChanged: {
+                        changeSeries(7)
+                        preSelectLegend = 7
+                    }
+                }
+                Legend{
+                    id: legend8
+                    x: 160
+                    y: 35
+                    strColor: getColor(8)
+                    strSource: "qrc:/Images/Number_w24h24_01.png"
+                    onClickStateChanged: {
+                        changeSeries(8)
+                        preSelectLegend = 8
+                    }
+                }
+                Legend{
+                    id: legend9
+                    x: 240
+                    y: 35
+                    strColor: getColor(9)
+                    strSource: "qrc:/Images/Number_w24h24_01.png"
+                    onClickStateChanged: {
+                        changeSeries(9)
+                        preSelectLegend = 9
+                    }
+                }
+                Legend{
+                    id: legend10
+                    x: 320
+                    y: 35
+                    strColor: getColor(10)
+                    strSource: "qrc:/Images/Number_w24h24_01.png"
+                    onClickStateChanged: {
+                        changeSeries(10)
+                        preSelectLegend = 10
+                    }
+                }
+                Legend{
+                    id: legend11
+                    x: 400
+                    y: 35
+                    strColor: getColor(11)
+                    strSource: "qrc:/Images/Number_w24h24_01.png"
+                    onClickStateChanged: {
+                        changeSeries(11)
+                        preSelectLegend = 11
+                    }
+                }
+            }
 
-            ChartView{
+            DirectConnection {
+                id: directConnectObj
+            }
+
+            TK_LineChart {
                 id: weightChart
-                legend.visible: false
-                x:50
-                y:100
-                width: 695
-                height: 400
+                x: 100
+                y: 155
+                width: 640
+                height: 350
                 antialiasing: true
-                backgroundColor:"transparent"
-                ValueAxis {
-                    id: valueAxisX
-                    min:0
-                    max: (parseInt(inputT1.text) + parseInt(inputT2.text))*2
-                    gridVisible: false
-                    labelsVisible: false
-                    tickCount: 2
-                }
+                property real minX: 0
+                property real maxX: (parseInt(inputT1.text) + parseInt(inputT2.text))*2
+                property real minY: -(parseInt(inputRefVal.text) * 3)/9
+                property real maxY: (parseInt(inputRefVal.text) * 3)/2
 
-                ValueAxis {
-                    id:valueAxisY
-                    min: -(inputRefVal.text*3)/9;
-                    max: (inputRefVal.text*3)/2
-                    tickCount:2
-                    gridLineColor:"#585858"
-                    minorTickCount:10
-                    minorGridVisible: true
-                    labelsVisible: false
-                }
-                MouseArea{
+                MouseArea {
                     anchors.fill: parent
                     hoverEnabled: true
                     propagateComposedEvents: true
                 }
+
+                Component.onCompleted: {
+                    // C++: setAxisOption(void* _item, QString _color, qreal _distanceX, qreal _distanceY, bool _drawGridX, bool _drawGridY)
+                    adjTimeVer3.setAxisOption(weightChart.mLowerLayer, "#ffffff", width, height/10, false, true)
+
+                    directConnectObj.source = weightChart.mLowerLayer
+                    directConnectObj.signal = "onPaintHandle(QQuickItem*,QPainter*)"
+
+                    // C++: drawAxisLine(QQuickItem *item, QPainter *painter);
+                    directConnectObj.destination = adjTimeVer3
+                    directConnectObj.slot = "drawAxisLine(QQuickItem*,QPainter*)"
+                    directConnectObj.isConnect = true
+                }
             }
-            ChartView {
+
+            TK_LineChart {
                 id: signalChart
-                x:50
-                y: 450
-                height:150
-                width: 690
+                x: weightChart.x
+                y: weightChart.y + weightChart.height + 20
+                width: weightChart.width
+                height: 60
                 antialiasing: true
-                backgroundColor:"transparent"
-                legend.visible : false
-                ValueAxis {
-                    id: signalAxisX
-                    labelFormat: "%.0f"
-                    min:0
-                    max: (parseInt(inputT1.text) + parseInt(inputT2.text))*2
-                    gridVisible: false
-                    labelsColor: "white"
-                    minorTickCount:4
-                    minorGridVisible: false
-                    tickCount: 4
-                    labelsVisible: false
-                }
-                ValueAxis {
-                    id:signalAxisY
-                    minorGridVisible: false
-                    min: -0.5
-                    max: 2
-                    gridLineColor:"#2E2E2E"
-                    labelsColor: "white"
-                    labelsVisible: false
-                    gridVisible: false
-                    tickCount: 2
-                }
+                property real minX: 0
+                property real maxX: (parseInt(inputT1.text) + parseInt(inputT2.text))*2
+                property real minY: -0.5
+                property real maxY: 2
+
                 MouseArea{
                     anchors.fill: parent
                     hoverEnabled: true
                     propagateComposedEvents: true
                 }
-            }
 
+                Component.onCompleted: {
+                    // C++: setAxisOption(void* _item, QString _color, qreal _distanceX, qreal _distanceY, bool _drawGridX, bool _drawGridY)
+                    adjTimeVer3.setAxisOption(signalChart.mLowerLayer, "#ffffff", width/10, height, false, false)
+
+                    directConnectObj.source = signalChart.mLowerLayer
+                    directConnectObj.signal = "onPaintHandle(QQuickItem*,QPainter*)"
+
+                    // C++: drawAxisLine(QQuickItem *item, QPainter *painter);
+                    directConnectObj.destination = adjTimeVer3
+                    directConnectObj.slot = "drawAxisLine(QQuickItem*,QPainter*)"
+                    directConnectObj.isConnect = true
+                }
+
+            }
 
             Component.onCompleted: {
                 drawCharts()
@@ -906,9 +1062,10 @@ Item {
 //                indexlineActive = dateLineActive[0];
             }
         }
+
         Rectangle{
             x: 325
-            y:380
+            y: 380
             id: inputMinY
             border.color: "white"
             color: "transparent"
@@ -926,7 +1083,7 @@ Item {
                 readOnly: true
                 horizontalAlignment :TextInput.AlignRight
                 font.pixelSize:18
-                font.family: "MS Gothic"
+                font.family: "Noto Sans CJK JP DemiLight "
                 style:  TextFieldStyle {
                     textColor: "#95B3D7"
                     background: Rectangle {
@@ -944,28 +1101,31 @@ Item {
                 }
                 onDisplayTextChanged:
                 {
-                    if(parseInt(txtAsisY_min.text) >= valueAxisY.max){
-                        txtAsisY_min.text = valueAxisY.min.toString();
+                    text = parseFloat(text).toFixed(2)
+                    if(parseFloat(weightChart.maxY) - parseFloat(txtAsisY_min.text) < 0.08){
+                        txtAsisY_min.text = preAsisY_min;
                     }
                     else{
-                        valueAxisY.min =parseInt(txtAsisY_min.text)-((valueAxisY.max - parseInt(txtAsisY_min.text))/9)*2;
+                        weightChart.minX = parseFloat(txtAsisY_min.text)-((weightChart.maxY - parseInt(txtAsisY_min.text))/9)*2;
+                        preAsisY_min = txtAsisY_min.text;
                     }
                 }
                 Component.onCompleted:
                 {
-                    if(parseInt(txtAsisY_min.text) >= valueAxisY.max){
-                        txtAsisY_min.text = valueAxisY.min.toString();
+                    if(parseFloat(weightChart.maxY) - parseFloat(txtAsisY_min.text) < 0.08){
+                        txtAsisY_min.text = "" + weightChart.minY;
                     }
                     else{
-                        valueAxisY.min =parseInt(txtAsisY_min.text)-((valueAxisY.max - parseInt(txtAsisY_min.text))/9)*2;
+                        weightChart.minY = parseFloat(txtAsisY_min.text)-((weightChart.maxY - parseInt(txtAsisY_min.text))/9)*2;
                     }
+                    preAsisY_min = txtAsisY_min.text;
                 }
             }
         }
 
         Rectangle{
             x: 325
-            y:150
+            y: 150
             id: inputMaxY
             border.color: "white"
             color: "transparent"
@@ -981,7 +1141,7 @@ Item {
                 readOnly: true
                 horizontalAlignment :TextInput.AlignRight
                 font.pixelSize:18
-                font.family: "MS Gothic"
+                font.family: "Noto Sans CJK JP DemiLight"
                 style:  TextFieldStyle {
                     textColor: "#95B3D7"
                     background: Rectangle {
@@ -999,22 +1159,23 @@ Item {
                 }
                 onDisplayTextChanged:
                 {
-                    if(parseInt(txtAsisY_max.text) <= valueAxisY.min){
-                        txtAsisY_max.text = valueAxisY.max.toString();
+                    text = parseFloat(text).toFixed(2)
+                    if(parseFloat(txtAsisY_max.text) -  parseFloat(weightChart.minY) < 0.08){
+                        txtAsisY_max.text = weightChart.maxY.toString();
                     }
                     else{
-                        valueAxisY.max = parseInt(txtAsisY_max.text);
-                        valueAxisY.min =parseInt(txtAsisY_min.text)-((valueAxisY.max - parseInt(txtAsisY_min.text))/9)*2;
+                        weightChart.maxY = parseFloat(txtAsisY_max.text);
+                        weightChart.minY = parseFloat(txtAsisY_min.text)-((weightChart.maxY - parseInt(txtAsisY_min.text))/9)*2;
                     }
                 }
                 Component.onCompleted:
                 {
-                    if(parseInt(txtAsisY_max.text) <= valueAxisY.min){
-                        txtAsisY_max.text = valueAxisY.max.toString();
+                    if(parseFloat(txtAsisY_max.text) - parseFloat(weightChart.minY) < 0.08){
+                        txtAsisY_max.text = weightChart.maxY.toString();
                     }
                     else{
-                        valueAxisY.max = parseInt(txtAsisY_max.text);
-                        valueAxisY.min =parseInt(txtAsisY_min.text)-((valueAxisY.max - parseInt(txtAsisY_min.text))/9)*2;
+                        weightChart.maxY = parseFloat(txtAsisY_max.text);
+                        weightChart.minY =parseFloat(txtAsisY_min.text)-((weightChart.maxY - parseInt(txtAsisY_min.text))/9)*2;
                     }
                 }
             }
@@ -1022,7 +1183,7 @@ Item {
 
         Rectangle{
             x: 325
-            y:580
+            y: 580
             id: inputMinX
             border.color: "white"
             color: "transparent"
@@ -1034,11 +1195,11 @@ Item {
                 width: parent.width
                 height: parent.height
                 anchors.verticalCenter: parent.verticalCenter
-                text: valueAxisX.min
+                text: "0"
                 readOnly: true
                 horizontalAlignment :TextInput.AlignRight
                 font.pixelSize:18
-                font.family: "MS Gothic"
+                font.family: "Noto Sans CJK JP DemiLight "
                 style:  TextFieldStyle {
                     textColor: "#95B3D7"
                     background: Rectangle {
@@ -1046,34 +1207,28 @@ Item {
                     }
                 }
                 maximumLength: 10
-                validator: IntValidator { bottom:0; top: 580}
+                validator: IntValidator { bottom:0; top: 100}
                 onActiveFocusChanged:
                 {
                     if(activeFocus)
                     {
-                        Ops.showCalculator(txtAsisX_min,"0","580");
+                        Ops.showCalculator(txtAsisX_min,"0","100");
                     }
                 }
                 onDisplayTextChanged:
                 {
-                    if(parseInt(txtAsisX_min.text) >= valueAxisX.max){
-                        txtAsisX_min.text = valueAxisX.min.toString();
+                    text = Math.round(text)
+                    if(parseInt(txtAsisX_min.text) >= weightChart.maxX){
+                        txtAsisX_min.text = weightChart.minX.toString();
                     }
                     else{
-                        valueAxisX.min = parseInt(txtAsisX_min.text);
-                        signalAxisX.min = parseInt(txtAsisX_min.text);
+                        weightChart.minX = parseInt(txtAsisX_min.text);
+                        signalChart.minX = parseInt(txtAsisX_min.text);
                     }
                     getLocalTn();
                 }
                 Component.onCompleted:
                 {
-                    if(parseInt(txtAsisX_min.text) >= valueAxisX.max){
-                        txtAsisX_min.text = valueAxisX.min.toString();
-                    }
-                    else{
-                        valueAxisX.min = parseInt(txtAsisX_min.text);
-                        signalAxisX.min = parseInt(txtAsisX_min.text);
-                    }
                     getLocalTn();
                 }
             }
@@ -1081,7 +1236,7 @@ Item {
 
         Rectangle{
             x: 910
-            y:580
+            y: 585
             id: inputMaxX
             border.color: "white"
             color: "transparent"
@@ -1093,12 +1248,11 @@ Item {
                 width: parent.width
                 height: parent.height
                 anchors.verticalCenter: parent.verticalCenter
-                //text: valueAxisX.max
-                text: "16"
+                text: "8"
                 readOnly: true
                 horizontalAlignment :TextInput.AlignRight
                 font.pixelSize:18
-                font.family: "MS Gothic"
+                font.family: "Noto Sans CJK JP DemiLight "
                 style:  TextFieldStyle {
                     textColor: "#95B3D7"
                     background: Rectangle {
@@ -1106,7 +1260,7 @@ Item {
                     }
                 }
                 maximumLength: 10
-                validator: IntValidator { bottom:0; top: 20000}
+                validator: IntValidator { bottom:0; top: 100}
                 onActiveFocusChanged:
                 {
                     if(activeFocus)
@@ -1116,24 +1270,18 @@ Item {
                 }
                 onDisplayTextChanged:
                 {
-                    if(parseInt(txtAsisX_max.text) <= valueAxisX.min){
-                        txtAsisX_max.text = valueAxisX.max.toString();
+                    text = Math.round(text)
+                    if(parseInt(txtAsisX_max.text) <= weightChart.minX){
+                        txtAsisX_max.text = weightChart.maxX.toString();
                     }
                     else{
-                        valueAxisX.max = parseInt(txtAsisX_max.text);
-                        signalAxisX.max = parseInt(txtAsisX_max.text);
+                        weightChart.maxX = parseInt(txtAsisX_max.text);
+                        signalChart.maxX = parseInt(txtAsisX_max.text);
                     }
                     getLocalTn();
                 }
                 Component.onCompleted:
                 {
-                    if(parseInt(txtAsisX_max.text) <= valueAxisX.min){
-                        txtAsisX_max.text = valueAxisX.max.toString();
-                    }
-                    else{
-                        valueAxisX.max = parseInt(txtAsisX_max.text);
-                        signalAxisX.max = parseInt(txtAsisX_max.text);
-                    }
                     getLocalTn();
                 }
             }
@@ -1146,10 +1294,11 @@ Item {
             id: valueAsisX1
             horizontalAlignment: Text.Center
             width: 80
-            text:parseInt((parseInt(txtAsisX_max.text) - parseInt(txtAsisX_min.text))*2/3) + parseInt(txtAsisX_min.text)
+            text: (parseFloat((parseInt(txtAsisX_max.text) - parseInt(txtAsisX_min.text))*2/3) + parseFloat(txtAsisX_min.text)).toFixed(2)
             font.pixelSize:16
-            font.family: "MS Gothic"
+            font.family: "Noto Sans CJK JP DemiLight "
         }
+
         Text{
             color: "white"
             x: 540
@@ -1157,9 +1306,9 @@ Item {
             width: 80
             horizontalAlignment: Text.Center
             id: valueAsisX2
-            text:parseInt((parseInt(txtAsisX_max.text) - parseInt(txtAsisX_min.text))/3) + parseInt(txtAsisX_min.text);
+            text: (parseFloat((parseInt(txtAsisX_max.text) - parseInt(txtAsisX_min.text))/3) + parseFloat(txtAsisX_min.text)).toFixed(2)
             font.pixelSize:16
-            font.family: "MS Gothic"
+            font.family: "Noto Sans CJK JP DemiLight "
         }
 
         Text{
@@ -1169,9 +1318,9 @@ Item {
             width: 40
             id: valueAsisY2
             horizontalAlignment: Text.AlignRight
-            text:parseInt((parseInt(txtAsisY_max.text) - parseInt(txtAsisY_min.text))/3) +parseInt(txtAsisY_min.text)
+            text: (parseFloat((parseInt(txtAsisY_max.text) - parseInt(txtAsisY_min.text))/3) + parseFloat(txtAsisY_min.text)).toFixed(2)
             font.pixelSize:16
-            font.family: "MS Gothic"
+            font.family: "Noto Sans CJK JP DemiLight "
         }
 
         Text{
@@ -1181,10 +1330,11 @@ Item {
             id: valueAsisY1
             width: 40
             horizontalAlignment:Text.AlignRight
-            text: parseInt((parseInt(txtAsisY_max.text) - parseInt(txtAsisY_min.text))*2/3) +parseInt(txtAsisY_min.text);
+            text: (parseFloat((parseInt(txtAsisY_max.text) - parseInt(txtAsisY_min.text))*2/3) +parseFloat(txtAsisY_min.text)).toFixed(2)
             font.pixelSize:16
-            font.family: "MS Gothic"
+            font.family: "Noto Sans CJK JP DemiLight "
         }
+
         Text {
             id: nameAxisX
             color: "white"
@@ -1194,8 +1344,9 @@ Item {
             horizontalAlignment: Text.Center
             font.pixelSize:16
             text: "t"
-            font.family: "MS Gothic"
+            font.family: "Noto Sans CJK JP DemiLight "
         }
+
         Text {
             id: nameAxisY
             color: "white"
@@ -1205,8 +1356,9 @@ Item {
             horizontalAlignment:Text.AlignRight
             font.pixelSize:16
             text: "y"
-            font.family: "MS Gothic"
+            font.family: "Noto Sans CJK JP DemiLight "
         }
+
         Rectangle{
             id: redBtn
             x:500
@@ -1221,6 +1373,7 @@ Item {
                 source: "qrc:/Images/red_triangle.png"
             }
         }
+
         Rectangle{
             id: grayBtn
             x:600
@@ -1239,31 +1392,97 @@ Item {
         function showDialogSettingTime(){
             settingTime.source = listTime;
             settingTime.visible = true;
+            statusBarItem.normalStatusBar.disableStatusBar();
+            bottomBarItem.bottomBarAdjustTiming.disableBottomBar();
         }
 
         function showDialogVerticalRange(){
             settingRange.source = listVerticalRange;
             settingRange.visible = true;
+            statusBarItem.normalStatusBar.disableStatusBar();
+            bottomBarItem.bottomBarAdjustTiming.disableBottomBar();
         }
 
         function showDialogMeasTiming(){
             settingMeasTiming.source=listMeasTiming;
             settingMeasTiming.visible=true;
+            statusBarItem.normalStatusBar.disableStatusBar();
+            bottomBarItem.bottomBarAdjustTiming.disableBottomBar();
         }
 
         function showDialogSignalPhoto(){
             displaySignal.visible=true;
+            statusBarItem.normalStatusBar.disableStatusBar();
+            bottomBarItem.bottomBarAdjustTiming.disableBottomBar();
+            selectSignal.refreshList();
+            selectPhoto.refreshList();
         }
 
-        function clearCharts()
-        {
+        function disableScreen(){
+            screenArea.propagateComposedEvents = true;
+            screenArea.enabled =  true;
+        }
+
+        function enableScreen(){
+            screenArea.propagateComposedEvents = false;
+            screenArea.enabled =  false;
+        }
+
+        function clearCharts(){
             clearLineNoLegend()
         }
+
         function autoScale(){
             clearScale()
         }
+
         function updateTextInput(sInput) {
             txtProdLen.text = sInput;
+        }
+
+        function signalSetCurrentIndex(input){
+            selectSignal.refreshList();
+            selectSignal.setCurrentIndex(input);
+        }
+
+        function photoSetCurrentIndex(input2){
+            selectPhoto.refreshList();
+            selectPhoto.setCurrentIndex(input2);
+        }
+
+        function photoSetSource(input3){
+            if(input3 === 0){
+                selectPhoto.source = listSignalPhoto;
+                for(var i=0;i<listSignalPhoto.count;i++){
+                    if(statusBarItem.normalStatusBar.getValueSignal() == listSignalPhoto.get(i).title){
+                        selectPhoto.setCurrentIndex(i);
+                        selectPhoto.setListViewCount("3");
+                    }
+                }
+            }
+            else if(input3 === 1){
+                selectPhoto.source = listSignalInput;
+                for(i=0;i<listSignalInput.count;i++){
+                    if(statusBarItem.normalStatusBar.getValueSignal() == listSignalInput.get(i).title){
+                        selectPhoto.setCurrentIndex(i);
+                        selectPhoto.setListViewCount("4");
+                    }
+                }
+            }
+            else if(input3 === 2){
+                selectPhoto.source = listSignalOutput;
+                for(i=0;i<listSignalOutput.count;i++){
+                    if(statusBarItem.normalStatusBar.getValueSignal() == listSignalOutput.get(i).title){
+                        selectPhoto.setCurrentIndex(i);
+                        selectPhoto.setListViewCount("6");
+                    }
+                }
+            }
+        }
+
+        function refreshList(){
+            selectSignal.refreshList();
+            selectPhoto.refreshList();
         }
     }
 
@@ -1282,6 +1501,7 @@ Item {
             title: "200 ms"
         }
     }
+
     ListModel {
         id: listMeasTiming
         ListElement {
@@ -1317,6 +1537,7 @@ Item {
             title: "Photo(RJ1)"
         }
     }
+
     ListModel {
         id: listSignalInput
         ListElement {
@@ -1332,6 +1553,7 @@ Item {
             title: "INM2"
         }
     }
+
     ListModel {
         id: listSignalOutput
         ListElement {
@@ -1353,6 +1575,7 @@ Item {
             title: "OUTN3"
         }
     }
+
     ListModel {
         id: listVerticalRange
         ListElement {
@@ -1375,6 +1598,13 @@ Item {
         }
     }
 
+    MouseArea {
+        id: screenArea
+        anchors.fill: parent
+        propagateComposedEvents: false;
+        enabled:  false;
+    }
+
     CateListDialog{
         id: settingTime
         x: 397
@@ -1386,19 +1616,34 @@ Item {
         onSend: {
             statusBarItem.normalStatusBar.settingValueTime(value)
         }
+        onVisibleChanged: {
+            screenArea.propagateComposedEvents = false;
+            screenArea.enabled =  false;
+            statusBarItem.normalStatusBar.enableStatusBar();
+            bottomBarItem.bottomBarAdjustTiming.enableBottomBar();
+        }
 
     }
+
     CateListDialog{
         id: settingRange
         x: 397
         y: 100
+        indexSelect: 0
         title: "縦レンジ"
         visible: false
         source: listVerticalRange
         onSend: {
-            statusBarItem.normalStatusBar.updateVerticalRange(value)
+            statusBarItem.normalStatusBar.updateVerticalRange(value)      
+        }
+        onVisibleChanged: {
+            statusBarItem.normalStatusBar.enableStatusBar();
+            bottomBarItem.bottomBarAdjustTiming.enableBottomBar();
+            screenArea.propagateComposedEvents = false;
+            screenArea.enabled =  false;
         }
     }
+
     CateListDialog{
         id: settingMeasTiming
         x: 397
@@ -1408,12 +1653,9 @@ Item {
         source: listMeasTiming
         onSend: {
             bottomBarItem.bottomBarAdjustTiming.settingValueMeasTime(value)
-        }
-        onIndexSelectChanged: {
             var curIndexMeas =settingMeasTiming.settingDialog.getCurrentIndex()
-            console.log(curIndexMeas + "aaaa")
             if(curIndexMeas ===1){
-                clearScale()
+                //clearScale()
                 redBtn.visible=false
                 grayBtn.visible=false
             }
@@ -1421,8 +1663,16 @@ Item {
                 redBtn.visible=true
                 grayBtn.visible=true
             }
+
+        }
+        onVisibleChanged: {
+            statusBarItem.normalStatusBar.enableStatusBar();
+            bottomBarItem.bottomBarAdjustTiming.enableBottomBar();
+            screenArea.propagateComposedEvents = false;
+            screenArea.enabled =  false;
         }
     }
+
 
     Rectangle{
         id: displaySignal
@@ -1439,35 +1689,52 @@ Item {
             y:0
             sizeWidth: 313
             sizeHeight: 400
-            indexSelect: 0
             title: "種別"
             source: listSignalType
+
             onIndexSelectChanged: {
-                var curIndex =selectSignal.settingDialog.getCurrentIndex()
+                selectPhoto.refreshList();
+                var curIndex =selectSignal.indexSelect;
                 if(curIndex ===1){
-                    selectPhoto.source = listSignalPhoto
+                    selectPhoto.source = listSignalPhoto;
+                    selectPhoto.setListViewCount("3");
+                    if(selectPhoto.getCount() == 0){
+                        selectPhoto.indexSelect = 0;
+                        selectPhoto.setCurrentIndex(0);
+                    }
                 }
                 else if(curIndex===2){
-                    selectPhoto.source=listSignalInput
+                    selectPhoto.source=listSignalInput;
+                    selectPhoto.setListViewCount("4");
+                    if(selectPhoto.getCount() == 0){
+                        selectPhoto.indexSelect = 0;
+                        selectPhoto.setCurrentIndex(0);
+                    }
                 }
                 else if(curIndex===3){
-                    selectPhoto.source=listSignalOutput
+                    selectPhoto.source=listSignalOutput;
+                    selectPhoto.setListViewCount("6");
+                    if(selectPhoto.getCount() == 0){
+                        selectPhoto.indexSelect = 0;
+                        selectPhoto.setCurrentIndex(0);
+                    }
                 }
                 console.log(curIndex)
             }
 
 
         }
+
         CateListDialogVer2{
             id: selectPhoto
             x:313
             y:0
             sizeWidth: 313
             sizeHeight: 400
-            indexSelect: 1
             title: "信号名"
-            source: listSignalPhoto
+
         }
+
         Rectangle{
             x: 0
             y:400
@@ -1489,7 +1756,7 @@ Item {
                     Text {
                         text: "OK"
                         font.pixelSize:24
-                        font.family: "MS Gothic"
+                        font.family: "Noto Sans CJK JP DemiLight "
                         color: "white"
                         anchors.centerIn: parent
                         anchors.horizontalCenter: Text.horizontalCenter
@@ -1506,17 +1773,30 @@ Item {
                             selectPhoto.settingDialog.pressBtnOK()
                             statusBarItem.normalStatusBar.updateSignal(selectPhoto.value)
                             txtSignalName.text=selectPhoto.value
+
+                            preSignal = selectSignal.indexSelect;
+
+                            statusBarItem.normalStatusBar.enableStatusBar();
+                            bottomBarItem.bottomBarAdjustTiming.enableBottomBar();
+
+                            screenArea.propagateComposedEvents = false;
+                            screenArea.enabled =  false;
+
+                            selectPhoto.refreshList();
+                            selectSignal.refreshList();
+
                             displaySignal.visible=false
                             drawCharts()
-
                         }
                         onCanceled:
                         {
+
                             imgOK.source = "../Images/keyboard_btn_okcancel.png";
                         }
                     }
                 }
             }
+
             Rectangle{
                 x:476
                 y:10
@@ -1531,7 +1811,7 @@ Item {
                     Text {
                         text: "CANCEL"
                         font.pixelSize:24
-                        font.family: "MS Gothic"
+                        font.family: "Noto Sans CJK JP DemiLight "
                         color: "white"
                         anchors.centerIn: parent
                         anchors.horizontalCenter: Text.horizontalCenter
@@ -1542,11 +1822,26 @@ Item {
                             imgCancel.source = "../Images/keyboard_btn_touched_okcancel.png"
                         }
                         onReleased:{
+                            imgCancel.source = "../Images/keyboard_btn_okcancel.png";
+
+                            selectSignal.indexSelect = preSignal;
+                            selectSignal.setCurrentIndex(preSignal);
+
+                            screenArea.propagateComposedEvents = false;
+                            screenArea.enabled =  false;
+
+                            statusBarItem.normalStatusBar.enableStatusBar();
+                            bottomBarItem.bottomBarAdjustTiming.enableBottomBar();
+
+                            selectPhoto.refreshList();
+                            //selectSignal.refreshList();
+
                             displaySignal.visible=false
                         }
                         onCanceled:
                         {
                             imgCancel.source = "../Images/keyboard_btn_okcancel.png";
+
                         }
                     }
                 }
@@ -1565,9 +1860,10 @@ Item {
             anchors.centerIn: parent
             id: txtSignalName
             font.pixelSize: 20
-            font.family: "MS Gothic"
+            font.family: "Noto Sans CJK JP DemiLight "
             color: "white"
-            text: "Photo(W1)"
+            text: statusBarItem.normalStatusBar.getValueSignal()
+
         }
     }
 
@@ -1591,16 +1887,17 @@ Item {
             break;
         default: break;
         }
-        signalAxisX.max =txtAsisX_max.text;
-        valueAxisX.max = txtAsisX_max.text;
+        signalChart.maxX =txtAsisX_max.text;
+        weightChart.maxX = txtAsisX_max.text;
         getLocalTn();
         statusBarItem.normalStatusBar.updateSettingTime(value.toString());
     }
+
     function getLocalTn(){
-        var maxX = 990;
-        var originX = 358;
+        var maxX = 1000;
+        var originX = weightChart.x + weightChart.parent.x;
         var originY = 574;
-        var scale = (maxX-originX)/(parseInt(valueAxisX.max)- parseInt(valueAxisX.min));
+        var scale = (maxX-originX)/(parseInt(weightChart.maxX)- parseInt(weightChart.minX));
         var localTn = [];
         var localT1 = originX + parseInt(scale*(parseInt(inputT1.text)));
         var localT2 = localT1 + parseInt(scale*(parseInt(inputT2.text)));
@@ -1608,6 +1905,38 @@ Item {
         var localT4 = localT3 + parseInt(scale*(parseInt(inputT4.text)));
         var localT7 = localT4 + parseInt(scale*(parseInt(inputT7.text)));
         var localT9 = localT7 + parseInt(scale*(parseInt(inputT9.text)));
+        if(localT1 >= maxX - 80){
+            localT1 = maxX - 15;
+            localT2 = maxX - 12;
+            localT3 = maxX - 9;
+            localT4 = maxX - 6;
+            localT7 = maxX - 3;
+            localT9 = maxX;
+        }
+        else if(localT2 >= maxX - 80){
+            localT2 = maxX - 12;
+            localT3 = maxX - 9;
+            localT4 = maxX - 6;
+            localT7 = maxX - 3;
+            localT9 = maxX;
+        }
+        else if(localT3 >= maxX - 80){
+            localT3 = maxX - 9;
+            localT4 = maxX - 6;
+            localT7 = maxX - 3;
+            localT9 = maxX;
+        }
+        else if(localT4 >= maxX - 80){
+            localT4 = maxX - 6;
+            localT7 = maxX - 3;
+            localT9 = maxX;
+        }
+        else if(localT7 >= maxX - 80){
+            localT7 = maxX - 3;
+            localT9 = maxX;
+        }
+        else if(localT9 >=maxX)
+            localT9 = maxX;
         localTn.push(originY);
         localTn.push(localT1);
         localTn.push(localT2);
@@ -1616,121 +1945,219 @@ Item {
         localTn.push(localT7);
         localTn.push(localT9);
         localTn.push(maxX);
-        localTn.push(originX);
+        localTn.push(signalChart.y + signalChart.height - 5);
         timAdjObj.setDrawTn(localTn);
     }
+
     function drawCharts(){
         getLocalTn()
-        var lineImport=[];
-        var countLineImport =  Math.floor((Math.random() * 7) + 5);
-        for(var i =0 ;i<countLineImport ; i++){
-            lineImport.push((Math.random() * 11) + 1);
-            var series = weightChart.createSeries(ChartView.SeriesTypeSpline,"",valueAxisX,valueAxisY);
-            var seriesSignal = signalChart.createSeries(ChartView.SeriesTypeLine,"",signalAxisX,signalAxisY);
+        var countLineImport =  12;
+        var lineProperty = weightChart.lineProperty();
+        var distanceX = 0;
+        var distanceY = 0;
+
+        for(var i = 0 ;i<countLineImport ; i++){
+            //lineImport.push((Math.random() * 11) + 1);
+
+            // create weight line
+            var weightLineName = "weightLine_" + i;
+            var weightLine = weightChart.getLine(weightLineName);
+
+            if (weightLine === undefined) {
+               lineProperty.lineName = weightLineName;
+               weightLine = weightChart.createLine(lineProperty);
+            }
+
+            distanceX = weightChart.width/10;
+            distanceY = weightChart.height/10;
+
             for(var j=0;j<=10;j++){
-                series.append(j, Math.floor((Math.random() * 3) + 3));
+                var x = j*distanceX;
+                var y = convertPointY(weightChart, Math.floor((Math.random() * 3) + 4)*distanceY);
+
+                weightLine.append(x, y);
             }
-            if(i%2 ===0){
-                seriesSignal.append(0,0);
-                seriesSignal.append(1,0);
-                seriesSignal.append(1,1);
-                seriesSignal.append(2,1);
-                seriesSignal.append(2,0);
-                seriesSignal.append(3,0);
-                seriesSignal.append(3,1);
-                seriesSignal.append(4,1);
-                seriesSignal.append(5,1);
-                seriesSignal.append(5,0);
-                seriesSignal.append(6,0);
-                seriesSignal.append(6,1);
-                seriesSignal.append(7,1);
-                seriesSignal.append(8,1);
-                seriesSignal.append(8,0);
-                seriesSignal.append(9,0);
-                seriesSignal.append(10,0);
+
+
+            // create signal line
+            var signalLineName = "signalLine_" + i;
+            var signalLine = signalChart.getLine(signalLineName);
+
+            if (signalLine === undefined) {
+               lineProperty.lineName = signalLineName;
+               signalLine = signalChart.createLine(lineProperty);
             }
-            else{
-                seriesSignal.append(0,0);
-                seriesSignal.append(1,0);
-                seriesSignal.append(2,0);
-                seriesSignal.append(2,1);
-                seriesSignal.append(3,1);
-                seriesSignal.append(3,1);
-                seriesSignal.append(3,0);
-                seriesSignal.append(4,0);
-                seriesSignal.append(5,0);
-                seriesSignal.append(6,0);
-                seriesSignal.append(6,1);
-                seriesSignal.append(7,1);
-                seriesSignal.append(7,0);
-                seriesSignal.append(8,0);
-                seriesSignal.append(9,0);
-                seriesSignal.append(10,0);
-            }
-            if(i!=(countLineImport -1)){
-                series.width = 0.7;
-                seriesSignal.width = 0.5;
+
+            distanceX = signalChart.width/10;
+            distanceY = convertPointY(signalChart, signalChart.height/3.5);
+
+            if(i%2 === 0) {
+                signalLine.append(0*distanceX,distanceY*2);
+                signalLine.append(1*distanceX,distanceY*2);
+                signalLine.append(1*distanceX,distanceY/2);
+                signalLine.append(2*distanceX,distanceY/2);
+                signalLine.append(2*distanceX,distanceY*2);
+                signalLine.append(3*distanceX,distanceY*2);
+                signalLine.append(3*distanceX,distanceY/2);
+                signalLine.append(4*distanceX,distanceY/2);
+                signalLine.append(5*distanceX,distanceY/2);
+                signalLine.append(5*distanceX,distanceY*2);
+                signalLine.append(6*distanceX,distanceY*2);
+                signalLine.append(6*distanceX,distanceY/2);
+                signalLine.append(7*distanceX,distanceY/2);
+                signalLine.append(8*distanceX,distanceY/2);
+                signalLine.append(8*distanceX,distanceY*2);
+                signalLine.append(9*distanceX,distanceY*2);
+                signalLine.append(10*distanceX,distanceY*2);
             }
             else{
-                indexlineActive = i;
-                series.width = 4;
-                seriesSignal.width = 2;
+                signalLine.append(0*distanceX,distanceY*2);
+                signalLine.append(1*distanceX,distanceY*2);
+                signalLine.append(2*distanceX,distanceY*2);
+                signalLine.append(2*distanceX,distanceY/2);
+                signalLine.append(3*distanceX,distanceY/2);
+                signalLine.append(3*distanceX,distanceY/2);
+                signalLine.append(3*distanceX,distanceY*2);
+                signalLine.append(4*distanceX,distanceY*2);
+                signalLine.append(5*distanceX,distanceY*2);
+                signalLine.append(6*distanceX,distanceY*2);
+                signalLine.append(6*distanceX,distanceY/2);
+                signalLine.append(7*distanceX,distanceY/2);
+                signalLine.append(7*distanceX,distanceY*2);
+                signalLine.append(8*distanceX,distanceY*2);
+                signalLine.append(9*distanceX,distanceY*2);
+                signalLine.append(10*distanceX,distanceY*2);
             }
+
             var color = getColor(i);
-            series.color = color;
-            seriesSignal.color = color;
+            weightLine.lineColor = color;
+            weightLine.update();
+
+            signalLine.lineColor = color;
+            signalLine.update();
+        }
+        weightChart.mLowerLayer.update();
+    }
+
+    function resetLine(){
+        var i;
+        for(i=0;i < weightChart.count;i++){
+            weightChart.series(i).width = 0.7;
+            signalChart.series(i).width = 0.5;
         }
     }
 
     function clearLineNoLegend(){
-        weightChart.removeAllSeries();
-        signalChart.removeAllSeries();
+        weightChart.clearAllLine();
+        signalChart.clearAllLine();
     }
+
+    function resetSelectLegend(){
+        switch(preSelectLegend){
+            case 0:
+                legend0.setWidth(0.8)
+                break;
+            case 1:
+                legend1.setWidth(0.8)
+                break;
+            case 2:
+                legend2.setWidth(0.8)
+                break;
+            case 3:
+                legend3.setWidth(0.8)
+                break;
+            case 4:
+                legend4.setWidth(0.8)
+                break;
+            case 5:
+                legend5.setWidth(0.8)
+                break;
+            case 6:
+                legend6.setWidth(0.8)
+                break;
+            case 7:
+                legend7.setWidth(0.8)
+                break;
+            case 8:
+                legend8.setWidth(0.8)
+                break;
+            case 9:
+                legend9.setWidth(0.8)
+                break;
+            case 10:
+                legend10.setWidth(0.8)
+                break;
+            case 11:
+                legend11.setWidth(0.8)
+                break;
+
+        }
+    }
+
+    function changeSeries(pos){
+        resetLine();
+        resetSelectLegend();
+        var i;
+        for(i=0;i<weightChart.count;i++){
+            if(weightChart.series(i).color == getColor(pos)){
+                weightChart.series(i).width = 4;
+                signalChart.series(i).width = 4;
+                signalChart.series(i).color = getColor(pos)
+                break;
+            }
+        }
+    }
+
     function clearScale(){
-        valueAxisX.min =0;
-        valueAxisY.min = -(inputRefVal.text*3)/9;
-        valueAxisY.max = parseInt(inputRefVal.text)*1.5
+        weightChart.minX =0;
+        weightChart.minY = -(inputRefVal.text*3)/9;
+        weightChart.maxY = parseInt(inputRefVal.text)*1.5
         if(optionTime ==1){
-            valueAxisX.max = (parseInt(inputT1.text) + parseInt(inputT2.text))*2;
-            signalAxisX.max = (parseInt(inputT1.text) + parseInt(inputT2.text))*2;
+            weightChart.maxX = (parseInt(inputT1.text) + parseInt(inputT2.text))*2;
+            signalChart.maxX = (parseInt(inputT1.text) + parseInt(inputT2.text))*2;
         }
         else if(optionTime ==2){
-            valueAxisX.max = 50;
-            signalAxisX.max = 50;
+            weightChart.maxX = 50;
+            signalChart.maxX = 50;
         }
         else if(optionTime ==3){
-            valueAxisX.max = 100;
-            signalAxisX.max = 100;
+            weightChart.maxX = 100;
+            signalChart.maxX = 100;
         }
         else{
-            valueAxisX.max = 200;
-            signalAxisX.max = 200;
+            weightChart.maxX = 200;
+            signalChart.maxX = 200;
         }
-        txtAsisX_min.text = valueAxisX.min.toString();
+        txtAsisX_min.text = weightChart.minX.toString();
         txtAsisY_min.text = 0;
-        txtAsisX_max.text = valueAxisX.max.toString();
-        txtAsisY_max.text = valueAxisY.max.toString();
+        txtAsisX_max.text = weightChart.maxX.toString();
+        txtAsisY_max.text = weightChart.maxY.toString();
         getLocalTn();
     }
 
     function getColor(index){
         var color;
         switch(index){
-        case 0: color= "#FF0000";break;
-        case 1: color= "#FFFF00";break;
-        case 2: color= "#008B45";break;
-        case 3: color= "#0000FF";break;
-        case 4: color= "#00BFFF";break;
-        case 5: color= "#FF6A6A";break;
-        case 6: color= "#FF7F24";break;
-        case 7: color= "#CD1076";break;
-        case 8: color= "#FFFFFF";break;
-        case 9: color= "#8B4726";break;
-        case 10: color= "#00FF00";break;
-        case 11: color= "#848385";break;
+        case 0: color= "#ff0000";break; //red
+        case 1: color= "#ffff00";break; //yellow
+        case 2: color= "#008b45";break; //green
+        case 3: color= "#0000ff";break; //blue
+        case 4: color= "#00bfff";break; //light blue
+        case 5: color= "#ff6a6a";break; //pink
+        case 6: color= "#ff7f24";break; //orange
+        case 7: color= "#cd1076";break; //purple
+        case 8: color= "#ffffff";break; //white
+        case 9: color= "#8b4726";break; //brown
+        case 10: color= "#00ff00";break; //green
+        case 11: color= "#848385";break; //light black
         default: color= "white";break;
         }
         return color;
     }
 
+    // because axis orgin on top left of rectangle, so we need convert to real physic position
+    function convertPointY(lineChart, pointY) {
+        pointY = lineChart.height - pointY;
+        return pointY;
+    }
 }

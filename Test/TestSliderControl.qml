@@ -1,7 +1,11 @@
 import QtQuick 2.0
 import "qrc:/Control/slideControl"
-
+import ControlApp 1.0
 Item {
+    property alias objTestSlideControlVM: testSliderControlVM
+    TestVM {
+        id:testSliderControlVM
+    }
     Rectangle{
         x:0
         y:0
@@ -11,6 +15,7 @@ Item {
         color: "#000000"
         border.color: "#EEEED1"
         border.width: 3
+
         Canvas{
             anchors.fill: parent
             onPaint: {
@@ -91,5 +96,7 @@ Item {
 
         }
     }
-
+    Component.onCompleted: {
+        objTestSlideControlVM.onLoad();
+    }
 }

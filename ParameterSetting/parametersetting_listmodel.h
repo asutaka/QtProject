@@ -27,6 +27,7 @@ public:
     Q_INVOKABLE QVariant getType(int i) const;
     Q_INVOKABLE QVariant getInfomation(int i) const;
     Q_INVOKABLE QVariant getValue(int i) const;
+    Q_INVOKABLE QVariantMap get(int i) const;
     Q_INVOKABLE void setValue(const int &i, const QString &value);
     Q_INVOKABLE void updateData();
 public:

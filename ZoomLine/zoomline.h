@@ -12,7 +12,7 @@ public:
     void paint(QPainter *painter);
     void DrawBottomContent(QPainter *qp);
     void DrawMiddleContent(QPainter *qp);
-
+    Q_INVOKABLE void OnLoad();
 private:
     QPixmap arrPixmapLineNo[12];
     QPixmap arrPixmapLineNoON[12];

@@ -35,6 +35,22 @@ ApplicationWindow {
     //default: 0, while autohide: 1
     property int yfitCenter: 0
 
+    // Data temp for AdjustTimingVer4
+    property int tmpSettingTime: 0
+    property int tmpSettingRange: 0
+    property int tmpSettingT7: 4
+    property int tmpSettingT1: 0
+    property int tmpSettingT2: 1
+    property int tmpSettingT3: 2
+    property int tmpSettingT4: 3
+    property int tmpMeasTiming: 0
+    property int tmpSelectSignal: 0
+    property int tmpSelectPhoto: 0
+    property int tmpSelectPhotoCase0: 0
+    property int tmpSelectPhotoCase1: 0
+    property int tmpSelectPhotoCase2: 0
+    property string tmpPhoto: "Photo(W1)"
+
     id: mainWindow
     visible: true
     width: 1024
@@ -109,7 +125,7 @@ ApplicationWindow {
                     anchors.fill: parent
                     drag.target: if(tform.xScale> pinchArea.minScale)  rect
                     drag.filterChildren: true
-                    propagateComposedEvents: true
+//                    propagateComposedEvents: true     // Fix #12074
                     onDoubleClicked:
                     {
                         if(pinchArea.m_zoom2 > pinchArea.minScale)
@@ -216,7 +232,7 @@ ApplicationWindow {
                                     Loader{
                                         id: loaderContent
                                         anchors.fill: parent
-                                        source:"Production/ProductionScreen_ver3.qml.qml"
+//                                        source:"Production/ProductionScreen_ver3.qml"
                                         MouseArea {
                                             anchors.fill: parent
                                             hoverEnabled: true
@@ -294,9 +310,36 @@ ApplicationWindow {
                                 }
                             }
                         }
+
+                        Rectangle {
+                            id: rectShowDialog
+                            anchors.fill: parent
+                            visible: false
+                            color: "transparent"
+
+                            MouseArea{
+                                anchors.fill: parent
+                                onClicked: {
+                                    console.log(rectShowDialog.width);
+                                    console.log(rectShowDialog.height);
+                                    closeDialog();
+                                }
+                            }
+                            Rectangle{
+                                id: rectItemShow
+                                color: parent.color
+                                property var dialogObject
+                                MouseArea{
+                                    anchors.fill: parent
+                                    propagateComposedEvents: false
+                                }
+                            }
+                        }
                     }
                 }
             }
+
+
         }
 
     }
@@ -306,6 +349,12 @@ ApplicationWindow {
         standardButtons: StandardButton.Ok
         title: "Error"
         text: "Cannot set because the set range upper limit has been exceeded."
+
+        onAccepted: {
+            if (loaderContent.source.toString() === "qrc:/AdjustTiming/AdjustTimingVer4.qml") {
+                virtualKey.visible = true
+            }
+        }
     }
 
     Rectangle
@@ -437,11 +486,18 @@ ApplicationWindow {
                                         if(btnOK.result<parseFloat(minVal) || btnOK.result>parseFloat(maxVal))
                                         {
                                             messageDialog.open();
-                                            virtualKey.focus=true;
+                                            //virtualKey.focus=true;
+                                            virtualKey.visible = false;
                                             return;
                                         }
                                     }
-                                    virtualKey.targetto.text=btnOK.result;
+                                    // Fix Calculator
+                                    if (virtualKey.targetto.text === undefined) {
+                                        virtualKey.targetto.mText = btnOK.result
+                                    } else {
+                                        virtualKey.targetto.text = btnOK.result
+                                    }
+
                                     virtualKey.visible=false;
                                     parent.focus=true;
 
@@ -498,7 +554,7 @@ ApplicationWindow {
             case "Delete":txtInput.objText.remove(txtInput.objText.cursorPosition-1,txtInput.objText.cursorPosition); break;
             case "Next Mouse":txtInput.objText.cursorPosition++ ;break;
             case "Previous Mouse":txtInput.objText.cursorPosition--;break;
-            //case "Enter": txtInput.visible = false;contentItem.adjustTimingScreen.updateTextInput(txtInput.objText.text);keyboardObj.state ="inactive";break;
+                //case "Enter": txtInput.visible = false;contentItem.adjustTimingScreen.updateTextInput(txtInput.objText.text);keyboardObj.state ="inactive";break;
             case "Enter":
                 console.log(contentItem.timAdjObj +"adjTim ver3 ");
                 txtInput.visible = false;contentItem.timAdjObj.updateTextInput(txtInput.objText.text);keyboardObj.state ="inactive";break;
@@ -518,76 +574,55 @@ ApplicationWindow {
         id:idSwipe
     }
 
-    Rectangle{
-        id: rectShowDialog
-        anchors.fill: parent
-        visible: false
-        color: "transparent"
-        MouseArea{
-            anchors.fill: parent
-            onClicked: {
-                closeDialog();
-            }
-        }
-        Rectangle{
-            id: rectItemShow
-            color: parent.color
-            anchors.centerIn: parent
-            MouseArea{
-                anchors.fill: parent
-                propagateComposedEvents: false
-            }
-        }
-        Rectangle{
-            id:  rectChild
-            anchors.fill: parent
-            color: parent.color
 
-            Button {
-                id: button1
-                x: 54
-                y: 540
-                text: qsTr("Button")
-            }
-        }
-    }
 
     Component.onCompleted: {
         mainModel.onChangeLanguage.connect(onChangeLanguage);
         mainModel.onChangeScreen.connect(onChangeScreen);
         mainModel.onChangeBottomBar.connect(onChangeBottomBar);
         mainModel.onChangeStatusBar.connect(onChangeStatusBar);
-//        mainModel.InnerChangeScreen(ScreenMng.ProductionV1);
-//        console.log("screen.h = " + layoutScreen.height);
-//        console.log("screen.w = " + layoutScreen.width);
-//        console.log("loadBottomBar.x = " + loaderBottomBar.x);
-//        console.log("loadBottomBar.y = " + loaderBottomBar.y);
+        //        mainModel.InnerChangeScreen(ScreenMng.ProductionV1);
+        //        console.log("screen.h = " + layoutScreen.height);
+        //        console.log("screen.w = " + layoutScreen.width);
+        //        console.log("loadBottomBar.x = " + loaderBottomBar.x);
+        //        console.log("loadBottomBar.y = " + loaderBottomBar.y);
     }
 
-    function showDialog(component,width,height){
+    function showDialog(component, _width, _height, _x, _y){
+
+        closeDialog();
         rectShowDialog.visible= true;
-        rectItemShow.width= width;
-        rectItemShow.height = height;
-        component.createObject(rectChild);
+        if((_x != null)&&(_y != null)){
+            rectShowDialog.anchors.fill= null;
+            rectShowDialog.x = _x;
+            rectShowDialog.y = _y;
+        } else{
+            rectShowDialog.anchors.fill= rectShowDialog.parent;
+        }
+        rectItemShow.width= _width;
+        rectItemShow.height = _height;
+        rectItemShow.dialogObject = component.createObject(rectItemShow);
     }
 
     function closeDialog(){
-        rectChild.children = ""
+        if (rectItemShow.dialogObject) {
+            console.log("destroy dialog");
+            rectItemShow.dialogObject.destroy();
+        }
         rectShowDialog.visible= false;
     }
 
     function onChangeLanguage() {
         console.log("onChangeLanguage in MainWindow");
-//        if (statusBarItem.updateText) {
-//            statusBarItem.updateText();
-//        }
-//        if (contentItem.updateText) {
-//            contentItem.updateText();
-//        }
-//        if (bottomBarItem.updateText) {
-//            bottomBarItem.updateText();
-//        }
-
+        //        if (statusBarItem.updateText) {
+        //            statusBarItem.updateText();
+        //        }
+        //        if (contentItem.updateText) {
+        //            contentItem.updateText();
+        //        }
+        //        if (bottomBarItem.updateText) {
+        //            bottomBarItem.updateText();
+        //        }
     }
 
     function onChangeScreen(id) {

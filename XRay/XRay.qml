@@ -4,6 +4,15 @@ import "qrc:/Control/spinner"
 import ControlApp 1.0
 Item {
     property XRay objXRay:xrayCpp
+    property alias objXRayVm: xrayvm
+
+    XRayQImageVM {
+        id: xrayvm
+    }
+    Component.onCompleted: {
+        objXRayVm.onLoad();
+    }
+
     Rectangle{
         x:0
         y:0

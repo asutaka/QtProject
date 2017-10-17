@@ -5,6 +5,8 @@ import QtQuick.Controls 1.3
 import QtQuick.Extras 1.4
 import QtQuick.Controls.Styles 1.3
 import QtQml 2.2
+import ControlApp 1.0
+
 import "../Control"
 import "../Control/VirtualKey.js" as Ops
 

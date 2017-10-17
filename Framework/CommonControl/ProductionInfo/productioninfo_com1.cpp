@@ -73,7 +73,7 @@ void ProductionInfo_com1::paint(QPainter *painter)
     pen.setStyle(Qt::SolidLine);
     painter->setPen(pen);
     QFont font;
-    font.setFamily(":/Images/MS Gothic.ttf");
+    font.setFamily(":/Fonts/MS Gothic.ttf");
     font.setPixelSize(23);
     font.setBold(false);
     font.setUnderline(false);

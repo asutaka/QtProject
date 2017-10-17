@@ -4,4 +4,8 @@ KeyboardUc 1.0 KeyboardUc.qml
 StartSwitchUc 1.0 StartSwitchUc.qml
 KeyboardComponent 1.0 KeyboardComponent.qml
 SwitchLineUc 1.0 SwitchLineUc.qml
+StartSwitchLineModule 1.0 StartSwitchLineModule.qml
+TK_ColumnChart 1.0 TK_ColumnChart.qml
+TK_QuickMenu 1.0 TK_QuickMenu.qml
+TK_LineChart 1.0 TK_LineChart.qml
 plugin CommonModule

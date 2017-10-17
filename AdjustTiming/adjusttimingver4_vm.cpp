@@ -337,10 +337,10 @@ QList <int> AdjustTimingVer4_VM::genDataWeight()
 
 QString AdjustTimingVer4_VM::getBackGColor()
 {
-//    QPen  pen;
-//    pen = AppThemeManager::GetInstance()->theme()->colorBackGround();
-//    pen.color();
-//    return pen.color().name();
+    //    QPen  pen;
+    //    pen = AppThemeManager::GetInstance()->theme()->colorBackGround();
+    //    pen.color();
+    //    return pen.color().name();
     return "transparent";
 }
 
@@ -361,10 +361,14 @@ QString AdjustTimingVer4_VM::getLineColor()
 }
 QString AdjustTimingVer4_VM::getValueColor()
 {
-    QPen pen;
-    pen =AppThemeManager::GetInstance()->theme()->valuePen();
-    return pen.color().name();
+    //    QPen pen;
+    //    pen =AppThemeManager::GetInstance()->theme()->valuePen();
+    //    return pen.color().name();
+    return "#95B3D7";
+}
 
+QString AdjustTimingVer4_VM::getWeightValueColor() {
+    return "#FFD9BB";
 }
 
 void AdjustTimingVer4_VM::OnLoad() {

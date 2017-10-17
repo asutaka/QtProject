@@ -11,44 +11,52 @@ Rectangle {
     property MainProductionVer2VM objMainProductionVer2VM: prodVer2VM
     property ProductVer2Screen objProductVer2Screen: productVer2Screen
     property MainChartProd objChartProduct: chartProduct
-    property int space: 10
-    property int chartHeight: 100
+    property int space: 50
+    property int chartHeight: 60
     x: 0
     y: 0
     width: 1024
     height: 640
 
+    HandleManager {
+        id: signalManager
+    }
+
     Timer {
         id: timer
-        interval: objMainProductionVer2VM.getInterval()
+       // interval: objMainProductionVer2VM.getInterval()
+        interval: 500
         running: true
         repeat: true
         onTriggered: {
             updateText()
 
-            chartLine1.valueY=objMainProductionVer2VM.setValueToDraw()
+            if (!objProductVer2Screen.isXBar)
+                return;
+
+            chartLine1.valueY=Math.random()*100
             chartLine1.timerTrigger();
-            chartLine2.valueY=objMainProductionVer2VM.setValueToDraw()
+            chartLine2.valueY=Math.random()*100
             chartLine2.timerTrigger();
-            chartLine3.valueY=objMainProductionVer2VM.setValueToDraw()
+            chartLine3.valueY=Math.random()*100
             chartLine3.timerTrigger();
-            chartLine4.valueY=objMainProductionVer2VM.setValueToDraw()
+            chartLine4.valueY=Math.random()*100
             chartLine4.timerTrigger();
-            chartLine5.valueY=objMainProductionVer2VM.setValueToDraw()
+            chartLine5.valueY=Math.random()*100
             chartLine5.timerTrigger();
-            chartLine6.valueY=objMainProductionVer2VM.setValueToDraw()
+            chartLine6.valueY=Math.random()*100
             chartLine6.timerTrigger();
-            chartLine7.valueY=objMainProductionVer2VM.setValueToDraw()
+            chartLine7.valueY=Math.random()*100
             chartLine7.timerTrigger();
-            chartLine8.valueY=objMainProductionVer2VM.setValueToDraw()
+            chartLine8.valueY=Math.random()*100
             chartLine8.timerTrigger();
-            chartLine9.valueY=objMainProductionVer2VM.setValueToDraw()
+            chartLine9.valueY=Math.random()*100
             chartLine9.timerTrigger();
-            chartLine10.valueY=objMainProductionVer2VM.setValueToDraw()
+            chartLine10.valueY=Math.random()*100
             chartLine10.timerTrigger();
-            chartLine11.valueY=objMainProductionVer2VM.setValueToDraw()
+            chartLine11.valueY=Math.random()*100
             chartLine11.timerTrigger();
-            chartLine12.valueY=objMainProductionVer2VM.setValueToDraw()
+            chartLine12.valueY=Math.random()*100
             chartLine12.timerTrigger();
         }
     }
@@ -103,6 +111,9 @@ Rectangle {
             anchors.fill: parent
             contentWidth: productVer2Screen.width
             contentHeight: productVer2Screen.height
+            property real visiableYStart: 0
+            property real visiableYEnd: height
+            signal changedVisiableArea(var startPosition, var endPosition)
 
             ProductVer2Screen {
                 id: productVer2Screen
@@ -119,63 +130,62 @@ Rectangle {
                     visible: objProductVer2Screen.isXBar ? true : false
                     MainChartProd {
                         id:chartLine1
-                        x: 40
-                        y:10
+                        x: 80
+                        y: 30
                     }
                     MainChartProd{
                         id:chartLine2
-                        x: 40
+                        x: 80
                         y: chartLine1.y +chartHeight +space
-
                     }
                     MainChartProd{
                         id:chartLine3
-                        x: 40
+                        x: 80
                         y: chartLine2.y +chartHeight +space
                     }
                     MainChartProd{
                         id:chartLine4
-                        x: 40
+                        x: 80
                         y: chartLine3.y +chartHeight +space
                     }
                     MainChartProd{
                         id:chartLine5
-                        x: 40
+                        x: 80
                         y: chartLine4.y +chartHeight +space
                     }
                     MainChartProd{
                         id:chartLine6
-                        x: 40
+                        x: 80
                         y: chartLine5.y +chartHeight +space
                     }
                     MainChartProd{
                         id:chartLine7
-                        x: 40
+                        x: 80
                         y: chartLine6.y +chartHeight +space
                     }
                     MainChartProd{
                         id:chartLine8
-                        x: 40
+                        x: 80
                         y: chartLine7.y +chartHeight +space
                     }
                     MainChartProd{
                         id:chartLine9
-                        x: 40
+                        x: 80
                         y: chartLine8.y +chartHeight +space
                     }
                     MainChartProd{
                         id:chartLine10
-                        x: 40
+                        x: 80
                         y: chartLine9.y +chartHeight +space
                     }
                     MainChartProd{
                         id:chartLine11
-                        x: 40
+                        x: 80
                         y: chartLine10.y +chartHeight +space
                     }
                     MainChartProd{
                         id:chartLine12
-                        x: 40
+                        x: 80
                         y: chartLine11.y +chartHeight +space
                     }
                 }
@@ -184,7 +194,6 @@ Rectangle {
                 name: "ShowBars"
                 when: viewFlick.movingVertically
                 PropertyChanges { target: verticalScrollBar;  duration: 2000 ;opacity: 200}
-
             }
         }
         ScrollBar {
@@ -196,7 +205,6 @@ Rectangle {
             position: viewFlick.visibleArea.yPosition
             pageSize: viewFlick.visibleArea.heightRatio
         }
-
     }
 
     Rectangle {
@@ -213,6 +221,7 @@ Rectangle {
             onSwitchButton: {
                 objProductVer2Screen.isXBar = !isLeft
                 rectListChart.visible = !isLeft
+                productVer2Screen.update()
             }
         }
 
@@ -231,6 +240,7 @@ Rectangle {
     }
 
     Component.onCompleted: {
+        objProductVer2Screen.OnLoad();
         updateText();
     }
 

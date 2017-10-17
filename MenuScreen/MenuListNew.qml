@@ -10,13 +10,23 @@ import "qrc:/Control/VirtualKey.js" as Ops
 import "qrc:/Control/switchControl"
 import "qrc:/Control/switchLineUC"
 
+import ControlApp 1.0
+import CommonControl 1.0
+import CommonModule 1.0
+
 Item{
     property int indexSelect:1;
     property int linePage:10;
+    property int startPage: 1;
+    property int endPage: 10;
     property int temp;
     property  bool isForLine
     property  int  _currentLineNo: 1
+    property alias objMenuListV2VM: menuListV2VM
 
+    MenuListVM {
+        id:menuListV2VM
+    }
     Label{
         id:lblValNumber
         visible: false
@@ -58,14 +68,14 @@ Item{
                     }
 
                     onClicked: {
-                        loaderContent.source ="qrc:/MenuList/Menu.qml"
+                        mainModel.InnerChangeScreen(ScreenMng.MenuV1)
                     }
 
                 }
                 Text {
                     id: _txtbtnAddress1
                     text: qsTr("Menu")
-                    font.family: "MS Gothic"
+                    font.family: "Noto Sans CJK JP DemiLight"
                     font.pixelSize: 20
                     anchors.centerIn: parent
                     font.bold: true
@@ -86,7 +96,7 @@ Item{
                 Text {
                     id: _txtbtnAddress2
                     text: qsTr("History")
-                    font.family: "MS Gothic"
+                    font.family: "Noto Sans CJK JP DemiLight"
                     font.pixelSize: 20
                     anchors.centerIn: parent
                     font.bold: true
@@ -110,7 +120,7 @@ Item{
                 Text {
                     id: _txtbtnAddress3
                     text: qsTr("Address3")
-                    font.family: "MS Gothic"
+                    font.family: "Noto Sans CJK JP DemiLight"
                     font.pixelSize: 20
                     anchors.centerIn: parent
                     font.bold: true
@@ -130,15 +140,14 @@ Item{
                 Text {
                     id: _txtbtnAddress4
                     text: qsTr("Address4")
-                    font.family: "MS Gothic"
+                    font.family: "Noto Sans CJK JP DemiLight"
                     font.pixelSize: 20
                     anchors.centerIn: parent
                     font.bold: true
 
                 }
             }
-            Rectangle
-            {
+            Rectangle{
                 id:rectSelect
                 width: 189
                 height: parent.height
@@ -150,6 +159,7 @@ Item{
         }
 
         Rectangle{
+
             x: 0
             y: 40
             width: 228
@@ -158,28 +168,10 @@ Item{
                 anchors.fill: parent
                 source: "qrc:/Images/menulist_image_MultiLane.png"
             }
-            StartSwitchControl{
+            StartSwitchLineModule {
                 id: switchControl
                 x: 0
-                y: 81
-                width: 228
-                height: 37
-                isLeft:!isForLine
-                onSwitchControl: {
-                    switchLine.visible =!switchControl.isLeft
-
-                }
-
-            }
-
-            SwitchLineUc{
-                id:switchLine
-                x: 31
-                y: 205
-                width: 166
-                height: 74
-                visible: !switchControl.isLeft
-
+                y: 40
             }
         }
 
@@ -389,7 +381,7 @@ Item{
                             text: styleData.value
                             horizontalAlignment: Text.AlignHCenter
                             verticalAlignment: Text.AlignVCenter
-                            font.family: "MS Gothic"
+                            font.family: "Noto Sans CJK JP DemiLight"
                             font.pixelSize: 27
                         }
                     }
@@ -411,15 +403,14 @@ Item{
                             text: styleData.value
                             horizontalAlignment: Text.AlignRight
                             verticalAlignment: Text.AlignVCenter
-                            font.family: "MS Gothic"
-                            font.pixelSize: 27
+                            font.family: "Noto Sans CJK JP DemiLight"
+                            font.pixelSize:27
 
                         }
                     }
                     width:(list.width - col1.width -col2.width - 15)
                 }
-                TableViewColumn
-                {
+                TableViewColumn {
                     id: col4
                     movable : false
                     role: "type"
@@ -428,9 +419,15 @@ Item{
                 }
 
                 style: TableViewStyle {
+
+                    scrollBarBackground: Rectangle{
+                        implicitHeight: 16
+                        implicitWidth: 14
+                    }
+
                     headerDelegate: Rectangle {
                         id: headerDelegateView
-                        height: textItem.implicitHeight *2
+                        height: textItem.implicitHeight * 1.3
                         width: textItem.implicitWidth
                         Image{
                             anchors.fill : parent
@@ -440,7 +437,7 @@ Item{
                         Text {
                             id: textItem
                             text: styleData.value
-                            font.family: "MS Gothic"
+                            font.family: "Noto Sans CJK JP DemiLight"
                             font.pixelSize: 27
                             horizontalAlignment: Text.AlignVCenter
                             verticalAlignment: Text.AlignBottom
@@ -462,7 +459,7 @@ Item{
                         id: iContent
                         color: styleData.pressed ? "black" : "black"
                         text: styleData.value
-                        font.family: "MS Gothic"
+                        font.family: "Noto Sans CJK JP DemiLight"
                         font.pixelSize: 27
                         verticalAlignment: Text.AlignVCenter
                     }
@@ -480,6 +477,8 @@ Item{
                             color: "#FFF68F"
                         }
                     }
+                    transientScrollBars: true
+
                     handle: Rectangle {
                         implicitWidth: 14
                         implicitHeight: 0
@@ -499,6 +498,14 @@ Item{
                         visible: false
                     }
                 }
+
+                //this Mousearea to prevent tableView scroll
+                MouseArea {
+                    anchors.fill: parent
+                    acceptedButtons: Qt.MidButton
+                    onWheel: {}
+                }
+
                 onClicked: {
                     indexSelect=list.currentRow+1;
                     txtSelectIndex.text=indexSelect.toString();
@@ -511,23 +518,39 @@ Item{
 
                 }
 
-            }
-            Keys.onPressed:
-            {
-                if(event.key==Qt.Key_Down)
-                {
-                    if(indexSelect<list.rowCount){
-                        txtSelectIndex.text=(++indexSelect).toString();
-                    }
-                }
-                else if(event.key==Qt.Key_Up)
-                {
-                    if(indexSelect>1){
-                        txtSelectIndex.text=(--indexSelect).toString();
-                    }
-                }
 
+                Keys.onPressed:
+                {
+                    if(event.key===Qt.Key_Down)
+                    {
+                        if(indexSelect == endPage) {
+                            if(indexSelect < list.rowCount) {
+                                startPage++;
+                                endPage++;
+                            }
+                        }
+
+                        if(indexSelect<list.rowCount){
+                            txtSelectIndex.text=(++indexSelect).toString();
+                        }
+                    }
+                    else if(event.key===Qt.Key_Up)
+                    {
+                        if(indexSelect == startPage) {
+                            if(indexSelect > 1) {
+                                startPage--;
+                                endPage--;
+                            }
+                        }
+
+                        if(indexSelect>1){
+                            txtSelectIndex.text=(--indexSelect).toString();
+                        }
+                    }
+                    event.accepted = true;
+                }
             }
+
             Component.onCompleted: {
                 txtSelectIndex.text=1;
                 txtListViewCount.text = list.rowCount.toString()
@@ -535,6 +558,7 @@ Item{
 
             }
         }
+
         Rectangle{
             id: _buttonNavigator
             x: 934
@@ -560,11 +584,20 @@ Item{
                     anchors.fill: parent
                     onPressed: {
                         imgPageUp.source= "qrc:/Images/skip_forward_on.png"
-                        temp =((Math.floor(indexSelect/linePage))-1)*linePage ;
-                        if(temp < 1){
-                            indexSelect = 1;
+
+                        if(indexSelect > startPage) {
+                            indexSelect = startPage;
+                        }else if(indexSelect == startPage) {
+                            if(startPage -  10 < 1) {
+                                startPage = 1;
+                                endPage = startPage + linePage - 1;
+                            }
+                            else {
+                                endPage -= 10;
+                                startPage -= 10;
+                            }
+                            indexSelect = startPage;
                         }
-                        else{ indexSelect = temp;}
                         txtSelectIndex.text=indexSelect;
                         list.selection.clear();
                         list.selection.select(indexSelect-1);
@@ -596,14 +629,21 @@ Item{
                         {
                             if(indexSelect<1)
                             {
-                                indexSelect=1;
+                                indexSelect = 1;
+                                startPage = 1;
+                                endPage = 10;
                             }
                             else if(indexSelect<=list.rowCount && indexSelect>1)
                             {
+                                if(indexSelect == startPage) {
+                                    startPage--;
+                                    endPage--;
+                                }
+
                                 txtSelectIndex.text=(--indexSelect).toString();
                                 list.selection.clear();
                                 list.selection.select(indexSelect-1);
-                                list.positionViewAtRow(indexSelect-1,ListView.Beginning);
+                                list.positionViewAtRow(indexSelect-1,ListView.Contain);
                             }
                         }
                         imgLineUp.source= "qrc:/Images/next_step_on.png"
@@ -642,13 +682,22 @@ Item{
                     anchors.fill: parent
                     onPressed: {
                         imgPageDown.source= "qrc:/Images/skip_forward_down_on.png"
-                        temp =((Math.floor(indexSelect/linePage))+1)*linePage ;
-                        if(temp <list.rowCount){
-                            indexSelect = temp;
+
+
+                        if(indexSelect < endPage) {
+                            indexSelect = endPage;
+                        }else if(indexSelect == endPage) {
+                            if(endPage + 10 > list.rowCount) {
+                                endPage = list.rowCount;
+                                startPage = endPage - linePage + 1;
+                            }
+                            else {
+                                endPage += 10;
+                                startPage += 10;
+                            }
+                            indexSelect = endPage;
                         }
-                        else{
-                            indexSelect= list.rowCount;
-                        }
+
                         txtSelectIndex.text=indexSelect;
                         list.selection.clear();
                         list.selection.select(indexSelect-1);
@@ -678,15 +727,19 @@ Item{
                     id: pressBtn4
                     anchors.fill: parent
 
-                    onPressedChanged: {
+                    onPressedChanged:  {
                         if(!pressBtn4.pressed && !toolButton4.isPressAndHold)
                         {
                             if(indexSelect<list.rowCount)
                             {
+                                if(endPage == indexSelect) {
+                                    startPage++;
+                                    endPage++
+                                }
                                 txtSelectIndex.text=(++indexSelect).toString();
                                 list.selection.clear();
                                 list.selection.select(indexSelect-1);
-                                list.positionViewAtRow(indexSelect-1,ListView.End);
+                                list.positionViewAtRow(indexSelect-1,ListView.Contain);
                             }
                         }
                         imgLineDown.source= "qrc:/Images/down_step_on.png"
@@ -711,7 +764,6 @@ Item{
                     }
                 }
             }
-
             ToolButton {
                 id: toolButton5
                 x: 9
@@ -734,7 +786,7 @@ Item{
                         anchors.verticalCenterOffset: 24
                         anchors.horizontalCenterOffset: 0
                         anchors.bottomMargin: -24
-                        font.family: "MS Gothic"
+                        font.family: "Noto Sans CJK JP DemiLight"
                         font.pixelSize: 27
                         color: "#000000"
                         anchors.bottom: parent.bottom
@@ -752,7 +804,7 @@ Item{
                         anchors.verticalCenterOffset: -21
                         anchors.horizontalCenterOffset: 0
                         anchors.bottomMargin: 21
-                        font.family: "MS Gothic"
+                        font.family: "Noto Sans CJK JP DemiLight"
                         font.pixelSize: 27
                         color: "#000000"
                         anchors.bottom: parent.bottom
@@ -760,13 +812,26 @@ Item{
                         onTextChanged:
                         {
                             indexSelect=parseInt(txtSelectIndex.text)
+                            if(indexSelect == startPage) {
+                                txtSelectIndex.text=indexSelect
+                                list.selection.clear();
+                                list.selection.select(indexSelect-1);
+                                list.positionViewAtRow(indexSelect-1,ListView.Beginning);
+                            }
 
-                            if(indexSelect<list.rowCount)
-                            {
+                            else if(indexSelect == endPage) {
                                 txtSelectIndex.text=indexSelect
                                 list.selection.clear();
                                 list.selection.select(indexSelect-1);
                                 list.positionViewAtRow(indexSelect-1,ListView.End);
+                            }
+
+                            else if(indexSelect<=list.rowCount)
+                            {
+                                txtSelectIndex.text=indexSelect
+                                list.selection.clear();
+                                list.selection.select(indexSelect-1);
+                                list.positionViewAtRow(indexSelect-1,ListView.Contain);
                             }
                         }
 
@@ -787,6 +852,8 @@ Item{
         }
     }
 
-
+    Component.onCompleted: {
+        menuListV2VM.onLoad();
+    }
 }
 

@@ -1,0 +1,4 @@
+module Frame
+TK_ProductionFrame 1.0 TK_ProductionFrame.qml
+TK_MenuList 1.0 TK_MenuList.qml
+plugin Frame

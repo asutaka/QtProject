@@ -2,6 +2,7 @@ import QtQuick 2.5
 import QtQuick.Controls 2.0
 import QtQml.Models 2.2
 import "qrc:/Control/menu"
+import ControlApp 1.0
 
 Rectangle {
     x:0
@@ -9,6 +10,10 @@ Rectangle {
     width: 1024
     height: 640
     color: "#4F4F4F"
+    property alias objTestAccordionListV2VM: testAccordionListV2VM
+    TestVM {
+        id:testAccordionListV2VM
+    }
 
     Rectangle{
         width: 300
@@ -140,5 +145,8 @@ Rectangle {
                 }
             }
         }
+    }
+    Component.onCompleted: {
+        objTestAccordionListV2VM.onLoad();
     }
 }

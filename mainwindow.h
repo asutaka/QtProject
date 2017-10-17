@@ -13,6 +13,7 @@ class MainWindow : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(EnumControl::LangCode language READ language WRITE setLanguage)
+    Q_PROPERTY(bool errorMode READ getErrorAlarmMode WRITE setErrorAlarmMode)
 
 public:
 
@@ -25,6 +26,7 @@ private:
     static MainWindow *mainWindow;
     EnumControl::LangCode langCode;
     EnumControl::StatusMachine  statusMachine;
+    bool errorAlarmMode;
 
 public:
     static MainWindow* GetInstance();
@@ -32,10 +34,16 @@ public:
     EnumControl::LangCode language();
     void setLanguage(EnumControl::LangCode lang);
     Q_INVOKABLE void InnerChangeScreen(int id);
+    Q_INVOKABLE void InnerChangeBottomBar(int id);
+    Q_INVOKABLE void InnerChangeStatusBar(int id);
+    Q_INVOKABLE void InnerRefreshScreen();
     Q_INVOKABLE void GoBackScreen();
 
     EnumControl::StatusMachine getStatusMachine();
     void setStatusMachine(EnumControl::StatusMachine value);
+
+    void setErrorAlarmMode(bool mode);
+    bool getErrorAlarmMode();
 
 signals:
     void onChangeScreen(QString source);

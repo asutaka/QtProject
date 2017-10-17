@@ -7,6 +7,13 @@ Item {
     id: integration_ver3
     width: 1024
     height: 640
+    property alias objIntegration: integrationVM
+    Integartion_VM{
+        id:integrationVM
+    }
+    Component.onCompleted: {
+        objIntegration.onLoad();
+    }
     Image{
         anchors.fill: parent
         source: "../Images/bg12.png"

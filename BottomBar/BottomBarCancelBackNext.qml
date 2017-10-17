@@ -4,6 +4,7 @@ import QtQuick.Layouts 1.2
 import QtQuick.Controls 1.3
 import QtQuick.Extras 1.4
 import QtQuick.Controls.Styles 1.3
+import ControlApp 1.0
 
 Item {
     id: bottomBarCancelBackNext
@@ -48,8 +49,8 @@ Item {
                 anchors.fill: parent
                 onPressed: {
                     imgCancel.source= "../Images/Key_h60_w180_Quit_push.png"
-                    loaderContent.source ="../Production/Production.qml"
-                    loaderBottomBar.source ="BottomBarMainPage.qml"
+                    mainModel.InnerChangeScreen(ScreenMng.Production)
+                    mainModel.InnerChangeBottomBar(ScreenMng.BottomBarMainPage)
                 }
                 onReleased:{
                     imgCancel.source= "../Images/Key_h60_w180_Quit.png"
@@ -99,8 +100,7 @@ Item {
                         txtCompleted.visible = false;
                         txtNext.visible = true;
                         imgFinish.source = "../Images/Key_h60_w400_Next.png"
-
-                        loaderContent.source ="../DynamicCorrection/InputMasterWork.qml"
+                        mainModel.InnerChangeScreen(ScreenMng.InputMasterWork)
                         contentItem.inputMasterWorkScreen.setLine(_currentLine);
                         contentItem.inputMasterWorkScreen.setForLine(isForLine);
                         contentItem.inputMasterWorkScreen.setMasterValue(_listValue);
@@ -167,7 +167,8 @@ Item {
                             isForLine = contentItem.inputMasterWorkScreen.getForLine();
                             _listValue = contentItem.inputMasterWorkScreen.getMasterValue();
 
-                            loaderContent.source ="../DynamicCorrection/DynamicCorrection.qml"
+                            mainModel.InnerChangeScreen(ScreenMng.DynamicCorrection)
+
                             contentItem.dynamicCorrectionScreen._setCurrentLine(_currentLine);
                             contentItem.dynamicCorrectionScreen._setMasterValue(_listValue);
 
@@ -176,8 +177,8 @@ Item {
                         }
                         else
                         {
-                            loaderContent.source ="../Production/Production.qml"
-                            loaderBottomBar.source ="BottomBarMainPage.qml";
+                            mainModel.InnerChangeScreen(ScreenMng.Production)
+                            mainModel.InnerChangeBottomBar(ScreenMng.BottomBarMainPage)
                         }
                     }
                 }

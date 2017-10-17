@@ -1,106 +1,100 @@
 #include "menu.h"
-#include "QDebug"
-#include <QDir>
-#include <QtSql/QSqlDatabase>
-#include <QtSql/QSqlQuery>
-#include <QtSql/QSqlError>
-#include "startwindow.h"
-#include "globals.h"
 #include "mainwindow.h"
 #include "screenmng.h"
 
-Menu::Menu(QObject*parent): QObject(parent)
+MenuV1::MenuV1(QObject*parent): QObject(parent)
 {
 }
 
-QString Menu::txtAdjustRegisteredProduct() {
+QString MenuV1::txtAdjustRegisteredProduct() {
     return m_txtAdjustRegisteredProduct;
 }
 
-void Menu::setTxtAdjustRegisteredProduct(QString &value) {
+void MenuV1::setTxtAdjustRegisteredProduct(QString &value) {
     m_txtAdjustRegisteredProduct = value;
 }
 
-QString Menu::txtControlPanel() {
+QString MenuV1::txtControlPanel() {
     return m_txtControlPanel;
 }
 
-void Menu::setTxtControlPanel(QString &value){
+void MenuV1::setTxtControlPanel(QString &value){
     m_txtControlPanel = value;
 }
 
-QString Menu::txtDisplayProductList() {
+QString MenuV1::txtDisplayProductList() {
     return m_txtDisplayProductList;
 }
 
-void Menu::setTxtDisplayProductList(QString &value) {
+void MenuV1::setTxtDisplayProductList(QString &value) {
     m_txtDisplayProductList = value;
 }
 
-QString Menu::txtHistory() {
+QString MenuV1::txtHistory() {
     return m_txtHistory;
 }
 
-void Menu::setTxtHistory(QString &value) {
+void MenuV1::setTxtHistory(QString &value) {
     m_txtHistory = value;
 }
 
-QString Menu::txtLanguage() {
+QString MenuV1::txtLanguage() {
     return m_txtLanguage;
 }
 
-void Menu::setTxtLanguage(QString &value) {
+void MenuV1::setTxtLanguage(QString &value) {
     m_txtLanguage = value;
 }
 
-QString Menu::txtMaintAndSetting() {
+QString MenuV1::txtMaintAndSetting() {
     return m_txtMaintAndSetting;
 }
 
-void Menu::setTxtMaintAndSetting(QString &value) {
+void MenuV1::setTxtMaintAndSetting(QString &value) {
     m_txtMaintAndSetting = value;
 }
 
-QString Menu::txtOpeCheck() {
+QString MenuV1::txtOpeCheck() {
     return m_txtOpeCheck;
 }
 
-void Menu::setTxtOpeCheck(QString &value) {
+void MenuV1::setTxtOpeCheck(QString &value) {
     m_txtOpeCheck = value;
 }
 
-QString Menu::txtStatsControl() {
+QString MenuV1::txtStatsControl() {
     return m_txtStatsControl;
 }
 
-void Menu::setTxtStatsControl(QString &value) {
+void MenuV1::setTxtStatsControl(QString &value) {
     m_txtStatsControl = value;
 }
 
-QString Menu::txtRegisterNewProduct() {
+QString MenuV1::txtRegisterNewProduct() {
     return m_txtRegisterNewProduct;
 }
 
-void Menu::setTxtRegisterNewProduct(QString &value) {
+void MenuV1::setTxtRegisterNewProduct(QString &value) {
     m_txtRegisterNewProduct = value;
 }
 
-QString Menu::txtUsbMemory() {
+QString MenuV1::txtUsbMemory() {
     return m_txtUsbMemory;
 }
 
-void Menu::setTxtUsbMemory(QString &value) {
+void MenuV1::setTxtUsbMemory(QString &value) {
     m_txtUsbMemory = value;
 }
 
-int Menu::OnLoad() {
+int MenuV1::OnLoad() {
+    OnChangeLanguage();
     ScreenMng* screenMng = ScreenMng::GetInstance();
-    qDebug() << "menu load BottomBarId: " << ScreenMng::BottomBarId::BottomBarMenu;
+    screenMng->ChangeStatusBar(ScreenMng::StatusBarId::NormalStatusBar);
     screenMng->ChangeBottomBar(ScreenMng::BottomBarId::BottomBarMenu);
     return 0;
 }
 
-int Menu::OnChangeLanguage(){
+int MenuV1::OnChangeLanguage(){
     Lang* langInstance = Lang::GetInstance();
     int langCode = (int)MainWindow::GetInstance()->language();
     m_txtAdjustRegisteredProduct = langInstance->GetLanguage(Lang::GetLangIdMng()->IDS_ADJPROD,langCode);

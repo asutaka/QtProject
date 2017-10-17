@@ -18,39 +18,44 @@ Item {
     property string     txtInputColor:      adjust_VM.getValueColor()
     property string     colorLabel:         adjust_VM.getTextColor()
     property TK_TextBox txtBox:             textInput
+    property alias      validator:          textInput.mCausesValidation
+
+    property bool       isSelected:         false
+
+    width: widthItem
+    height: heightItem
 
     signal pressTitle()
     signal pressTextInput()
     signal inputComplete()
+    signal clickedItem()
 
-    AdjustTimingVer4_VM{
+    AdjustTimingVer4_VM {
         id: adjustViewModel
     }
 
-    Rectangle
-    {
-        width: widthItem
-        height: heightItem
+    Rectangle {
+        id: rectParent
         color: backGroundColor
-        border.width: borderWidthItem
-        border.color: borderColor
+        border.width: isSelected ? 2 : borderWidthItem
+        border.color: isSelected ? "#FFEBDE" : borderColor
         radius: sRadius
+        anchors.fill: parent
 
-        TK_Label{
+        TK_Label {
             id: textTitle
             x: borderWidthItem
             y: borderWidthItem
-            width: widthItem/2 -borderWidthItem
-            height: heightItem - 2*borderWidthItem
+            width: widthItem / 2 - borderWidthItem
+            height: heightItem - 2 * borderWidthItem
             mBackColor: backGroundColor
             mBorderRadius: sRadius
             mText: txtTitle
             mForeColor:colorLabel
-            mFont: Qt.font({pixelSize: 18,
-                                  family: "MS Gothic",
-                                  italic: false,
-                                  bold: false})
+            mFont.pixelSize: fontFactory.getFontSize(FontFactory.FNT_M6)
+            mFont.family: fontFactory.getFontFamily(FontFactory.FNT_M6)
             mTextAlignV: Text.AlignVCenter
+
             MouseArea{
                 anchors.fill: parent
                 onPressed: {
@@ -58,41 +63,43 @@ Item {
                 }
             }
         }
-        TK_TextBox{
+
+        TK_TextBox {
             id: textInput
-            x: textTitle.x +textTitle.width
+            x: textTitle.x + textTitle.width
             y: borderWidthItem
-            width: widthItem/3
-            height: heightItem  - 2*borderWidthItem
-            backgroundColor:backGroundColor
-            foreColor: txtInputColor
-            text: txtTextField
-            textAlign: Text.AlignRight
-            fontFamily: "MS Gothic"
-            font.pixelSize: 18
-            focus:false
-            readOnly:true
-            onActiveFocusChanged:
-            {
-                if(activeFocus)
-                {
+            width: widthItem / 3
+            height: heightItem - 2 * borderWidthItem
+            mBackColor: backGroundColor
+            mForeColor: txtInputColor
+            mText: txtTextField
+            mTextAlignH: Qt.AlignRight
+            mTextAlignV: Qt.AlignVCenter
+            mFont.pixelSize: fontFactory.getFontSize(FontFactory.FNT_M6)
+            mFont.family: fontFactory.getFontFamily(FontFactory.FNT_M6)
+            focus: false
+            mReadOnly: true
+            mBorderStyle: 1
+
+            onTextInputChanged: {
+                txtTextField = textInput.mText
+                inputComplete()
+            }
+
+            Component.onCompleted: {
+                txtTextField = textInput.mText
+                inputComplete();
+            }
+
+            MouseArea {
+                anchors.fill: parent
+                onPressed: {
                     pressTextInput()
                 }
-
             }
-            onDisplayTextChanged:
-            {
-                txtTextField = txtBox.text
-                inputComplete();
-            }
-            Component.onCompleted:
-            {
-                txtTextField = txtBox.text
-                inputComplete();
-            }
-
         }
-        TK_Label{
+
+        TK_Label {
             id: textUnit
             x: textInput.x + textInput.width
             y: borderWidthItem
@@ -103,18 +110,24 @@ Item {
             mText: txtUnit
             mForeColor:colorLabel
             mRightToLeft: false
-            mFont: Qt.font({pixelSize: 18,
-                                  family: "MS Gothic",
-                                  italic: false,
-                                  bold: false})
+            mFont.pixelSize: fontFactory.getFontSize(FontFactory.FNT_M6)
+            mFont.family: fontFactory.getFontFamily(FontFactory.FNT_M6)
             mTextAlignV: Text.AlignVCenter
+
+            MouseArea {
+                anchors.fill: parent
+                onPressed: {
+                    pressTextInput()
+                }
+            }
         }
     }
+
     function updateTitle(strTitle){
-        txtTitle=strTitle
+        txtTitle = strTitle
     }
+
     function updateTextInput(strInput){
         textInput.text=strInput
     }
-
 }

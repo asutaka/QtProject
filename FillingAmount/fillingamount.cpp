@@ -1,5 +1,5 @@
 #include "fillingamount.h"
-
+#include "screenmng.h"
 FillingAmount::FillingAmount(QQuickItem *parent)
     : DrawControlBase(parent)
 {

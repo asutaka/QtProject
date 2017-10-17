@@ -1,6 +1,5 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.0
-import QtQuick.Controls 1.4
 import CommonControl 1.0
 import QtQuick.Layouts 1.1
 
@@ -41,7 +40,7 @@ Rectangle
             property alias      mWidth:                 rectList.width          // <=> CONTROL LIST: Size.width
             property alias      mHeight:                rectList.height         // <=> CONTROL LIST: Size.height
             property alias      mBackColor:             rectList.color          // <=> CONTROL LIST: BackColor
-            property int        mBorderStyle:           borderStyle.mFixed3D    // <=> CONTROL LIST: BorderStyle
+            property int        mBorderStyle:           objBorderStyle.mFixed3D    // <=> CONTROL LIST: BorderStyle
             property variant    mMaximumSize:           Qt.size(0,0)            // <=> CONTROL LIST: MaximumSize
             property variant    mMinimumSize:           Qt.size(0,0)            // <=> CONTROL LIST: MinimumSize
             property bool       mSorted:                false                   // <=> CONTROL LIST: Sorted
@@ -64,14 +63,10 @@ Rectangle
             property int        mTextTopMargin:         10                      //Text Margin.Top
             property int        mTextBottomMargin:      10                      //Text Margin.Bottom
             property string     mColorHightlight:       '#f79642'               //Color hightlight when select item
-
-
-            //private
-            property int        pHEIGHT:                mMultiColumn?(mHeight-20):(rpt.model.count*mItemHeight)
-            property int        pIRow:                  Math.floor(pHEIGHT/mItemHeight)
-            property int        pIColumn:               mMultiColumn?Math.ceil(rpt.model.count/pIRow):1
-            property string     pColor:                 'transparent'
-            property int        pCurrentIndex:          0
+            property    var     mItemHeightArray:           []                  //CreateNew : 	array Item Height
+            property    var     mFontArray:                 []                  //CreateNew: 	array Font
+            property    var     mForeColorArray:            []                  //CreateNew: 	array ForeColor
+            property    var     mBackgroundArray:           []                  //CreateNew: 	array background
 
             signal              selectedIndexChanged()
             signal              openCalculator()
@@ -99,10 +94,18 @@ Rectangle
                 property int mMultiExtended: 3
             }
             QtObject {
-                id: borderStyle
+                id: objBorderStyle
                 property int mNone: 0
                 property int mFixedSingle: 1
                 property int mFixed3D: 2
+            }
+            QtObject {
+                id: objPrivate
+                property int        mHEIGHT:                mMultiColumn?(mHeight-20):(rpt.model.count*mItemHeight)
+                property int        mIRow:                  Math.floor(objPrivate.mHEIGHT/mItemHeight)
+                property int        mIColumn:               mMultiColumn?Math.ceil(rpt.model.count/objPrivate.mIRow):1
+                property string     mColor:                 'transparent'
+                property int        mCurrentIndex:          0
             }
 
             Rectangle{
@@ -123,7 +126,6 @@ Rectangle
                 }
 
                 color:"transparent"
-                //take it
                 TK_Navigator{
                     id: nav
                     x: 0
@@ -145,11 +147,24 @@ Rectangle
                     onKeyChanged: {
                         if(nav.indexRowSelected === 0) return
                         if(rectList.mSelectionMode === objSelectionMode.mOne &&
-                                grid.children[rectList.pCurrentIndex].color!==undefined){
-                            grid.children[rectList.pCurrentIndex].color=rectList.pColor;
+                                grid.children[objPrivate.mCurrentIndex].color!==undefined){
+                            //set background special
+                            var myColor
+                            var tmpSize = mBackgroundArray.length
+                            var tmpIndex = objPrivate.mCurrentIndex
+                            if(tmpSize >0){
+                                while(tmpIndex >= tmpSize){
+                                    tmpIndex = tmpIndex - tmpSize
+                                }
+                                myColor = mBackgroundArray[tmpIndex]
+                            }
+                            else {
+                                myColor = objPrivate.mColor
+                            }
+                            grid.children[objPrivate.mCurrentIndex].color=myColor;
                             rectList.mIndex=indexRowSelected - 1;
-                            rectList.pCurrentIndex=rectList.mIndex;
-                            grid.children[rectList.pCurrentIndex].color=rectList.mColorHightlight;
+                            objPrivate.mCurrentIndex=rectList.mIndex;
+                            grid.children[objPrivate.mCurrentIndex].color=rectList.mColorHightlight;
                         }
                         selectedIndexChanged();
                     }
@@ -168,11 +183,11 @@ Rectangle
 
 
                         function scrollChange(){
-                            if ((width > rectList.mColumnWidth) && (height > rectList.pHEIGHT)){
+                            if ((width > rectList.mColumnWidth) && (height > objPrivate.mHEIGHT)){
                                 if((mScrollAlwaysVisible || mHorizontalScrollbar)) return
                                 scroll.contentItem = itemNull
-                                contener.width = rectList.mColumnWidth*rectList.pIColumn;
-                                contener.height = (rpt.model.count<=rectList.pIRow)?
+                                contener.width = rectList.mColumnWidth*objPrivate.mIColumn;
+                                contener.height = (rpt.model.count<=objPrivate.mIRow)?
                                             (rpt.model.count*rectList.mItemHeight):height
                             }
                             else{
@@ -198,7 +213,7 @@ Rectangle
                             scrollChange()
                         }
 
-                        ScrollView {
+                        TK_ScrollView {
                             id : scroll
                             anchors.fill : parent
                         }
@@ -208,14 +223,14 @@ Rectangle
                         Rectangle {
                             id: contener
                             width : rectList.mColumnWidth
-                            height: rectList.pHEIGHT
+                            height: objPrivate.mHEIGHT
                             color:'transparent'
                             GridLayout {
                                 id: grid
-                                columns: rectList.pIColumn
+                                columns: objPrivate.mIColumn
                                 /* couple*/
                                 flow: GridLayout.TopToBottom
-                                rows:rectList.pIRow
+                                rows:objPrivate.mIRow
 
                                 /**/
                                 anchors.fill :contener
@@ -227,8 +242,47 @@ Rectangle
                                         id: rectFace
                                         Layout.fillWidth: true
 //                                        Layout.fillHeight: true
-                                        height: mItemHeight - 5
-                                        color: "transparent"
+                                        height: {
+                                            //set height special
+                                              var tmpSize = mItemHeightArray.length
+                                              var tmpIndex = index
+                                              if(tmpSize >0){
+                                                  //set mItemHeight
+                                                  var sumTotal = 0
+                                                  var sumArr = eval(mItemHeightArray.join("+")) // sum Array mItemHeightArray
+                                                  var countSource = mDataSource.count
+                                                  var div = countSource/tmpSize
+                                                  var odd = countSource%tmpSize
+                                                  sumTotal += div*sumArr
+                                                  for(var i = 0; i<odd;i++){
+                                                      sumTotal += mItemHeightArray[i]
+                                                  }
+                                                  mItemHeight = sumTotal/countSource
+                                                  //
+                                                  while(tmpIndex >= tmpSize){
+                                                      tmpIndex = tmpIndex - tmpSize
+                                                  }
+                                                  return mItemHeightArray[tmpIndex] - 5
+                                              }
+                                              else {
+                                                  return mItemHeight - 5
+                                              }
+//                                              mItemHeight - 5
+                                        }
+                                        color: {
+                                            //set background special
+                                            var tmpSize = mBackgroundArray.length
+                                            var tmpIndex = index
+                                            if(tmpSize >0){
+                                                while(tmpIndex >= tmpSize){
+                                                    tmpIndex = tmpIndex - tmpSize
+                                                }
+                                                return mBackgroundArray[tmpIndex]
+                                            }
+                                            else {
+                                                return 'transparent'
+                                            }
+                                        }
 
                                         Image {
                                             id:img
@@ -252,8 +306,34 @@ Rectangle
                                             anchors.bottomMargin: rectList.mTextBottomMargin
                                             text: strText
                                             textFormat: rectList.mFormattingEnabled?rectList.mFormatString:undefined
-                                            font: rectList.mFont
-                                            color: rectList.mForeColor
+                                            font: {
+                                                //set font special
+                                                var tmpSize = mFontArray.length
+                                                var tmpIndex = index
+                                                if(tmpSize >0){
+                                                    while(tmpIndex >= tmpSize){
+                                                        tmpIndex = tmpIndex - tmpSize
+                                                    }
+                                                    return mFontArray[tmpIndex]
+                                                }
+                                                else {
+                                                    return rectList.mFont
+                                                }
+                                            }
+                                            color:{
+                                                  //set color special
+                                                  var tmpSize = mForeColorArray.length
+                                                  var tmpIndex = index
+                                                  if(tmpSize >0){
+                                                      while(tmpIndex >= tmpSize){
+                                                          tmpIndex = tmpIndex - tmpSize
+                                                      }
+                                                      return mForeColorArray[tmpIndex]
+                                                  }
+                                                  else {
+                                                      return rectList.mForeColor
+                                                  }
+                                              }
                                         }
 
                                         MouseArea
@@ -261,15 +341,29 @@ Rectangle
                                             anchors.fill: parent
                                             onPressed:
                                             {
+                                                //set background special
+                                                var myColor
+                                                var tmpSize = mBackgroundArray.length
+                                                var tmpIndex = index
+                                                if(tmpSize >0){
+                                                    while(tmpIndex >= tmpSize){
+                                                        tmpIndex = tmpIndex - tmpSize
+                                                    }
+                                                    myColor = mBackgroundArray[tmpIndex]
+                                                }
+                                                else {
+                                                    myColor = objPrivate.mColor
+                                                }
+
                                                 nav.indexRowSelected = index+1;
 
                                                 if(rectList.mSelectionMode === objSelectionMode.mOne)
                                                 {
-                                                    grid.children[rectList.pCurrentIndex].color=rectList.pColor
+                                                    grid.children[objPrivate.mCurrentIndex].color = myColor
                                                 }
                                                 nav.indexRowSelected = index+1;
                                                 rectList.mIndex=nav.indexRowSelected-1;
-                                                rectList.pCurrentIndex=rectList.mIndex;
+                                                objPrivate.mCurrentIndex=rectList.mIndex;
                                                 if(rectList.mSelectionMode === objSelectionMode.mOne)
                                                 {
                                                     rectFace.color=rectList.mColorHightlight;
@@ -279,7 +373,7 @@ Rectangle
                                                 {
                                                     if(Qt.colorEqual(rectFace.color,rectList.mColorHightlight))
                                                     {
-                                                        rectFace.color=rectList.pColor;
+                                                        rectFace.color = myColor
                                                     }
                                                     else
                                                     {

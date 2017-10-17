@@ -1,8 +1,6 @@
 #ifndef XBARRS_NEWCHART_H
 #define XBARRS_NEWCHART_H
 #include "Control/drawControlBase/drawcontrolbase_ver3.h"
-
-#include "QtCharts/QChart"
 #include "QtCore/QTimer"
 
 class XbarRS_NewChart: public DrawControlBase_Ver3
@@ -13,6 +11,12 @@ public:
     void paint(QPainter *painter);
     void drawMainGraph(QPainter *qp);
     void drawThreshold(QPainter *qp);
+
+public:
+    Q_INVOKABLE void drawXBarLine(QQuickItem *item, QPainter *painter);
+    Q_INVOKABLE void drawRSLine(QQuickItem *item, QPainter *painter);
+    Q_INVOKABLE void getPlotLocation(int plotX, int plotY, int plotWidth, int plotHeight, int space);
+
 
 private:
     const int xBar_height = 200;
@@ -50,6 +54,13 @@ private:
     int dataForLineRFullNumber[12][50];
     int dataForLineSPassNumber[12][50];
     int dataForLineSFullNumber[12][50];
+
+    int _plotX;
+    int _plotY;
+    int _plotWidth;
+    int _plotHeight;
+    int _space;
+
 };
 
 #endif // XBARRS_NEWCHART_H

@@ -8,6 +8,11 @@ Item {
     y:0
     width: 1024
     height: 640
+    property alias objTestThemeVm: themeScreenVM
+    AppThemeVM {
+        id:themeScreenVM
+    }
+
     ThemeScreen{
         id: themeScreen
         width: 1024
@@ -52,5 +57,8 @@ Item {
                 }
             }
         }
+    }
+    Component.onCompleted: {
+        objTestThemeVm.onLoad();
     }
 }

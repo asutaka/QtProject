@@ -5,15 +5,70 @@ import "qrc:/Control/slideControl"
 import QtQuick.Particles 2.0
 
 Item {
-    property XRay_qimage objXRay:xrayCpp
+    property alias objXRayQImageVM: xRayQImageVM
     property int thresholdValue: 100
-    property int timerValue: 2000
+    property int timerValue: (slideBtn.fromValue+slideBtn.toValue) - slideBtn.slideValue
+    property bool isLongTap: false
+    property bool isZoom: false
+    property bool signalUpdate: false
+    property int count: 0
+    property int countOK: 0
+    property int countNG: 0
+    property int ratioOK: 0
+    property int ratioNG: 100
+
+    onSignalUpdateChanged: {
+        var statePro = Math.round(Math.random())
+        if(statePro){
+            ////////////////good//////////////////
+            //rectState
+            rectState.color = "#00CD66"
+            txtState.text = "OK"
+            countOK++
+        }
+        else{
+            //////////////not good////////////////
+            //rectState
+            rectState.color = "red"
+            txtState.text = "NG"
+            countNG++
+        }
+        count++
+        ratioOK = Math.round(countOK*100/count)
+        ratioNG = 100 - ratioOK
+    }
+    XRayQImageVM{
+        id:xRayQImageVM
+    }
+
     Rectangle{
+        id: rectMain
         x:0
         y:0
         width: 1024
         height: 640
         color: "transparent"
+
+        Timer {
+            interval: 300; running: true; repeat: true
+            onTriggered: {
+                if(isLongTap){
+                    if(isZoom){
+                        if(imageInput.height<showImageArea.height){
+                            imageInput.width=imageInput.width*1.25
+                            imageInput.height=imageInput.height*1.25
+                        }
+                    }
+                    else {
+                        if(imageInput.height>showImageArea.height/4)
+                        {
+                            imageInput.width=imageInput.width*0.75
+                            imageInput.height=imageInput.height*0.75
+                        }
+                    }
+                }
+            }
+        }
 
         Timer{
             id: timerCT
@@ -25,12 +80,18 @@ Item {
                 imageResult.source="qrc:/Images/spectrum"+ Math.ceil(Math.random()*4)+".png"
                 seqAnimation.running=true
                 seqAnimOP.running=true
+                signalUpdate = !signalUpdate
             }
             onRunningChanged: {
                 seqAnimation.running=false
                 seqAnimOP.running=false
+                //imageInput anchors
+                if(timerCT.running){
+                    imageInput.anchors.verticalCenter = showImageArea.verticalCenter
+                }
             }
         }
+
         Rectangle{
             id: isRunning
             visible: false
@@ -49,6 +110,7 @@ Item {
                 font.pixelSize: 30
             }
         }
+
         Rectangle{
             id: isStopping
             visible: true
@@ -97,7 +159,6 @@ Item {
                 id: seqAnimation
                 running: false
                 loops: -1
-                //PauseAnimation { duration: 1000 }
 
                 PathAnimation {
                     id: pathAnim
@@ -119,22 +180,27 @@ Item {
                             canvas.requestPaint()
                         }
                     }
-
                 }
                 onStarted: {
                     imageInput.visible=true
                 }
-
-                onStopped: {
-                    imageInput.visible=false
-                }
             }
             Image {
                 id: imageInput
-                y: showImageArea.height/2-imageInput.height/2
                 z: imageInput.x < 0 ? -1 : 0
+                anchors.verticalCenter: parent.verticalCenter
                 width: 350; height: 350
                 smooth: true
+                MouseArea{
+                    id: mouseArea
+                    anchors.fill: parent
+                    drag.target: imageInput
+
+                    drag.minimumX: -imageInput.width/2
+                    drag.minimumY: -imageInput.height/2
+                    drag.maximumX: showImageArea.width - imageInput.width/2
+                    drag.maximumY: showImageArea.height - imageInput.height/2
+                }
             }
             NumberAnimation {
                 id: animacion
@@ -143,6 +209,7 @@ Item {
                 easing.type: Easing.InOutQuad
             }
         }
+
         SlideControl2V{
             id: slideBtn
             x:670
@@ -152,7 +219,7 @@ Item {
             widthBgr: 150
             rotation: -90
             fromValue: 500
-            toValue: 2000
+            toValue: 2500
             stepSizeValue: 500
             startValue: 500
             text1: "500"
@@ -164,7 +231,7 @@ Item {
                 if(timerCT.running==true){
                     timerCT.stop()
                     timerCT.start()
-                    timerCT.interval=slideBtn.slideValue
+                    timerCT.interval=(slideBtn.fromValue+slideBtn.toValue) - slideBtn.slideValue
                 }
             }
         }
@@ -222,9 +289,18 @@ Item {
             MouseArea{
                 anchors.fill: parent
                 onPressed: {
+                    //state stop
+                    imageInput.visible=false
+                    imageResult.visible=false
+                    //reset count
+                    count = 0
+                    countOK = 0
+                    countNG = 0
+                    ratioOK = 0
+                    ratioNG = 100
+                    //
                     timerCT.running=false
                     btnStart.pressIsTrue = false
-                    objXRay.getIsStart(btnStart.pressIsTrue);
                     btnStart.color="#777777"
                     btnStop.color="#CC3300"
                     isRunning.visible=false
@@ -249,20 +325,34 @@ Item {
             MouseArea{
                 anchors.fill: parent
                 onPressed: {
+                    //pause
+                    timerCT.running=false
+                    //zoom
                     zoomIn.width=40
                     zoomIn.height=40
                     if(imageInput.height<showImageArea.height){
                         imageInput.width=imageInput.width*1.25
                         imageInput.height=imageInput.height*1.25
-                        imageInput.y =showImageArea.height/2-imageInput.height/2
                     }
+                    //set anchors imageInput
+                    imageInput.anchors.verticalCenter = showImageArea.verticalCenter
                 }
+                onPressAndHold: {
+                    isZoom = true
+                    isLongTap = true
+                }
+
                 onReleased: {
+                    isZoom = false
+                    isLongTap = false
                     zoomIn.width=30
                     zoomIn.height=30
+                    //set anchors imageInput
+                    imageInput.anchors.verticalCenter = undefined
                 }
             }
         }
+
         Rectangle{
             id: zoomOut
             x: 690
@@ -278,19 +368,28 @@ Item {
             MouseArea{
                 anchors.fill: parent
                 onPressed: {
+                    //pause
+                    timerCT.running=false
+                    //zoom
                     zoomOut.width=40
                     zoomOut.height=40
                     if(imageInput.height>showImageArea.height/4)
                     {
                         imageInput.width=imageInput.width*0.75
                         imageInput.height=imageInput.height*0.75
-                        imageInput.y=imageInput.y =showImageArea.height/2-imageInput.height/2
                     }
-
+                    //set anchors imageInput
+                    imageInput.anchors.verticalCenter = showImageArea.verticalCenter
+                }
+                onPressAndHold: {
+                    isLongTap = true
                 }
                 onReleased: {
+                    isLongTap = false
                     zoomOut.width=30
                     zoomOut.height=30
+                    //set anchors imageInput
+                    imageInput.anchors.verticalCenter = undefined
                 }
             }
         }
@@ -348,10 +447,6 @@ Item {
                 onStarted: {
                     imageResult.visible=true
                 }
-
-                onStopped: {
-                    imageResult.visible=false
-                }
             }
             Image {
                 id: imageResult
@@ -371,10 +466,6 @@ Item {
                     ctx.lineTo(747, thresholdValue);
                     ctx.stroke();
                 }
-                //                onDataChanged: {
-                //                    threshold.requestPaint()
-                //                }
-
             }
 
             Rectangle{
@@ -415,14 +506,6 @@ Item {
             }
         }
 
-        XRay_qimage{
-            id:xrayCpp
-            x: 0
-            y:0
-            width: 1024
-            height: 640
-        }
-
         Rectangle{
             id:rightPanel
             x:750
@@ -432,63 +515,272 @@ Item {
             color: "transparent"
             //color: "#404040"
 
-            Rectangle {
-                id:btnAll
-                x:0
-                y:0
-                width: 136
-                height: 37
-                radius: 2
-                color: "#d0d0d0"
-                border.color: "#404040"
-                border.width: 1
-                Text {
-                    id: txtBtnAll
-                    anchors.centerIn: parent
-                    color: "#404040"
-                    font.pixelSize: 20
-                    text: qsTr("All Display")
-                }
-                MouseArea{
-                    anchors.fill: parent
-                    onPressed:{
-                        txtBtnAll.color="#00ad86"
-                        btnAll.border.color = "#00ad86"
+            Rectangle{
+                id: rectHeader
+                width: parent.width
+                height: childrenRect.height
+                Rectangle {
+                    id:btnAll
+                    x:0
+                    y:0
+                    width: 136
+                    height: 37
+                    radius: 2
+                    color: "#d0d0d0"
+                    border.color: "#404040"
+                    border.width: 1
+                    Text {
+                        id: txtBtnAll
+                        anchors.centerIn: parent
+                        color: "#404040"
+                        font.pixelSize: 20
+                        text: qsTr("All Display")
                     }
-                    onReleased: {
-                        txtBtnAll.color="#404040"
-                        btnAll.border.color = "#404040"
+                    MouseArea{
+                        anchors.fill: parent
+                        onPressed:{
+                            txtBtnAll.color="#00ad86"
+                            btnAll.border.color = "#00ad86"
+                        }
+                        onReleased: {
+                            txtBtnAll.color="#404040"
+                            btnAll.border.color = "#404040"
+                        }
+                    }
+                }
+                Rectangle {
+                    id: btnImpactMonitor
+                    x:137
+                    y:0
+                    width: 136
+                    height: 37
+                    radius: 2
+                    color: "#d0d0d0"
+                    border.width: 1
+                    border.color : "#404040"
+                    Text {
+                        id: txtImpactMonitor
+                        anchors.centerIn: parent
+                        color: "#404040"
+                        font.pixelSize: 20
+                        text: qsTr("Impact Monitor")
+                    }
+                    MouseArea{
+                        anchors.fill: parent
+                        onPressed:{
+                            txtImpactMonitor.color="#00ad86"
+                            btnImpactMonitor.border.color = "#00ad86"
+
+                        }
+                        onReleased: {
+                            txtImpactMonitor.color="#404040"
+                            btnImpactMonitor.border.color = "#404040"
+                        }
                     }
                 }
             }
-            Rectangle {
-                id: btnImpactMonitor
-                x:137
-                y:0
-                width: 136
-                height: 37
-                radius: 2
-                color: "#d0d0d0"
-                border.width: 1
-                border.color : "#404040"
-                Text {
-                    id: txtImpactMonitor
-                    anchors.centerIn: parent
-                    color: "#404040"
-                    font.pixelSize: 20
-                    text: qsTr("Impact Monitor")
-                }
-                MouseArea{
-                    anchors.fill: parent
-                    onPressed:{
-                        txtImpactMonitor.color="#00ad86"
-                        btnImpactMonitor.border.color = "#00ad86"
 
+
+            Rectangle{
+                id: rectNo
+                anchors.top: rectHeader.bottom
+                anchors.topMargin: 1
+                width: parent.width
+                height: 50
+                radius: 5
+                color:"#5a6469"
+                border.width: 2
+                border.color: "#fc9"
+                Text {
+                    anchors{
+                        left: parent.left
+                        leftMargin: 3
+                        top: parent.top
+                        topMargin: 3
                     }
-                    onReleased: {
-                        txtImpactMonitor.color="#404040"
-                        btnImpactMonitor.border.color = "#404040"
+                    font.pixelSize: 20
+                    color: "#00cd66"
+                    text: qsTr("Prod No.")
+                }
+                Text {
+                    anchors.centerIn: parent
+                    font.pixelSize: 35
+                    font.bold: true
+                    color: "#00cd66"
+                    text: qsTr("001")
+                }
+            }
+            Rectangle{
+                id: rectState
+                anchors.top: rectNo.bottom
+                anchors.topMargin: -1
+                width: parent.width
+                height: 55
+                radius: 5
+                color:"red"
+                border.width: 2
+                border.color: "#fc9"
+                Text {
+                    id: txtState
+                    anchors.centerIn: parent
+                    font.pixelSize: 40
+                    font.bold: true
+                    color: "#ffec8b"
+                    text: qsTr("NG")
+                }
+            }
+            Rectangle{
+                id: rectTotalNumber
+                anchors.top: rectState.bottom
+                anchors.topMargin: 0
+                width: parent.width
+                height: 40
+                color:"#d0d0d0"
+                border.color: "black"
+                Text {
+                    anchors{
+                        left: parent.left
+                        leftMargin: 5
+                        top: parent.top
+                        topMargin: 10
                     }
+                    font.pixelSize: 13
+                    color: "blue"
+                    text: qsTr("Total Number")
+                }
+                Text {
+                    anchors{
+                        right: parent.right
+                        rightMargin: 20
+                        top: parent.top
+                        topMargin: 10
+                    }
+                    font.pixelSize: 13
+                    color: "black"
+                    text: qsTr(count+" Pic")
+                }
+            }
+            Rectangle{
+                id: rectDetail
+                anchors.top: rectTotalNumber.bottom
+                anchors.topMargin: 0
+                width: parent.width
+                height: 75
+                color:"#d0d0d0"
+                border.color: "black"
+                Rectangle{
+                    id: rectDetail_OK
+                    width: parent.width/2
+                    height: parent.height
+                    anchors{
+                        left: parent.left
+                    }
+                    color:"transparent"
+                    border.color: "black"
+                    Text {
+                        font.pixelSize: 20
+                        anchors{
+                            left: parent.left
+                            leftMargin: 5
+                            top: parent.top
+                            topMargin: 10
+                        }
+                        color: "green"
+                        text: qsTr("OK")
+                    }
+                    Text {
+                        font.pixelSize: 13
+                        anchors{
+                            right: parent.right
+                            rightMargin: 10
+                            top: parent.top
+                            topMargin: 10
+                        }
+                        text: qsTr(countOK+" Pic")
+                    }
+                    Text {
+                        font.pixelSize: 13
+                        anchors{
+                            right: parent.right
+                            rightMargin: 3
+                            bottom: parent.bottom
+                            bottomMargin: 10
+                        }
+                        text: qsTr(ratioOK+" %")
+                    }
+                }
+                Rectangle{
+                    id: rectDetail_NG
+                    width: parent.width/2
+                    height: parent.height
+                    anchors{
+                        right: parent.right
+                    }
+                    color:"transparent"
+                    border.color: "black"
+                    Text {
+                        font.pixelSize: 20
+                        anchors{
+                            left: parent.left
+                            leftMargin: 5
+                            top: parent.top
+                            topMargin: 10
+                        }
+                        color: "red"
+                        text: qsTr("NG")
+                    }
+                    Text {
+                        font.pixelSize: 13
+                        anchors{
+                            right: parent.right
+                            rightMargin: 10
+                            top: parent.top
+                            topMargin: 10
+                        }
+                        text: qsTr(countNG+" Pic")
+                    }
+                    Text {
+                        font.pixelSize: 13
+                        anchors{
+                            right: parent.right
+                            rightMargin: 3
+                            bottom: parent.bottom
+                            bottomMargin: 10
+                        }
+                        text: qsTr(ratioNG+" %")
+                    }
+                }
+            }
+            Rectangle{
+                id: rectNote
+                anchors.top: rectDetail.bottom
+                anchors.topMargin: 0
+                width: parent.width
+                height: 40
+                color:"#d0d0d0"
+                border.color: "black"
+                Text {
+                    font.pixelSize: 20
+                    color: "red"
+                    anchors{
+                        left: parent.left
+                        leftMargin: 30
+                        top: parent.top
+                        topMargin: 10
+                    }
+
+                    text: qsTr("* NG")
+                }
+                Text {
+                    font.pixelSize: 13
+                    anchors{
+                        right: parent.right
+                        rightMargin: 10
+                        top: parent.top
+                        topMargin: 10
+                    }
+
+                    text: qsTr("0 Pic (100 %)")
                 }
             }
 
@@ -523,11 +815,9 @@ Item {
                         onPressed:{
                             if(btnStart.pressIsTrue == true)
                             {
-                                objXRay.getIsStart(btnStart.pressIsTrue);
                                 timerCT.running=true
                                 txtCT1.color="#ffffff"
                                 btnCT1.border.color = "#ffffff"
-                                console.log(imageResult.source +"press CT1")
                                 txtBtnSelected.text =txtCT1.text
                                 btnSelected.color=btnCT1.color
                                 isRunning.visible=false
@@ -561,11 +851,9 @@ Item {
                         onPressed:{
                             if(btnStart.pressIsTrue == true)
                             {
-                                objXRay.getIsStart(btnStart.pressIsTrue);
                                 timerCT.running=true
                                 txtCT2.color="#ffffff"
                                 btnCT2.border.color = "#ffffff"
-                                console.log(imageResult.source +"press CT2")
                                 txtBtnSelected.text =txtCT2.text
                                 btnSelected.color=btnCT2.color
                                 isRunning.visible=false
@@ -599,7 +887,6 @@ Item {
                         onPressed:{
                             if(btnStart.pressIsTrue == true)
                             {
-                                objXRay.getIsStart(btnStart.pressIsTrue);
                                 timerCT.running=true
                                 txtCT3.color="#ffffff"
                                 btnCT3.border.color = "#ffffff"
@@ -636,7 +923,6 @@ Item {
                         onPressed:{
                             if(btnStart.pressIsTrue == true)
                             {
-                                objXRay.getIsStart(btnStart.pressIsTrue);
                                 timerCT.running=true
                                 txtCT4.color="#ffffff"
                                 btnCT4.border.color = "#ffffff"
@@ -673,7 +959,6 @@ Item {
                         onPressed:{
                             if(btnStart.pressIsTrue == true)
                             {
-                                objXRay.getIsStart(btnStart.pressIsTrue);
                                 timerCT.running=true
                                 txtCT5.color="#ffffff"
                                 btnCT5.border.color = "#ffffff"
@@ -710,7 +995,6 @@ Item {
                         onPressed:{
                             if(btnStart.pressIsTrue == true)
                             {
-                                objXRay.getIsStart(btnStart.pressIsTrue);
                                 timerCT.running=true
                                 txtCT6.color="#ffffff"
                                 btnCT6.border.color = "#ffffff"
@@ -747,7 +1031,6 @@ Item {
                         onPressed:{
                             if(btnStart.pressIsTrue == true)
                             {
-                                objXRay.getIsStart(btnStart.pressIsTrue);
                                 timerCT.running=true
                                 txtCT7.color="#ffffff"
                                 btnCT7.border.color = "#ffffff"
@@ -784,7 +1067,6 @@ Item {
                         onPressed:{
                             if(btnStart.pressIsTrue == true)
                             {
-                                objXRay.getIsStart(btnStart.pressIsTrue);
                                 timerCT.running=true
                                 txtCT8.color="#ffffff"
                                 btnCT8.border.color = "#ffffff"
@@ -821,7 +1103,6 @@ Item {
                         onPressed:{
                             if(btnStart.pressIsTrue == true)
                             {
-                                objXRay.getIsStart(btnStart.pressIsTrue);
                                 timerCT.running=true
                                 txtCT9.color="#ffffff"
                                 btnCT9.border.color = "#ffffff"
@@ -858,7 +1139,6 @@ Item {
                         onPressed:{
                             if(btnStart.pressIsTrue == true)
                             {
-                                objXRay.getIsStart(btnStart.pressIsTrue);
                                 timerCT.running=true
                                 txtCT10.color="#ffffff"
                                 btnCT10.border.color = "#ffffff"
@@ -895,7 +1175,6 @@ Item {
                         onPressed:{
                             if(btnStart.pressIsTrue == true)
                             {
-                                objXRay.getIsStart(btnStart.pressIsTrue);
                                 timerCT.running=true
                                 txtCT0.color="#ffffff"
                                 btnCT0.border.color = "#ffffff"
@@ -965,11 +1244,6 @@ Item {
                     spinHeight: 150
                     rotation: 270
                     mod: 50
-
-                    Component.onCompleted: {
-                        console.log(ditectionLimit.currIndex)
-
-                    }
                 }
                 Text {
                     id: txtNoiseRemoval
@@ -1041,6 +1315,9 @@ Item {
             }
         }
 
+    }
+    Component.onCompleted: {
+        objXRayQImageVM.onLoad();
     }
 }
 

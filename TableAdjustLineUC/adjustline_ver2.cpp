@@ -22,25 +22,32 @@ void AdjustLine_ver2::paint(QPainter *painter)
     int fontHeight = fm.height();
     QPen pen;
 
+
     //Draw background step1
-    pen.setColor(Step1Bkg);
     painter->setPen(pen);
     QPainterPath pathStep1;
     pathStep1.addRoundedRect(QRectF(this->x(), this->y(), CellWidth, CellHeight), Corner, Corner);
-    painter->fillPath(pathStep1, Step1Bkg);
+    if(IsValid){
+        painter->fillPath(pathStep1, Step1Bkg);
+    } else {
+        painter->fillPath(pathStep1, QColor(187, 213, 227));
+    }
     pen.setColor(Qt::white);
     painter->setPen(pen);
     painter->drawPath(pathStep1);
 
     //Draw background step2 -> StepCount
-    pen.setColor(StepBkg);
     painter->setPen(pen);
     for (int i = 1; i < StepCount; i++)
     {
         int y = this->y() + i * (CellHeight + margin);
         QPainterPath pathStep;
         pathStep.addRoundedRect(QRectF(this->x(), y, CellWidth, CellHeight), Corner, Corner);
-        painter->fillPath(pathStep, StepBkg);
+        if(IsValid){
+            painter->fillPath(pathStep, StepBkg);
+        } else {
+            painter->fillPath(pathStep, QColor(71, 78, 76));
+        }
         pen.setColor(Qt::white);
         painter->setPen(pen);
         painter->drawPath(pathStep);

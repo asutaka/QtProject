@@ -9,7 +9,6 @@ import "qrc:/Dialog"
 Item {
     id: ioMonitorSignalSelect
 
-    property Item dlgSignalSelect: ioMonitorSignalSelect
     property string title: ""
     property string inputName: ""
     property string outputName: ""
@@ -387,15 +386,5 @@ Item {
                 lineNo: ""
             }
         }
-    }
-
-    Component.onCompleted: {
-        ioMonitorSignalSelect.title = loaderStatusBar.item.objIOMonitorVM.txtSignalSelectTitle
-        ioMonitorSignalSelect.inputName = loaderStatusBar.item.objIOMonitorVM.txtInputName
-        ioMonitorSignalSelect.outputName = loaderStatusBar.item.objIOMonitorVM.txtOutputName
-        ioMonitorSignalSelect.internalName = loaderStatusBar.item.objIOMonitorVM.txtInternalName
-        ioMonitorSignalSelect.noneName = loaderStatusBar.item.objIOMonitorVM.txtNoneName
-        ioMonitorSignalSelect.btnOKName = loaderStatusBar.item.objIOMonitorVM.txtBtnOKName
-        ioMonitorSignalSelect.btnCancelName = loaderStatusBar.item.objIOMonitorVM.txtBtnCancelName
     }
 }

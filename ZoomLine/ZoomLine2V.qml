@@ -5,7 +5,7 @@ import QtQuick.Dialogs 1.2
 import QtQuick.Controls 1.3
 import QtQuick.Extras 1.4
 import QtQuick.Controls.Styles 1.3
-import ZoomLine2V 1.0
+import ControlApp 1.0
 import "../Control/switchLineUC";
 import "../Control"
 
@@ -13,6 +13,13 @@ Item {
     property int countSelected: 0;
     property int lineno: 12
     property real unitLine:0
+    property alias objZoomLineVM: zoomlineVM
+    ZoomLine_VM{
+        id:zoomlineVM
+    }
+    Component.onCompleted: {
+        objZoomLineVM.onLoad();
+    }
     id: zoomLine2v
     x: 0
     y: -64

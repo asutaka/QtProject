@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import ControlApp 1.0
 
 Item {
     property string backgroundColor: "black"

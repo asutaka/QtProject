@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_DrawControlBase_Ver3_t {
-    QByteArrayData data[11];
-    char stringdata0[122];
+    QByteArrayData data[24];
+    char stringdata0[245];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -39,13 +39,29 @@ QT_MOC_LITERAL(6, 58, 9), // "_screenID"
 QT_MOC_LITERAL(7, 68, 14), // "getCurrentLine"
 QT_MOC_LITERAL(8, 83, 12), // "_currentLine"
 QT_MOC_LITERAL(9, 96, 14), // "setValueToDraw"
-QT_MOC_LITERAL(10, 111, 10) // "QList<int>"
+QT_MOC_LITERAL(10, 111, 10), // "QList<int>"
+QT_MOC_LITERAL(11, 122, 8), // "randData"
+QT_MOC_LITERAL(12, 131, 12), // "drawXBarLine"
+QT_MOC_LITERAL(13, 144, 11), // "QQuickItem*"
+QT_MOC_LITERAL(14, 156, 4), // "item"
+QT_MOC_LITERAL(15, 161, 9), // "QPainter*"
+QT_MOC_LITERAL(16, 171, 7), // "painter"
+QT_MOC_LITERAL(17, 179, 10), // "drawRSLine"
+QT_MOC_LITERAL(18, 190, 15), // "getPlotLocation"
+QT_MOC_LITERAL(19, 206, 5), // "plotX"
+QT_MOC_LITERAL(20, 212, 5), // "plotY"
+QT_MOC_LITERAL(21, 218, 9), // "plotWidth"
+QT_MOC_LITERAL(22, 228, 10), // "plotHeight"
+QT_MOC_LITERAL(23, 239, 5) // "space"
 
     },
     "DrawControlBase_Ver3\0updateDraw\0\0"
     "getIsLeft\0_isLeft\0_btnID\0_screenID\0"
     "getCurrentLine\0_currentLine\0setValueToDraw\0"
-    "QList<int>"
+    "QList<int>\0randData\0drawXBarLine\0"
+    "QQuickItem*\0item\0QPainter*\0painter\0"
+    "drawRSLine\0getPlotLocation\0plotX\0plotY\0"
+    "plotWidth\0plotHeight\0space"
 };
 #undef QT_MOC_LITERAL
 
@@ -55,7 +71,7 @@ static const uint qt_meta_data_DrawControlBase_Ver3[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       4,   14, // methods
+       8,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -63,12 +79,16 @@ static const uint qt_meta_data_DrawControlBase_Ver3[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,   34,    2, 0x0a /* Public */,
+       1,    0,   54,    2, 0x0a /* Public */,
 
  // methods: name, argc, parameters, tag, flags
-       3,    3,   35,    2, 0x02 /* Public */,
-       7,    1,   42,    2, 0x02 /* Public */,
-       9,    0,   45,    2, 0x02 /* Public */,
+       3,    3,   55,    2, 0x02 /* Public */,
+       7,    1,   62,    2, 0x02 /* Public */,
+       9,    0,   65,    2, 0x02 /* Public */,
+      11,    0,   66,    2, 0x02 /* Public */,
+      12,    2,   67,    2, 0x02 /* Public */,
+      17,    2,   72,    2, 0x02 /* Public */,
+      18,    5,   77,    2, 0x02 /* Public */,
 
  // slots: parameters
     QMetaType::Void,
@@ -77,6 +97,10 @@ static const uint qt_meta_data_DrawControlBase_Ver3[] = {
     QMetaType::Void, QMetaType::Bool, QMetaType::Int, QMetaType::Int,    4,    5,    6,
     QMetaType::Void, QMetaType::Int,    8,
     0x80000000 | 10,
+    QMetaType::Int,
+    QMetaType::Void, 0x80000000 | 13, 0x80000000 | 15,   14,   16,
+    QMetaType::Void, 0x80000000 | 13, 0x80000000 | 15,   14,   16,
+    QMetaType::Void, QMetaType::Int, QMetaType::Int, QMetaType::Int, QMetaType::Int, QMetaType::Int,   19,   20,   21,   22,   23,
 
        0        // eod
 };
@@ -92,7 +116,30 @@ void DrawControlBase_Ver3::qt_static_metacall(QObject *_o, QMetaObject::Call _c,
         case 2: _t->getCurrentLine((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 3: { QList<int> _r = _t->setValueToDraw();
             if (_a[0]) *reinterpret_cast< QList<int>*>(_a[0]) = _r; }  break;
+        case 4: { int _r = _t->randData();
+            if (_a[0]) *reinterpret_cast< int*>(_a[0]) = _r; }  break;
+        case 5: _t->drawXBarLine((*reinterpret_cast< QQuickItem*(*)>(_a[1])),(*reinterpret_cast< QPainter*(*)>(_a[2]))); break;
+        case 6: _t->drawRSLine((*reinterpret_cast< QQuickItem*(*)>(_a[1])),(*reinterpret_cast< QPainter*(*)>(_a[2]))); break;
+        case 7: _t->getPlotLocation((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3])),(*reinterpret_cast< int(*)>(_a[4])),(*reinterpret_cast< int(*)>(_a[5]))); break;
         default: ;
+        }
+    } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
+        switch (_id) {
+        default: *reinterpret_cast<int*>(_a[0]) = -1; break;
+        case 5:
+            switch (*reinterpret_cast<int*>(_a[1])) {
+            default: *reinterpret_cast<int*>(_a[0]) = -1; break;
+            case 0:
+                *reinterpret_cast<int*>(_a[0]) = qRegisterMetaType< QQuickItem* >(); break;
+            }
+            break;
+        case 6:
+            switch (*reinterpret_cast<int*>(_a[1])) {
+            default: *reinterpret_cast<int*>(_a[0]) = -1; break;
+            case 0:
+                *reinterpret_cast<int*>(_a[0]) = qRegisterMetaType< QQuickItem* >(); break;
+            }
+            break;
         }
     }
 }
@@ -122,13 +169,13 @@ int DrawControlBase_Ver3::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 4)
+        if (_id < 8)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 4;
+        _id -= 8;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 4)
-            *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 4;
+        if (_id < 8)
+            qt_static_metacall(this, _c, _id, _a);
+        _id -= 8;
     }
     return _id;
 }

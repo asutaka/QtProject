@@ -25,6 +25,12 @@ public:
     Q_INVOKABLE void getIsLeft(bool _isLeft, int _btnID, int _screenID);
     Q_INVOKABLE void getCurrentLine(int _currentLine);
     Q_INVOKABLE QList <int> setValueToDraw();
+    Q_INVOKABLE int randData();
+
+    // Implement module Chart
+    Q_INVOKABLE virtual void drawXBarLine(QQuickItem *item, QPainter *painter);
+    Q_INVOKABLE virtual void drawRSLine(QQuickItem *item, QPainter *painter);
+    Q_INVOKABLE virtual void getPlotLocation(int plotX, int plotY, int plotWidth, int plotHeight, int space);
 
 private:
     void DrawCom1(QPainter*);

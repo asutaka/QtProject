@@ -34,6 +34,9 @@ Item {
     property real hMainContent: hParent
     property ParameterSettingVM paramSetting: _paramSetting
 
+    ParameterSettingVM {
+        id: _paramSetting
+    }
     width: wParent
     height: hParent
 
@@ -59,9 +62,7 @@ Item {
         id: listModel
     }
 
-    ParameterSettingVM {
-        id: _paramSetting
-    }
+
 
     MenuBarSubControl {
         id: _menubarLayer
@@ -70,6 +71,18 @@ Item {
         width: 1024
         height: 40
         color: "#000"
+    }
+
+    Rectangle {
+        width: 100
+        height: 100
+        color: 'pink'
+        MouseArea{
+            anchors.fill: parent
+            onPressed: {
+                console.log("ListModel:"+listModel.get(1).serial)
+            }
+        }
     }
 
     StartSwitchLineModule {
@@ -91,169 +104,47 @@ Item {
 
         TK_DataGridView {
             id: lstParamSetting
-            highlightOnFocus: true
-            width: parent.width
-            height: updateHeight()
+            mWidth: parent.width
+            mHeight: 200
+            mReadOnly: true
+            mRowHeight: 25
+            mRowFont.pixelSize: 13
+            mHeaderFont.pixelSize: 15
+            mColHeaderWidth: 0
+            mDataSource: listModel
+            mColumnAddInfo: 0
+            mSelectionMode: EnumControl.SELECTION_MODE_FULL_ROW_SELECT
+            mHorizontalScrollBar: Qt.ScrollBarAlwaysOff
+            mVerticalScrollBar: Qt.ScrollBarAsNeeded
+            mArrColWidth: [100, 350, 250]
+            mArrColName: ["No.", "パラメータ", "設定値"]
 
-            model: listModel
-            verticalScrollBarPolicy :Qt.ScrollBarAlwaysOn
-            horizontalScrollBarPolicy: Qt.ScrollBarAlwaysOff
-            TableViewColumn {
-                id: col1
-                movable : false
-                role: paramSetting.txtCSerial
-                title: paramSetting.txtHSerial
-                width: 100
-                delegate: Text {
-                    text: styleData.value
-                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
-                    font.family: "MS Gothic"
-                    font.pixelSize: 27
-                }
-            }
-
-            TableViewColumn {
-                id: col2
-                movable : false
-                role: paramSetting.txtCParam
-                title: paramSetting.txtHParam
-                width: 400
-            }
-
-            TableViewColumn {
-                id: col3
-                movable : false
-                role: paramSetting.txtCValue
-                title: paramSetting.txtHValue
-                width: (lstParamSetting.width - col1.width - col2.width - 15)
-                delegate: Text {
-                    id: txtTest
-                    text: styleData.value
-                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
-                    font.family: "MS Gothic"
-                    font.pixelSize: 27
-                }
-            }
-
-            style: TableViewStyle {
-                headerDelegate: Rectangle {
-                    id: headerDelegateView
-                    height: 55
-
-                    Image {
-                        anchors.fill: parent
-                        source: "image://MyProvider/TabMenu.png"
-                    }
-
-                    Text {
-                        id: textItem
-                        text: styleData.value
-                        font.family: "MS Gothic"
-                        font.pixelSize: 27
-                        anchors.centerIn: parent
-                    }
-                }
-
-                itemDelegate: Item {
-                    Text {
-                        id: iContent
-                        color: "black"
-                        text: styleData.value
-                        font {
-                            family: "MS Gothic"
-                            pixelSize: 27
-                        }
-                        anchors.verticalCenter: parent.verticalCenter
-                    }
-                }
-
-                rowDelegate: Rectangle {
-                    id: curItem
-                    width: lstParamSetting.width
-                    height: display1 ? 58 : 38.6
-                    border {
-                        color: "#BECD91"
-                        width: 0.5
-                    }
-                    color: styleData.selected ? "#F69642" :(styleData.alternate ? "#EFE7B6" : "#EEF2E7")
-                }
-
-                handle: Item {
-                    implicitWidth: 10
-                    implicitHeight: 0
-
-                    Rectangle {
-                        color: "#F69642"
-                        anchors.fill: parent
-                        anchors.leftMargin: 5
-                        anchors.topMargin: 2
-                        anchors.bottomMargin: 2
-                        anchors.rightMargin: 0
-                    }
-                }
-
-                decrementControl: Rectangle {
-                    visible: false
-                }
-
-                incrementControl: Rectangle {
-                    visible: false
-                }
-            }
-
-            onClicked: {
-                navGridView.indexRowSelected = (currentRow + 1).toString()
-                indexSelect = lstParamSetting.currentRow + 1
-            }
-
-            onDoubleClicked: {
-                indexSelect = lstParamSetting.currentRow + 1
-                switch (listModel.getType(indexSelect - 1)) {
-                    case 1:
-                        break;
-                    case 2:
-                        Ops.showCalculator(lblValNumber, "0", "1000");
-                        break;
-                    default:
-                        break;
-                }
-            }
-
-            Keys.onPressed: {
-                if (event.key === Qt.Key_Down) {
-                    if (indexSelect < lstParamSetting.rowCount) {
-                        navGridView.indexRowSelected = (++indexSelect).toString();
-                    }
-                } else if (event.key === Qt.Key_Up) {
-                    if (indexSelect > 1) {
-                        navGridView.indexRowSelected = (--indexSelect).toString();
-                    }
-                }
-            }
-
-            Component.onCompleted: {
-                console.log(lstParamSetting.height)
-                navGridView.indexRowSelected = 1
-                navGridView.numberRow = lstParamSetting.rowCount.toString()
-                lstParamSetting.selection.select(indexSelect - 1);
-            }
+            mRowBackColor: ["#EFE7B6","#EEF2E7"]
+            mRowSelectionColor: "#F69642"
+            mCellBorderStyle: 4
+            mArrAlignH: [Text.AlignLeft,Text.AlignHCenter,Text.AlignHCenter, Text.AlignHCenter]
+            mInputType: ["serial", "param", "value"]
+            mParameterCol: 3
+            mImageError: "image://MyProvider/error_16x16.png"
+            mImageEdit:  "image://MyProvider/editing.png"
+            mHeaderImageSrc: "image://MyProvider/TabMenu.png"
 
             function updateHeight() {
                 if (display1) {
-                    if (lstParamSetting.rowCount < 10) {
-                        return rowCount * 58 + 56
-                    } else {
-                        return 598
-                    }
+                    if (lstParamSetting.rowCount < 10)
+                        return rowCount * 6.5
                 } else {
-                    if (lstParamSetting.rowCount < 15) {
-                        return rowCount * 38.6 + 56
-                    } else {
-                        return 598
-                    }
+                    if (lstParamSetting.rowCount < 15)
+                        return rowCount * 4.2
                 }
+            }
+            onRowChanged: navGridViewtblView.indexRowSelected = lstParamSetting.mCurrentRow + 1
+            onDoubleClickItem:{
+                Ops.showCalculator(item, "0", "1000");
+            }
+
+            Component.onCompleted: {
+                lstParamSetting.mCurrentRow = 0
             }
         }
 
@@ -262,13 +153,12 @@ Item {
             mTxtContent: listModel.getInfomation(indexSelect - 1)
             mWidth: 713
             mHeight: 599 - 4 * 58 - 55
-            y: 4 * 58 + 55
+            y: lstParamSetting.mHeight
             x: 0
         }
-
         function changeModeDisplay() {
             display1 = !display1
-            lstParamSetting.height = lstParamSetting.updateHeight()
+            lstParamSetting.mRowHeight = lstParamSetting.updateHeight()
         }
 
         function showInfo() {
@@ -281,17 +171,19 @@ Item {
     }
 
     TK_Navigator {
-        id: navGridView
+        id: navGridViewtblView
         x: 944
         y: 40
         height: 599
         colorBackground: "#EEF2E7"
         fontName: "MS Gothic"
         fontSize: 27
-        maxIndex: lstParamSetting.rowCount
+        maxIndex:lstParamSetting.mRowCount
+        numberRow:lstParamSetting.mRowCount
+        indexRowSelected: 0
 
         onKeyChanged: {
-            indexSelect = indexRowSelected
+            lstParamSetting.mCurrentRow = indexRowSelected - 1
             lstParamSetting.selection.clear();
             lstParamSetting.selection.select(indexSelect - 1)
         }
@@ -312,15 +204,9 @@ Item {
         paramSetting.onUpdateLang()
         listModel.updateData()
         rectLeftContent.txtSwitchRight = paramSetting.txtForline
-        col1.title = paramSetting.txtHSerial
-        col2.title = paramSetting.txtHParam
-        col3.title = paramSetting.txtHValue
     }
 
     function updateColumnName() {
         paramSetting.onUpdateColumnName()
-        col1.role = paramSetting.txtCSerial
-        col2.role = paramSetting.txtCParam
-        col3.role = paramSetting.txtCValue
     }
 }

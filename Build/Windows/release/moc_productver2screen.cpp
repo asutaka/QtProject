@@ -20,8 +20,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_ProductVer2Screen_t {
-    QByteArrayData data[10];
-    char stringdata0[142];
+    QByteArrayData data[12];
+    char stringdata0[164];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -33,18 +33,20 @@ static const qt_meta_stringdata_ProductVer2Screen_t qt_meta_stringdata_ProductVe
 QT_MOC_LITERAL(0, 0, 17), // "ProductVer2Screen"
 QT_MOC_LITERAL(1, 18, 24), // "getBackGroundColorFromVM"
 QT_MOC_LITERAL(2, 43, 0), // ""
-QT_MOC_LITERAL(3, 44, 6), // "isXBar"
-QT_MOC_LITERAL(4, 51, 12), // "measureValue"
-QT_MOC_LITERAL(5, 64, 11), // "measureUnit"
-QT_MOC_LITERAL(6, 76, 15), // "arrPixmapLineNo"
-QT_MOC_LITERAL(7, 92, 14), // "QList<QPixmap>"
-QT_MOC_LITERAL(8, 107, 18), // "arrMassbarBargraph"
-QT_MOC_LITERAL(9, 126, 15) // "arrStatusLineNo"
+QT_MOC_LITERAL(3, 44, 6), // "OnLoad"
+QT_MOC_LITERAL(4, 51, 6), // "isXBar"
+QT_MOC_LITERAL(5, 58, 12), // "measureValue"
+QT_MOC_LITERAL(6, 71, 14), // "QList<QString>"
+QT_MOC_LITERAL(7, 86, 11), // "measureUnit"
+QT_MOC_LITERAL(8, 98, 15), // "arrPixmapLineNo"
+QT_MOC_LITERAL(9, 114, 14), // "QList<QPixmap>"
+QT_MOC_LITERAL(10, 129, 18), // "arrMassbarBargraph"
+QT_MOC_LITERAL(11, 148, 15) // "arrStatusLineNo"
 
     },
     "ProductVer2Screen\0getBackGroundColorFromVM\0"
-    "\0isXBar\0measureValue\0measureUnit\0"
-    "arrPixmapLineNo\0QList<QPixmap>\0"
+    "\0OnLoad\0isXBar\0measureValue\0QList<QString>\0"
+    "measureUnit\0arrPixmapLineNo\0QList<QPixmap>\0"
     "arrMassbarBargraph\0arrStatusLineNo"
 };
 #undef QT_MOC_LITERAL
@@ -55,26 +57,28 @@ static const uint qt_meta_data_ProductVer2Screen[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       1,   14, // methods
-       6,   20, // properties
+       2,   14, // methods
+       6,   26, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
        0,       // signalCount
 
  // methods: name, argc, parameters, tag, flags
-       1,    0,   19,    2, 0x02 /* Public */,
+       1,    0,   24,    2, 0x02 /* Public */,
+       3,    0,   25,    2, 0x02 /* Public */,
 
  // methods: parameters
     QMetaType::QString,
+    QMetaType::Void,
 
  // properties: name, type, flags
-       3, QMetaType::Bool, 0x00095103,
-       4, QMetaType::QString, 0x00095103,
-       5, QMetaType::QString, 0x00095103,
-       6, 0x80000000 | 7, 0x0009510b,
-       8, 0x80000000 | 7, 0x0009510b,
-       9, 0x80000000 | 7, 0x0009510b,
+       4, QMetaType::Bool, 0x00095103,
+       5, 0x80000000 | 6, 0x0009510b,
+       7, QMetaType::QString, 0x00095103,
+       8, 0x80000000 | 9, 0x0009510b,
+      10, 0x80000000 | 9, 0x0009510b,
+      11, 0x80000000 | 9, 0x0009510b,
 
        0        // eod
 };
@@ -87,6 +91,7 @@ void ProductVer2Screen::qt_static_metacall(QObject *_o, QMetaObject::Call _c, in
         switch (_id) {
         case 0: { QString _r = _t->getBackGroundColorFromVM();
             if (_a[0]) *reinterpret_cast< QString*>(_a[0]) = _r; }  break;
+        case 1: _t->OnLoad(); break;
         default: ;
         }
     } else if (_c == QMetaObject::RegisterPropertyMetaType) {
@@ -96,6 +101,8 @@ void ProductVer2Screen::qt_static_metacall(QObject *_o, QMetaObject::Call _c, in
         case 4:
         case 3:
             *reinterpret_cast<int*>(_a[0]) = qRegisterMetaType< QList<QPixmap> >(); break;
+        case 1:
+            *reinterpret_cast<int*>(_a[0]) = qRegisterMetaType< QList<QString> >(); break;
         }
     }
 
@@ -106,7 +113,7 @@ void ProductVer2Screen::qt_static_metacall(QObject *_o, QMetaObject::Call _c, in
         void *_v = _a[0];
         switch (_id) {
         case 0: *reinterpret_cast< bool*>(_v) = _t->isXBar(); break;
-        case 1: *reinterpret_cast< QString*>(_v) = _t->getMeasureValue(); break;
+        case 1: *reinterpret_cast< QList<QString>*>(_v) = _t->getMeasureValue(); break;
         case 2: *reinterpret_cast< QString*>(_v) = _t->getMeasureUnit(); break;
         case 3: *reinterpret_cast< QList<QPixmap>*>(_v) = _t->getArrPixmapLineNo(); break;
         case 4: *reinterpret_cast< QList<QPixmap>*>(_v) = _t->getArrMassbarBargraph(); break;
@@ -119,7 +126,7 @@ void ProductVer2Screen::qt_static_metacall(QObject *_o, QMetaObject::Call _c, in
         void *_v = _a[0];
         switch (_id) {
         case 0: _t->setIsXBar(*reinterpret_cast< bool*>(_v)); break;
-        case 1: _t->setMeasureValue(*reinterpret_cast< QString*>(_v)); break;
+        case 1: _t->setMeasureValue(*reinterpret_cast< QList<QString>*>(_v)); break;
         case 2: _t->setMeasureUnit(*reinterpret_cast< QString*>(_v)); break;
         case 3: _t->setArrPixmapLineNo(*reinterpret_cast< QList<QPixmap>*>(_v)); break;
         case 4: _t->setArrMassbarBargraph(*reinterpret_cast< QList<QPixmap>*>(_v)); break;
@@ -156,13 +163,13 @@ int ProductVer2Screen::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 1)
+        if (_id < 2)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 1;
+        _id -= 2;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 1)
+        if (_id < 2)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 1;
+        _id -= 2;
     }
 #ifndef QT_NO_PROPERTIES
    else if (_c == QMetaObject::ReadProperty || _c == QMetaObject::WriteProperty

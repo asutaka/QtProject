@@ -5,58 +5,68 @@ import QtQuick.Controls.Styles 1.4
 RadioButton {
     id: radioBtn
 
-    //    property	alias	id:                     Not customize   <=> CONTROL LIST: Name
-    //    property	alias	enabled:                Not customize   <=> CONTROL LIST: Enabled
-    //    property	alias	visible:                Not customize   <=> CONTROL LIST: Visibled
-    //    property	alias	checked:                Not customize   <=> CONTROL LIST: Checked
-    //    property	alias	anchors.top:            Not customize   <=> CONTROL LIST: Anchors(Top)
-    //    property	alias	anchors.bottom:         Not customize   <=> CONTROL LIST: Anchors(Bottom)
-    //    property	alias	anchors.right:          Not customize   <=> CONTROL LIST: Anchors(Right)
-    //    property	alias	anchors.left:           Not customize   <=> CONTROL LIST: Anchors(Left)
-    //    property	alias	x:                      Not customize   <=> CONTROL LIST: Location(x)
-    //    property	alias	y:                      Not customize   <=> CONTROL LIST: Location(y)
-    //    property	alias	anchors.margins:        Not customize   <=> CONTROL LIST: Margin(All)
-    //    property	alias	anchors.leftMargin:     Not customize   <=> CONTROL LIST: Margin(Left)
-    //    property	alias	anchors.rightMargin:    Not customize   <=> CONTROL LIST: Margin(Right)
-    //    property	alias	anchors.topMargin:      Not customize   <=> CONTROL LIST: Margin(Top)
-    //    property	alias	anchors.bottomMargin:   Not customize   <=> CONTROL LIST: Margin(Bottom)
+    //    property  alias   id:                     Not customize   <=> CONTROL LIST: Name
+    //    property  alias   enabled:                Not customize   <=> CONTROL LIST: Enabled
+    //    property  alias   visible:                Not customize   <=> CONTROL LIST: Visibled
+    //    property  alias   checked:                Not customize   <=> CONTROL LIST: Checked
+    //    property  alias   anchors.top:            Not customize   <=> CONTROL LIST: Anchors(Top)
+    //    property  alias   anchors.bottom:         Not customize   <=> CONTROL LIST: Anchors(Bottom)
+    //    property  alias   anchors.right:          Not customize   <=> CONTROL LIST: Anchors(Right)
+    //    property  alias   anchors.left:           Not customize   <=> CONTROL LIST: Anchors(Left)
+    //    property  alias   x:                      Not customize   <=> CONTROL LIST: Location(x)
+    //    property  alias   y:                      Not customize   <=> CONTROL LIST: Location(y)
+    //    property  alias   anchors.margins:        Not customize   <=> CONTROL LIST: Margin(All)
+    //    property  alias   anchors.leftMargin:     Not customize   <=> CONTROL LIST: Margin(Left)
+    //    property  alias   anchors.rightMargin:    Not customize   <=> CONTROL LIST: Margin(Right)
+    //    property  alias   anchors.topMargin:      Not customize   <=> CONTROL LIST: Margin(Top)
+    //    property  alias   anchors.bottomMargin:   Not customize   <=> CONTROL LIST: Margin(Bottom)
 
-    //    property	bool 	mGeneratemember         Not used        <=> CONTROL LIST: Generatemember
-    //    property	bool	mLocked                 Not used        <=> CONTROL LIST: Locked
-    //    property	var 	mModifiers              Not used        <=> CONTROL LIST: Modifiers
-    //    property	bool	mAllowDrop              Not used        <=> CONTROL LIST: AllowDrop
-    //    property	int 	mDock                   Not used        <=> CONTROL LIST: Dock
-    //    property	var 	mImageKey               Not used        <=> CONTROL LIST: ImageKey
-    //    property	var 	mImageList              Not used        <=> CONTROL LIST: ImageList
-    //    property	alias	mImageIndex             Not used        <=> CONTROL LIST: ImageIndex
+    //    property  bool    mGeneratemember         Not used        <=> CONTROL LIST: Generatemember
+    //    property  bool    mLocked                 Not used        <=> CONTROL LIST: Locked
+    //    property  var     mModifiers              Not used        <=> CONTROL LIST: Modifiers
+    //    property  bool    mAllowDrop              Not used        <=> CONTROL LIST: AllowDrop
+    //    property  int     mDock                   Not used        <=> CONTROL LIST: Dock
+    //    property  var     mImageKey               Not used        <=> CONTROL LIST: ImageKey
+    //    property  var     mImageList              Not used        <=> CONTROL LIST: ImageList
+    //    property  alias   mImageIndex             Not used        <=> CONTROL LIST: ImageIndex
 
     property    bool        mAutoCheck:             true                                    // <=> CONTROL LIST: AutoCheck
     property    bool        mAutoSize:              false                                   // <=> CONTROL LIST: AutoSize
-    property    var         mMaximumSize:           Qt.size(999, 999)                       // <=> CONTROL LIST: MaximumSize
-    property    var         mMinimumSize:           Qt.size(0, 0)                           // <=> CONTROL LIST: MinimumSize
+    property    size        mMaximumSize:           Qt.size(999, 999)                       // <=> CONTROL LIST: MaximumSize
+    property    size        mMinimumSize:           Qt.size(0, 0)                           // <=> CONTROL LIST: MinimumSize
     property    bool        mAppearance:            false                                   // <=> CONTROL LIST: Appearance
+
     property    alias       mBackColor:             backRect.color                          // <=> CONTROL LIST: BackColor
     property    alias       mBackgroundImage:       backImage.source                        // <=> CONTROL LIST: BackgroundImage
     property    alias       mBackgroundImageLayout: backImage.fillMode                      // <=> CONTROL LIST: BackgroundImageLayout
+    property    alias       mImage:                 img.source                              // <=> CONTROL LIST: Image
+
     property    bool        mFlatStyle:             true                                    // <=> CONTROL LIST: FlatStyle
     property    alias       mFont:                  content.font                            // <=> CONTROL LIST: Font
     property    alias       mForeColor:             content.color                           // <=> CONTROL LIST: ForeColor
     property    alias       mText:                  content.text                            // <=> CONTROL LIST: Text
-    property    alias       mImage:                 img.source                              // <=> CONTROL LIST: Image
     property    alias       mAutoEllipsis:          content.elide                           // <=> CONTROL LIST: AutoEllipsis
+
     property    bool        mCausesValidation:      true                                    // <=> CONTROL LIST: CausesValidation
-    property    int         mPadding:               0                                       // <=> CONTROL LIST: Padding
+
     property    int         mCheckAlign:            align.mMiddleLeft                       // <=> CONTROL LIST: CheckAlign
     property    int         mTextAlign:             align.mMiddleRight                      // <=> CONTROL LIST: TextAlign
+    property    int         mTextImageRelation:     textImageRelation.mOverlay              // <=> CONTROL LIST: TextImageRelation
+
     property    bool        mRightToLeft:           false                                   // <=> CONTROL LIST: RightToLeft
     property    int         mCursor:                Qt.ArrowCursor                          // <=> CONTROL LIST: Cursor
     property    bool        mUseWaitCursor:         false                                   // <=> CONTROL LIST: UseWaitCursor
-    property    int         mTextImageRelation:     textImageRelation.mOverlay              // <=> CONTROL LIST: TextImageRelation
     property    int         mFlatAppearance:        1                                       // <=> CONTROL LIST: FlatAppearance
+
+    property    int         mPadding:               0                                       // <=> CONTROL LIST: Padding
+    property    int         mBottomPadding:         0                                       // <=> CONTROL LIST: Padding(Bottom)
+    property    int         mLeftPadding:           0                                       // <=> CONTROL LIST: Padding(Left)
+    property    int         mTopPadding:            0                                       // <=> CONTROL LIST: Padding(Top)
+    property    int         mRightPadding:          0                                       // <=> CONTROL LIST: Padding(Right)
 
     property    string      imgRadioOffSrc:         "image://MyProvider/radiobtn_off.png"   // create newly
     property    string      imgRadioOnSrc:          "image://MyProvider/radiobtn_on.png"    // create newly
-    property    alias       wrapText:               content.wrapMode                           // create newly
+    property    alias       wrapText:               content.wrapMode                        // create newly
     property    size        mCheckedSize:           Qt.size(20, 20)                         // create new
 
     signal validating()
@@ -64,71 +74,37 @@ RadioButton {
     // TextImageRelation Enum
     QtObject {
         id: textImageRelation
-        property int mOverlay: 1
-        property int mImageAboveText: 2
-        property int mTextAboveImage: 3
-        property int mImageBeforeText: 4
-        property int mTextBeforeImage: 5
+        property int mOverlay: 0
+        property int mImageAboveText: 1
+        property int mTextAboveImage: 2
+        property int mImageBeforeText: 3
+        property int mTextBeforeImage: 4
     }
 
     // ALign Enum
     QtObject {
         id: align
-        property int mTopLeft: 1
-        property int mTopCenter: 2
-        property int mTopRight: 3
-        property int mMiddleLeft: 4
-        property int mMiddleCenter: 5
-        property int mMiddleRight: 6
-        property int mBottomLeft: 7
-        property int mBottomCenter: 8
-        property int mBottomRight: 9
+        property int mTopLeft: 0
+        property int mTopCenter: 1
+        property int mTopRight: 2
+        property int mMiddleLeft: 3
+        property int mMiddleCenter: 4
+        property int mMiddleRight: 5
+        property int mBottomLeft: 6
+        property int mBottomCenter: 7
+        property int mBottomRight: 8
     }
 
     // RadioButton Style
     indicator: Rectangle {
         id: rdbItem
         color: "transparent"
+        anchors.fill: parent
 
-        width: {
-            switch(mCheckAlign) {
-                case align.mTopLeft:       // Number 1
-                case align.mTopRight:      // Number 3
-                case align.mMiddleLeft:    // Number 4
-                case align.mMiddleRight:   // Number 6
-                case align.mBottomLeft:    // Number 7
-                case align.mBottomRight:   // Number 9
-                    bound.width + rectCont.width + mPadding + 10
-                    break
-                case align.mTopCenter:     // Number 2
-                case align.mBottomCenter:  // Number 8
-                case align.mMiddleCenter:  // Number 5
-                    bound.width >= rectCont.width ? bound.width + mPadding : rectCont.width + mPadding
-                    break
-                default:
-                    break
-            }
-        }
-
-        height: {
-            switch(mCheckAlign) {
-                case align.mMiddleLeft:    // Number 4
-                case align.mMiddleRight:   // Number 6
-                case align.mTopCenter:     // Number 2
-                    bound.height >= rectCont.height ? bound.height + mPadding : rectCont.height + mPadding
-                    break
-                case align.mTopLeft:       // Number 1
-                case align.mTopRight:      // Number 3
-                case align.mBottomCenter:  // Number 8
-                case align.mMiddleCenter:  // Number 5
-                case align.mBottomLeft:    // Number 7
-                case align.mBottomRight:   // Number 9
-                    bound.height + rectCont.height + mPadding
-                    break
-                default:
-                    break
-            }
-        }
+        anchors.topMargin: (mTopPadding == 0) ? mPadding : mTopPadding
+        anchors.bottomMargin: (mBottomPadding == 0) ? mPadding : mBottomPadding
+        anchors.leftMargin: (mLeftPadding == 0) ? mPadding : mLeftPadding
+        anchors.rightMargin: (mRightPadding == 0) ? mPadding : mRightPadding
 
         Rectangle {
             id: bound
@@ -137,7 +113,6 @@ RadioButton {
             radius: height/2
             border.color: "gray"
             border.width: 2
-            anchors.margins: 5
             color: "transparent"
             visible: mFlatStyle
             z: 2
@@ -195,7 +170,7 @@ RadioButton {
                 }
             }
 
-            Image{
+            Image {
                 id: img
             }
 
@@ -382,11 +357,11 @@ RadioButton {
         if (mAutoCheck) radioBtn.checked = true
 
         if (mAutoSize) {
-            width = rdbItem.width
-            height = rdbItem.height
+            width = __setWidthAutoSize()
+            height = __setHeightAutoSize()
         } else {
-            __controlHeight()
-            __controlWidth()
+            height = __controlHeight()
+            width = __controlWidth()
         }
     }
 
@@ -408,5 +383,57 @@ RadioButton {
         if (radioBtn.height > mMaximumSize.height) return mMaximumSize.height
         if (radioBtn.height < mMinimumSize.height) return mMinimumSize.height
         return radioBtn.height
+    }
+
+    // Set control width if autosize
+    function __setWidthAutoSize() {
+        var _width = 0
+        switch (mCheckAlign) {
+            case align.mTopLeft:       // Number 1
+            case align.mTopRight:      // Number 3
+            case align.mMiddleLeft:    // Number 4
+            case align.mMiddleRight:   // Number 6
+            case align.mBottomLeft:    // Number 7
+            case align.mBottomRight:   // Number 9
+                _width = bound.width + rectCont.width + mLeftPadding + mRightPadding
+                break
+            case align.mTopCenter:     // Number 2
+            case align.mBottomCenter:  // Number 8
+            case align.mMiddleCenter:  // Number 5
+                _width = bound.width >= rectCont.width
+                            ? bound.width + mLeftPadding + mRightPadding
+                            : rectCont.width + mLeftPadding + mRightPadding
+                break
+            default:
+                _width = radioBtn.width
+                break
+        }
+        return _width
+    }
+
+    // Set control height if autosize
+    function __setHeightAutoSize() {
+        var _height = 0
+        switch (mCheckAlign) {
+            case align.mTopLeft:       // Number 1
+            case align.mTopRight:      // Number 3
+            case align.mMiddleLeft:    // Number 4
+            case align.mMiddleRight:   // Number 6
+            case align.mBottomLeft:    // Number 7
+            case align.mBottomRight:   // Number 9
+            case align.mMiddleCenter:  // Number 5
+                _height = bound.height >= rectCont.height
+                        ? bound.height + mTopPadding + mBottomPadding
+                        : rectCont.height + mTopPadding + mBottomPadding
+                break
+            case align.mTopCenter:     // Number 2
+            case align.mBottomCenter:  // Number 8
+                _height = bound.height + rectCont.height + mTopPadding + mBottomPadding
+                break
+            default:
+                _height = radioBtn.height
+                break
+        }
+        return _height
     }
 }

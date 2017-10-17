@@ -1,0 +1,3 @@
+module Frame
+TK_ProductionFrame 1.0 TK_ProductionFrame.qml
+plugin Frame

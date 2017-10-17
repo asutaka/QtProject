@@ -11,9 +11,17 @@ import ControlApp 1.0
 Item {
     property XBarRS objXBarRS: _xBarRs
     property bool isForLine: false
+    property alias objxBarNewChartVM: xbarRS_NewChartVM
     property bool isR: true
     property bool isPass: false
     property int _currentLineNo: 1
+
+    XBar_NewChartVM{
+        id:xbarRS_NewChartVM
+    }
+    Component.onCompleted: {
+        objxBarNewChartVM.onLoad();
+    }
 
     XBarRS {
         id: _xBarRs

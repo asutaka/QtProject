@@ -31,7 +31,6 @@ Rectangle {
     //    property  alias   mImeMode                        Not used        <=> CONTROL LIST: ImeMode/
     //    property  alias   mDock                           Not used        <=> CONTROL LIST: Dock/
 
-    //    property  alias   mUpDownAlign:                   Not used        <=> CONTROL LIST: UpDownAlign
 
     property	size 	mMaximumSize:           Qt.size(1000, 1000)                 // <=> CONTROL LIST: MaximumSize
     property	size 	mMinimumSize:           Qt.size(0, 0)                       // <=> CONTROL LIST: MinimumSize
@@ -54,11 +53,14 @@ Rectangle {
     property    bool    mAutoSize:              true                                // <=> CONTROL LIST: Autosize
     property    bool    mInterceptArrowKeys:    true                                // <=> CONTROL LIST: InterceptArrowKeys
     property    int     mBorderStyle:           borderStyle.mFixedSingle            // <=> CONTROL LIST: BorderStyle
-
+    property    int     mUpDownAlign:           upDownAlignStyle.left               // <=> CONTROL LIST: UpdownAlignLeft
 
     property    var     mMode:                  Math.round((mMaximum - mMinimum + 1) / mIncrement)              //create new. Set mod for tumbler
     property    color   mArrowColor:            "#bdc9d7"                           //create new
     property    int     mVisibleItemCount:      1                                   //create new
+    property    bool    mHorizontalType:        false                               //create new
+    property    int     mCursor:                    Qt.ArrowCursor              // <=> CONTROL LIST: Cursor
+
 
     // Border Style Option
     QtObject {
@@ -66,6 +68,12 @@ Rectangle {
         property int mNone: 1
         property int mFixedSingle: 2
         property int mFixed3D: 3
+    }
+
+    QtObject{
+        id: upDownAlignStyle
+        property int left: 1
+        property int right: 2
     }
 
     signal validating()
@@ -127,10 +135,7 @@ Rectangle {
                     }
                 }
             }
-
         }
-
-
     }
 
 
@@ -138,8 +143,6 @@ Rectangle {
     Tumbler {
         id: lineNo
         anchors.centerIn: parent
-        width: parent.width
-        height: 2 * parent.height / 3
         model: mMode
         delegate: delegateComponent
         visibleItemCount: mVisibleItemCount
@@ -162,17 +165,20 @@ Rectangle {
             onReleased: mouse.accepted = false;
             onDoubleClicked: mouse.accepted = false;
             onPositionChanged: mouse.accepted = false;
-            onPressAndHold: mouse.accepted = false;
-            cursorShape: mUseWaitCursor ? (containsMouse ? Qt.WaitCursor : Qt.ArrowCursor) : Qt.ArrowCursor
+            onPressAndHold: mouse.accepted = false;        
+            cursorShape: {
+                if(mUseWaitCursor) {
+                    if(containsMouse) Qt.WaitCursor;
+                    else    mCursor;
+                }else {
+                    mCursor;
+                }
+            }
         }
     }
 
     Rectangle {
         id: up
-        y: spinner.border.width
-        x: spinner.border.width
-        width:  parent.width - 2 * x
-        height: parent.height/6 - y
         color: mBackgroundColor
 
         Canvas {
@@ -195,18 +201,21 @@ Rectangle {
                 if(!readOnly)
                     lineNo.currentIndex = lineNo.currentIndex - 1
             }
-            cursorShape: mUseWaitCursor ? (containsMouse ? Qt.WaitCursor : Qt.ArrowCursor) : Qt.ArrowCursor
+            cursorShape: {
+                if(mUseWaitCursor) {
+                    if(containsMouse) Qt.WaitCursor;
+                    else    mCursor;
+                }else {
+                    mCursor;
+                }
+            }
+
         }
     }
 
     Rectangle {
         id: down
         color: mBackgroundColor
-        y: 5*parent.height/6
-        x: spinner.border.width
-        width:  parent.width - 2 * x
-        height: parent.height/6 - spinner.border.width
-
         Canvas {
             anchors.fill: parent
             onPaint: {
@@ -228,14 +237,21 @@ Rectangle {
                 if(!readOnly)
                     lineNo.currentIndex = lineNo.currentIndex + 1
             }
-            cursorShape: mUseWaitCursor ? (containsMouse ? Qt.WaitCursor : Qt.ArrowCursor) : Qt.ArrowCursor
+
+            cursorShape: {
+                if(mUseWaitCursor) {
+                    if(containsMouse) Qt.WaitCursor;
+                    else    mCursor;
+                }else {
+                    mCursor;
+                }
+            }
         }
     }
 
     Component.onCompleted: {
         if(spinner.width <= mMinimumSize.width) {
             spinner.width = mMinimumSize.width
-
         }
 
         if(spinner.width >= mMaximumSize.width) {
@@ -254,22 +270,138 @@ Rectangle {
         }
 
         switch (mBorderStyle) {
-            case borderStyle.mNone:
-                spinner.border.width = 0
-                spinner.layer.enabled = false
-                break
-            case borderStyle.mFixedSingle:
-                spinner.layer.enabled = false
-                spinner.border.width = spinner.border.width
-                break
-            case borderStyle.mFixed3D:
-                spinner.border.width = 0
-                spinner.layer.enabled = true
-                break
-            default:
-                break
+        case borderStyle.mNone:
+            spinner.border.width = 0
+            spinner.layer.enabled = false
+            break
+        case borderStyle.mFixedSingle:
+            spinner.layer.enabled = false
+            spinner.border.width = mBorderStyle
+            break
+        case borderStyle.mFixed3D:
+            spinner.border.width = 0
+            spinner.layer.enabled = true
+            break
+        default:
+            break
+        }
+
+        if(mHorizontalType == false){
+            up.x = spinner.border.width
+            up.y = spinner.border.width
+            up.width = spinner.width - spinner.border.width * 2
+            up.height = spinner.height/6 - spinner.border.width
+
+            down.x = spinner.border.width
+            down.y = 5*spinner.height/6
+            down.width = spinner.width - spinner.border.width * 2
+            down.height = spinner.height/6 - spinner.border.width
+
+            lineNo.height = 2 * spinner.height / 3
+            lineNo.width = spinner.width - spinner.border.width
+        } else{
+            lineNo.width = 2*spinner.width/3 - spinner.border.width
+            lineNo.height = spinner.height
+
+            up.height = spinner.height/2 - spinner.border.width
+            up.width = spinner.width/3 - spinner.border.width
+
+            down.width = up.width
+            down.height = up.height
+
+            if(mUpDownAlign == upDownAlignStyle.right){
+                lineNo.x = spinner.border.width
+                lineNo.y = spinner.border.width
+
+                up.x = lineNo.width
+                up.y = lineNo.y + spinner.border.width
+                down.x = up.x
+                down.y = up.y + up.height
+
+            }else{
+                lineNo.x = spinner.width/3 + spinner.border.width
+                lineNo.y = spinner.y + spinner.border.width
+
+                up.x = spinner.border.width
+                up.y = spinner.border.width
+                down.x = up.x
+                down.y = spinner.height/2 - spinner.border.width
+
+            }
+        }
+
+    }
+
+    onMUpDownAlignChanged: {
+        if(mHorizontalType == true){
+            if(mUpDownAlign == upDownAlignStyle.right){
+                lineNo.x = spinner.border.width
+                lineNo.y = spinner.border.width
+
+                up.x = lineNo.width
+                up.y = lineNo.y + spinner.border.width
+                down.x = up.x
+                down.y = up.y + up.height
+
+            }else{
+                lineNo.x = spinner.width/3 + spinner.border.width
+                lineNo.y = spinner.y + spinner.border.width
+
+                up.x = spinner.border.width
+                up.y = spinner.border.width
+                down.x = up.x
+                down.y = spinner.height/2 - spinner.border.width
+
+            }
         }
     }
+
+    onMHorizontalTypeChanged: {
+
+        if(mHorizontalType == false){
+            up.x = spinner.border.width
+            up.y = spinner.border.width
+            up.width = spinner.width - spinner.border.width * 2
+            up.height = spinner.height/6 - spinner.border.width
+
+            down.x = spinner.border.width
+            down.y = 5*spinner.height/6
+            down.width = spinner.width - spinner.border.width * 2
+            down.height = spinner.height/6 - spinner.border.width
+
+            lineNo.height = 2 * spinner.height / 3
+            lineNo.width = spinner.width - spinner.border.width
+        } else {
+            lineNo.width = 2*spinner.width/3
+            lineNo.height = spinner.height
+
+            up.height = spinner.height/2 - spinner.border.width
+            up.width = spinner.width/3 - spinner.border.width
+            down.width = up.width
+            down.height = up.height
+
+            if(mUpDownAlign == upDownAlignStyle.right){
+                lineNo.x = spinner.border.width
+                lineNo.y = spinner.border.width
+
+                up.x = lineNo.width
+                up.y = lineNo.y + spinner.border.width
+                down.x = up.x
+                down.y = up.y + up.height
+
+            }else{
+                lineNo.x = spinner.width/3 + spinner.border.width
+                lineNo.y = spinner.y + spinner.border.width
+
+                up.x = spinner.border.width
+                up.y = spinner.border.width
+                down.x = up.x
+                down.y = spinner.height/2 - spinner.border.width
+
+            }
+        }
+    }
+
 
 
     Keys.onPressed: {
@@ -284,3 +416,4 @@ Rectangle {
         }
     }
 }
+

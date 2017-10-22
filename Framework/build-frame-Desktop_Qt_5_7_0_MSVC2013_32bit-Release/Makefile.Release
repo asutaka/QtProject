@@ -49,7 +49,7 @@ OBJECTS       = release\frame_plugin.obj \
 
 DIST          = qmldir \
 		Import/Frame/TK_ProductionFrame.qml \
-		Import/Frame/TK_MenuList.qml ..\Frame\frame_plugin.h ..\Frame\frame_plugin.cpp
+		Import/Frame/TK_MenuListFrame.qml ..\Frame\frame_plugin.h ..\Frame\frame_plugin.cpp
 QMAKE_TARGET  = Frame
 DESTDIR        = release\ #avoid trailing-slash linebreak
 TARGET         = Frame.dll

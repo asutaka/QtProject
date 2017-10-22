@@ -121,7 +121,7 @@ TableView {
     property    string      mImageError:            ""                                              //Create new: Source Image Error
     property    var         mInputType:             []                                              // Create newly: choose what to dislay in table view
     property    int         mNumItemPage                                                            //  Create newly
-    property    int         mParameterCol:          -1                                              //Create new: parameter column
+    property    var         mParameterCol:          []                                              //Create new: parameter column
     property    int         mRowCount:              0
 
     signal validating()
@@ -130,7 +130,7 @@ TableView {
     signal itemOutput(var item)
     signal rowChanged()
     signal doubleClickItem(var item)
-    signal clickItem()
+    signal clickItem(var item)
 
     flickableItem.flickableDirection : Flickable.HorizontalAndVerticalFlick //allow scroll horizontal
     horizontalScrollBarPolicy: mHorizontalScrollBar
@@ -286,8 +286,8 @@ TableView {
         color: {
             if(styleData === null) return "transparent"
             if(styleData.row % 2 === 0)
-                return mRowBackColor[0]
-            return mRowBackColor[mRowBackColor.length - 1]
+                return mRowBackColor[mRowBackColor.length - 1]
+            return mRowBackColor[0]
         }
     }
 
@@ -729,12 +729,15 @@ TableView {
             }
 
             onDoubleClicked: {
-                if(styleData.column === mParameterCol){
-                    doubleClickItem(parent.children[1])
+                for(var i = 0;i < mParameterCol.length;i++){
+                    if(styleData.column === mParameterCol[i]){
+                        doubleClickItem(parent.children[1])
+                        break
+                    }
                 }
             }
 
-            onPressed: {
+            onClicked:  {
                 if(styleData.column !== 0) {
                     if(mSelectionMode === objSelectionMode.pFullRowSelect) {
                         mCurrentRow = styleData.row
@@ -796,12 +799,17 @@ TableView {
                         }
                         txt.forceActiveFocus()
                     }
-                    clickItem()
                 }
                 else {
                     if(mSelectionMode === objSelectionMode.pFullRowSelect ||
                             mSelectionMode === objSelectionMode.pRowHeaderSelect) {
                         mCurrentRow = styleData.row
+                    }
+                }
+                for(var i = 0;i < mParameterCol.length;i++){
+                    if(styleData.column === mParameterCol[i]){
+                        clickItem(parent.parent.parent.children[objPrivate.mNumHeader].children[0].children[1])
+                        break
                     }
                 }
             }

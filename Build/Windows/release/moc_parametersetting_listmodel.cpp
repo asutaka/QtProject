@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_ParameterSettingListModel_t {
-    QByteArrayData data[10];
-    char stringdata0[90];
+    QByteArrayData data[11];
+    char stringdata0[96];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -38,12 +38,13 @@ QT_MOC_LITERAL(5, 51, 8), // "getValue"
 QT_MOC_LITERAL(6, 60, 3), // "get"
 QT_MOC_LITERAL(7, 64, 8), // "setValue"
 QT_MOC_LITERAL(8, 73, 5), // "value"
-QT_MOC_LITERAL(9, 79, 10) // "updateData"
+QT_MOC_LITERAL(9, 79, 10), // "updateData"
+QT_MOC_LITERAL(10, 90, 5) // "count"
 
     },
     "ParameterSettingListModel\0getType\0\0i\0"
     "getInfomation\0getValue\0get\0setValue\0"
-    "value\0updateData"
+    "value\0updateData\0count"
 };
 #undef QT_MOC_LITERAL
 
@@ -54,7 +55,7 @@ static const uint qt_meta_data_ParameterSettingListModel[] = {
        0,       // classname
        0,    0, // classinfo
        6,   14, // methods
-       0,    0, // properties
+       1,   62, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
@@ -75,6 +76,9 @@ static const uint qt_meta_data_ParameterSettingListModel[] = {
     QMetaType::QVariantMap, QMetaType::Int,    3,
     QMetaType::Void, QMetaType::Int, QMetaType::QString,    3,    8,
     QMetaType::Void,
+
+ // properties: name, type, flags
+      10, QMetaType::Int, 0x00095401,
 
        0        // eod
 };
@@ -98,6 +102,19 @@ void ParameterSettingListModel::qt_static_metacall(QObject *_o, QMetaObject::Cal
         default: ;
         }
     }
+#ifndef QT_NO_PROPERTIES
+    else if (_c == QMetaObject::ReadProperty) {
+        ParameterSettingListModel *_t = static_cast<ParameterSettingListModel *>(_o);
+        Q_UNUSED(_t)
+        void *_v = _a[0];
+        switch (_id) {
+        case 0: *reinterpret_cast< int*>(_v) = _t->rowCount(); break;
+        default: break;
+        }
+    } else if (_c == QMetaObject::WriteProperty) {
+    } else if (_c == QMetaObject::ResetProperty) {
+    }
+#endif // QT_NO_PROPERTIES
 }
 
 const QMetaObject ParameterSettingListModel::staticMetaObject = {
@@ -133,6 +150,23 @@ int ParameterSettingListModel::qt_metacall(QMetaObject::Call _c, int _id, void *
             *reinterpret_cast<int*>(_a[0]) = -1;
         _id -= 6;
     }
+#ifndef QT_NO_PROPERTIES
+   else if (_c == QMetaObject::ReadProperty || _c == QMetaObject::WriteProperty
+            || _c == QMetaObject::ResetProperty || _c == QMetaObject::RegisterPropertyMetaType) {
+        qt_static_metacall(this, _c, _id, _a);
+        _id -= 1;
+    } else if (_c == QMetaObject::QueryPropertyDesignable) {
+        _id -= 1;
+    } else if (_c == QMetaObject::QueryPropertyScriptable) {
+        _id -= 1;
+    } else if (_c == QMetaObject::QueryPropertyStored) {
+        _id -= 1;
+    } else if (_c == QMetaObject::QueryPropertyEditable) {
+        _id -= 1;
+    } else if (_c == QMetaObject::QueryPropertyUser) {
+        _id -= 1;
+    }
+#endif // QT_NO_PROPERTIES
     return _id;
 }
 QT_END_MOC_NAMESPACE

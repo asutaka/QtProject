@@ -3,7 +3,6 @@ ImageButtonControl 1.0 ImageButtonControl.qml
 KeyButtonControl 1.0 KeyButtonControl.qml
 ButtonControl 1.0 ButtonControl.qml
 LabelControl 1.0 LabelControl.qml
-QuickMenuControl 1.0 QuickMenuControl
 SlideControl 1.0 SlideControl.qml
 SlideControlVer2 1.0 SlideControlVer2.qml
 SlideControlVer3 1.0 SlideControlVer3.qml
@@ -43,5 +42,15 @@ TK_Button 1.0 TK_Button.qml
 TK_NumericUpDown 1.0 TK_NumericUpDown.qml
 TK_CheckBox 1.0 TK_CheckBox.qml
 TK_ProgressBar 1.0 TK_ProgressBar.qml
+TK_ProgressCircle 1.0 TK_ProgressCircle.qml
+TK_TrackBar 1.0 TK_TrackBar.qml
+TK_XBarRSChart 1.0 TK_XBarRSChart.qml
+TK_B_TreeView 1.0 TK_B_TreeView.qml
+TK_ScrollView 1.0 TK_ScrollView.qml
+TK_QuickMenuButton 1.0 TK_QuickMenuButton.qml
+CalendarBase 1.0 CalendarBase.qml
+CalendarBaseStyle 1.0 CalendarBaseStyle.qml
+CalendarBaseUtils 1.0 CalendarBaseUtils.qml
+CalendarControl 1.0 CalendarControl.qml
 
 plugin CommonControl

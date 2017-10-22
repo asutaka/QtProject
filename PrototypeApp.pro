@@ -94,10 +94,7 @@ SOURCES += main.cpp \
     fontfactory.cpp \
     BottomBar/bottombariomonitorvm.cpp \
     StatusBar/iomonitorstatusbarvm.cpp \
-    Control/model/treeviewmodel.cpp \
-    guiresinfomng.cpp \
-    Screen/screeninfo.cpp \
-    Screen/iscreeninfo_listmodel.cpp
+    Control/model/treeviewmodel.cpp
 
 RESOURCES += qml.qrc
 
@@ -212,10 +209,7 @@ HEADERS += \
     fontfactory.h \
     BottomBar/bottombariomonitorvm.h \
     StatusBar/iomonitorstatusbarvm.h \
-    Control/model/treeviewmodel.h \
-    guiresinfomng.h \
-    Screen/screeninfo.h \
-    Screen/iscreeninfo_listmodel.h
+    Control/model/treeviewmodel.h
 
 SUBDIRS += \
     SimulatorServer/MultiServer.pro \

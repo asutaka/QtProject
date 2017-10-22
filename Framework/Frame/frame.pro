@@ -15,6 +15,7 @@ HEADERS += \
 
 DISTFILES = qmldir \
     Import/Frame/TK_ProductionFrame.qml \
-    Import/Frame/TK_MenuList.qml
+    Import/Frame/TK_TableFrame.qml \
+    Import/Frame/TK_MenuListFrame.qml
 	
 qmldir.files = qmldir

@@ -8,4 +8,5 @@ StartSwitchLineModule 1.0 StartSwitchLineModule.qml
 TK_ColumnChart 1.0 TK_ColumnChart.qml
 TK_QuickMenu 1.0 TK_QuickMenu.qml
 TK_LineChart 1.0 TK_LineChart.qml
+TK_MenuList 1.0 TK_MenuList.qml
 plugin CommonModule

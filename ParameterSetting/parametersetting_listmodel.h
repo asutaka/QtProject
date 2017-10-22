@@ -12,6 +12,7 @@
 class ParameterSettingListModel : public QAbstractListModel
 {
     Q_OBJECT
+    Q_PROPERTY(int count READ rowCount CONSTANT)
 public:
     enum ParamRoles {
         SerialRoles = Qt::UserRole,

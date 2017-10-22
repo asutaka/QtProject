@@ -27,7 +27,9 @@ DISTFILES = qmldir \
     Import/Module/GridViewNavigatorModule.qml \
     Import/Module/TK_ColumnChart.qml \
     Import/Module/TK_QuickMenu.qml \
-    Import/Module/TK_LineChart.qml
+    Import/Module/TK_LineChart.qml \
+    Import/Module/TK_MenuList.qml \	
+    Import/Module/TK_TableCommon.qml
 
 !equals(_PRO_FILE_PWD_, $$OUT_PWD) {
     copy_qmldir.target = $$OUT_PWD/qmldir

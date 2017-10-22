@@ -18,7 +18,6 @@ Item {
     property    string      mImageError:            ''
     property    string      mImageEdit:             ''
     property    string      mHeaderImageSrc:        ''
-    property    int         indexSelect:            1
 
     TK_DataGridView {
         id: grid
@@ -48,6 +47,27 @@ Item {
         }
         onClickItem: {
             console.log("ClickItem:"+grid.mCurrentRow)
+            console.log("showType:"+mDataSource.get(grid.mCurrentRow).type)
+            switch(mDataSource.get(grid.mCurrentRow).type){
+                case 0:
+                    Ops.showCalculator(mDataSource.get(grid.mCurrentRow).str1, "1", "100")
+                    break //show calculator
+                case 1: break //show keyboard
+                case 2: break //show dialog
+                case 3:
+                    mainModel.InnerChangeScreen(mDataSource.get(grid.mCurrentRow).nextscreen)
+                    break //change screen
+                case 4: break // no effect
+                default: break
+            }
+//                "serial"
+//                "param"
+//                "value"
+//                "screen"
+//                "nextscreen"
+//                "index"
+//                "type"
+//                "info"
         }
 
         Component.onCompleted: {

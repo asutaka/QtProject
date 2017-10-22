@@ -65,7 +65,8 @@ DIST          = qmldir \
 		Import/Module/GridViewNavigatorModule.qml \
 		Import/Module/TK_ColumnChart.qml \
 		Import/Module/TK_QuickMenu.qml \
-		Import/Module/TK_LineChart.qml ..\CommonModule\commonmodule_plugin.h \
+		Import/Module/TK_LineChart.qml \
+		Import/Module/TK_MenuList.qml ..\CommonModule\commonmodule_plugin.h \
 		..\CommonModule\myitem.h \
 		..\CommonModule\datacolumnchart.h ..\CommonModule\commonmodule_plugin.cpp \
 		..\CommonModule\myitem.cpp \

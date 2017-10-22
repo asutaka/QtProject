@@ -411,8 +411,8 @@ distclean: release-distclean debug-distclean  FORCE
 	-$(DEL_FILE) Makefile
 	-$(DEL_FILE) CommonControl.lib
 
-E:/prototype/Framework/build-commoncontrol-Desktop_Qt_5_7_0_MSVC2013_32bit-Release/qmldir: E:\prototype\Framework\CommonControl\qmldir
-	$(COPY_FILE) "E:\prototype\Framework\CommonControl\qmldir" "E:\prototype\Framework\build-commoncontrol-Desktop_Qt_5_7_0_MSVC2013_32bit-Release\qmldir"
+E:/ProjectCommit/Framework/build-commoncontrol-Desktop_Qt_5_7_0_MSVC2013_32bit-Release/qmldir: E:\ProjectCommit\Framework\CommonControl\qmldir
+	$(COPY_FILE) "E:\ProjectCommit\Framework\CommonControl\qmldir" "E:\ProjectCommit\Framework\build-commoncontrol-Desktop_Qt_5_7_0_MSVC2013_32bit-Release\qmldir"
 
 release-mocclean:
 	@set MAKEFLAGS=$(MAKEFLAGS)
